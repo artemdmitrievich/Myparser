@@ -1,3 +1,8 @@
+# in venv:
+# python -m pip install requests, BeautifulSoup4
+# if not work:
+# py -m pip install requests, BeautifulSoup4
+
 import requests
 from bs4 import BeautifulSoup
 from time import time, sleep
