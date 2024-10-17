@@ -36,3 +36,5 @@ def change_market_capitalization():
         return f'Рыночная капитализация увеличилась на {change_market_capitalization_value}'
 
 print(change_market_capitalization())
+
+# something text
