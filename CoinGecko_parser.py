@@ -1,7 +1,7 @@
 # in venv:
-# python -m pip install requests, BeautifulSoup4
+# python -m pip install requests, BeautifulSoup4, transliterate, langdetect
 # if not work:
-# py -m pip install requests, BeautifulSoup4
+# py -m pip install requests, BeautifulSoup4, transliterate, langdetect
 
 
 import requests
