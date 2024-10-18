@@ -24,21 +24,25 @@ class General:
             .text.replace("\n", "")
             .replace("$", "")
         )
+        sleep(1)
         return data_market_capitalization
 
     def get_change_market_capitalization():
-        change_market_capitalization_value = soup.find("span", class_="gecko-down").text
+        
         decrease_in_capitalization = (
-            ".gecko-down{--tw-text-opacity:1;color:rgb(255 58 51"
+            ".gecko-up{--tw-text-opacity:1;color:rgb(0 168 62/var(--tw-text-opacity))}:is(.tw-dark .gecko-up){--tw-text-opacity:1;color:rgb(50 202 91/var(--tw-text-opacity))}.gecko-down{--tw-text-opacity:1;color:rgb(255 58 51/var(--tw-text-opacity))}"
         )
         url_css = (
             "https://static.coingecko.com/packs/css/v2/application-c86563d7.chunk.css"
         )
         responce_css = requests.get(url_css, headers=headers)
         soup_css = str(BeautifulSoup(responce_css.text, "lxml"))
-        if decrease_in_capitalization in soup_css:
+        sleep(1)
+        if decrease_in_capitalization not in soup_css:
+            change_market_capitalization_value = soup.find("span", class_="gecko-down").text
             return f"Рыночная капитализация криптовалюты снизилась на {change_market_capitalization_value}"
         else:
+            change_market_capitalization_value = soup.find("span", class_="gecko-up").text
             return f"Рыночная капитализация криптовалюты увеличилась на {change_market_capitalization_value}"
 
 
