@@ -150,6 +150,33 @@ class Additional_CoinGecko_info:
         )
         dict_popular_crypto = {}
         for item in class_popular_crypto:
+            name_item = (
+                item.find(
+                    "span",
+                    class_="tw-text-gray-700 dark:tw-text-moon-100 tw-font-semibold tw-text-sm tw-leading-5",
+                )
+                .text.replace("\n", "")
+                .strip()
+            )
+            price_item = (
+                item.find(
+                    "div",
+                    class_="tw-flex tw-justify-end tw-items-center tw-flex-shrink-0 tw-max-w-[50%] tw-break-words tw-text-right",
+                )
+                .find("span")
+                .find("span")
+                .text.replace("$", "")
+            )
+            dict_popular_crypto[name_item] = name_item, price_item
+        return dict_popular_crypto
+
+    def get_greatest_growth_crypto(self):
+        class_popular_crypto = self.general_divs[1].find_all(
+            "div",
+            class_="tw-flex tw-justify-between tw-px-2 tw-py-2.5 hover:tw-bg-gray-50 tw-rounded-lg dark:hover:tw-bg-moon-700",
+        )
+        dict_popular_crypto = {}
+        for item in class_popular_crypto:
             new_item = (
                 item.find(
                     "span",
@@ -158,7 +185,24 @@ class Additional_CoinGecko_info:
                 .text.replace("\n", "")
                 .strip()
             )
-            dict_popular_crypto[new_item] = new_item
+            price_item = (
+                item.find(
+                    "div",
+                    class_="tw-flex tw-justify-end tw-items-center tw-flex-shrink-0 tw-max-w-[50%] tw-break-words tw-text-right",
+                )
+                .find("span")
+                .find("span")
+                .text.replace("$", "")
+            )
+            growth_item = item.find(
+                "span",
+                class_="gecko-up",
+            ).text
+            dict_popular_crypto[new_item] = (
+                new_item,
+                price_item,
+                "Рост на " + growth_item,
+            )
         return dict_popular_crypto
 
 
@@ -185,7 +229,14 @@ except:
 
 
 My_Additional_CoinGecko_info = Additional_CoinGecko_info()
-dict = My_Additional_CoinGecko_info.get_popular_crypto()
+popular_crypto_dict = My_Additional_CoinGecko_info.get_popular_crypto()
 print("Самые популярные криптовалюты:", end=" ")
-for _ in dict:
-    print(dict[_], end="; ")
+for _ in popular_crypto_dict:
+    print(popular_crypto_dict[_], end="; ")
+
+print()
+
+greatest_growth_dict = My_Additional_CoinGecko_info.get_greatest_growth_crypto()
+print("Самый большой рост у криптовалют:", end=" ")
+for _ in greatest_growth_dict:
+    print(greatest_growth_dict[_], end="; ")
