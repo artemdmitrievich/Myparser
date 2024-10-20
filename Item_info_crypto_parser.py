@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 from time import time, sleep
-from transliterate import translit #Функция для создания транслита строки
-from langdetect import detect #Функция для определения языка строки
+from transliterate import translit  # Функция для создания транслита строки
+from langdetect import detect  # Функция для определения языка строки
 from static.headers import Headers
 
 
-#Класс с информацией по конкретной криптовалюте
+# Класс с информацией по конкретной криптовалюте
 class Crypto:
 
     def __init__(self, crypto_name):
@@ -17,9 +17,9 @@ class Crypto:
         self.__responce_crypto = requests.get(self.__url_crypto, headers=Headers)
         self.__soup_crypto = BeautifulSoup(self.__responce_crypto.text, "lxml")
 
-    #Проверка валидности полученной при создании экземпляра класса криптовалюте
-    #Предварительный транслит криптовалюты если она введена по русски
-    #Метод вызывается только внутри класса!!!
+    # Проверка валидности полученной при создании экземпляра класса криптовалюте
+    # Предварительный транслит криптовалюты если она введена по русски
+    # Метод вызывается только внутри класса!!!
     def __is_valid_crypto_name(self, crypto_name):
         if str(detect(crypto_name)) != "fi":
             crypto_name = (
@@ -29,7 +29,7 @@ class Crypto:
                 .lower()
             )
         else:
-            crypto_name.lower()
+            crypto_name = crypto_name.lower()
 
         is_valid = requests.get(
             "https://bitinfocharts.com/ru/" + crypto_name.lower() + "/", headers=Headers
@@ -44,8 +44,13 @@ class Crypto:
     @property
     def get_crypto_name(self):
         return self.__crypto_name.lower()
+    
+    #Изменение названия криптовалюты
+    @get_crypto_name.setter
+    def set_crypto_name(self, new_crypto_name):
+        self.__crypto_name = self.__is_valid_crypto_name(new_crypto_name)
 
-    #Получение текущей средней стоимости данной криптовалюты
+    # Получение текущей средней стоимости данной криптовалюты
     def get_current_average_crypto_price(self):
         count = 0
         current_crypto_price = None
@@ -66,7 +71,7 @@ class Crypto:
 
         return current_crypto_price
 
-    #Получение капитализации данной криптовалюты
+    # Получение капитализации данной криптовалюты
     def get_current_crypto_capitalization(self):
         try:
             current_crypto_capitalization = (
