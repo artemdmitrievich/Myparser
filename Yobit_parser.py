@@ -11,13 +11,8 @@ class Yobit:
 
     # Получение инкапсулированных свойств
     @property
-    def get_abbreviation(self, received="crypto"):
-        if received == "crypto":
-            return self.__crypto
-        elif received == "currency":
-            return self.__currency
-        else:
-            return self.__limit
+    def get_abbreviation_crypto(self):
+        return self.__crypto
 
     # Получение всей информации с Yobit Api
     def get_info():
