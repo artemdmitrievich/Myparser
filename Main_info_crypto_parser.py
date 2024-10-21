@@ -30,8 +30,20 @@ class General:
         )
         responce_css = requests.get(url_css, headers=Headers)
         soup_css = str(BeautifulSoup(responce_css.text, "lxml"))
-        if float(soup.find("span", class_="gecko-down").text.replace("%", "")) < float(
-            soup.find("span", class_="gecko-up").text.replace("%", "")
+        if (
+            0.7
+            <= float(soup.find("span", class_="gecko-down").text.replace("%", ""))
+            <= 2.5
+            and (
+                float(
+                    soup.find("span", class_="gecko-up").text.replace("%", "") < 0.7
+                    or float(
+                        soup.find("span", class_="gecko-up").text.replace("%", "") > 2.5
+                    )
+                )
+            )
+            and float(soup.find("span", class_="gecko-up").text.replace("%", "")) < 5
+            or float(soup.find("span", class_="gecko-up").text.replace("%", "")) > 5
         ):
             change_market_capitalization_value = soup.find(
                 "span", class_="gecko-down"

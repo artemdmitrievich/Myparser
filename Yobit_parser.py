@@ -70,11 +70,14 @@ class Yobit:
         )
         total_price_ask = 0
         total_amount_ask = 0
-        for item in response.json()[f"{self.__crypto}_{self.__currency}"]:
-            if item["type"] == "ask":
-                total_price_ask += item["price"] * item["amount"]
-                total_amount_ask += item["amount"]
-        average_trade_ask = total_price_ask / total_amount_ask
+        try:
+            for item in response.json()[f"{self.__crypto}_{self.__currency}"]:
+                if item["type"] == "ask":
+                    total_price_ask += item["price"] * item["amount"]
+                    total_amount_ask += item["amount"]
+            average_trade_ask = total_price_ask / total_amount_ask
+        except:
+            return 0
         return average_trade_ask
 
     # Получение средней стоимости прокупки когкретной криптовалюты с Yobit Api
@@ -84,9 +87,12 @@ class Yobit:
         )
         total_price_bid = 0
         total_amount_bid = 0
-        for item in response.json()[f"{self.__crypto}_{self.__currency}"]:
-            if item["type"] == "bid":
-                total_price_bid += item["price"] * item["amount"]
-                total_amount_bid += item["amount"]
-        average_trade_bid = total_price_bid / total_amount_bid
+        try:
+            for item in response.json()[f"{self.__crypto}_{self.__currency}"]:
+                if item["type"] == "bid":
+                    total_price_bid += item["price"] * item["amount"]
+                    total_amount_bid += item["amount"]
+            average_trade_bid = total_price_bid / total_amount_bid
+        except:
+            return 0
         return average_trade_bid
