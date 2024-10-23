@@ -21,26 +21,33 @@ def Sell_signal(copy):
 # Запуск автоматического отслеживания криптовалюты
 def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10):
     My_Yobit = Yobit(crypto=crypto, currency=currency, limit=limit)
-    print(f"\n Началось отслеживание {My_Yobit.get_abbreviation_crypto}")
+    # print(f"\n Началось отслеживание {My_Yobit.get_abbreviation_crypto}")
     list_average_trades_ask = []
     list_average_trades_bid = []
     while True:
+        # print(Yobit().get_average_trades_ask())
+        # print(Yobit().get_average_trades_bid())
         if len(list_average_trades_ask) == 0 and My_Yobit.get_average_trades_ask() != 0:
             number = My_Yobit.get_average_trades_ask()
             if number != 0:
                 list_average_trades_ask.append(My_Yobit.get_average_trades_ask())
-            print(list_average_trades_ask)
-            print(list_average_trades_bid)
+            # print(list_average_trades_ask)
+            # print(list_average_trades_bid)
         elif len(list_average_trades_ask) == 4:
             try:
-                if My_Yobit.get_average_trades_ask() != list_average_trades_ask[3] and My_Yobit.get_average_trades_ask() != 0:
+                if (
+                    My_Yobit.get_average_trades_ask() != list_average_trades_ask[3]
+                    and My_Yobit.get_average_trades_ask() != 0
+                ):
                     number = My_Yobit.get_average_trades_ask()
                     if number != 0:
-                        list_average_trades_ask.append(My_Yobit.get_average_trades_ask())
+                        list_average_trades_ask.append(
+                            My_Yobit.get_average_trades_ask()
+                        )
                         list_average_trades_ask.pop(0)
-                    print("Сработал append")
-                    print(list_average_trades_ask)
-                    print(list_average_trades_bid)
+                    # print("Сработал append")
+                    # print(list_average_trades_ask)
+                    # print(list_average_trades_bid)
             except:
                 pass
         else:
@@ -51,10 +58,12 @@ def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10
                 ) and My_Yobit.get_average_trades_ask() != 0:
                     number = My_Yobit.get_average_trades_ask()
                     if number != 0:
-                        list_average_trades_ask.append(My_Yobit.get_average_trades_ask())
-                    print("Сработал append")
-                    print(list_average_trades_ask)
-                    print(list_average_trades_bid)
+                        list_average_trades_ask.append(
+                            My_Yobit.get_average_trades_ask()
+                        )
+                    # print("Сработал append")
+                    # print(list_average_trades_ask)
+                    # print(list_average_trades_bid)
             except:
                 pass
 
@@ -70,8 +79,8 @@ def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10
             number = My_Yobit.get_average_trades_bid()
             if number != 0:
                 list_average_trades_bid.append(My_Yobit.get_average_trades_bid())
-            print(list_average_trades_ask)
-            print(list_average_trades_bid)
+            # print(list_average_trades_ask)
+            # print(list_average_trades_bid)
         elif len(list_average_trades_bid) == 4:
             try:
                 if (
@@ -80,14 +89,16 @@ def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10
                 ) and My_Yobit.get_average_trades_bid() != 0:
                     number = My_Yobit.get_average_trades_bid()
                     if number != 0:
-                        list_average_trades_bid.append(My_Yobit.get_average_trades_bid())
+                        list_average_trades_bid.append(
+                            My_Yobit.get_average_trades_bid()
+                        )
                         list_average_trades_bid.pop(0)
-                    print("Сработал append")
-                    print(list_average_trades_ask)
-                    print(list_average_trades_bid)
+                    # print("Сработал append")
+                    # print(list_average_trades_ask)
+                    # print(list_average_trades_bid)
             except:
                 pass
-            
+
         else:
             if (
                 My_Yobit.get_average_trades_bid()
@@ -96,9 +107,9 @@ def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10
                 number = My_Yobit.get_average_trades_bid()
                 if number != 0:
                     list_average_trades_bid.append(My_Yobit.get_average_trades_bid())
-                print("Сработал append")
-                print(list_average_trades_ask)
-                print(list_average_trades_bid)
+                # print("Сработал append")
+                # print(list_average_trades_ask)
+                # print(list_average_trades_bid)
 
         if (
             len(list_average_trades_bid) == 4

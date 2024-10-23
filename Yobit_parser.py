@@ -28,7 +28,7 @@ class Yobit:
             file.write(response.text)
         return response.text
 
-    # Получение общей стоимости продажи когкретной криптовалюты с Yobit Api
+    # Получение общей стоимости продажи конкретной криптовалюты с Yobit Api
     def get_depth(self):
         response = requests.get(
             url=f"https://yobit.net/api/3/depth/{self.__crypto}_{self.__currency}?limit={self.__limit}&ignore_invalid=1"
@@ -41,7 +41,7 @@ class Yobit:
             total_bids_amount += price * coin_amount
         return total_bids_amount
 
-    # Получение общей стоимости покупки когкретной криптовалюты с Yobit Api
+    # Получение общей стоимости покупки конкретной криптовалюты с Yobit Api
     def get_total_trades_ask(self):
         response = requests.get(
             url=f"https://yobit.net/api/3/trades/{self.__crypto}_{self.__currency}?limit={self.__limit}&ignore_invalid=1"
@@ -52,7 +52,7 @@ class Yobit:
                 total_trade_ask += item["price"] * item["amount"]
         return total_trade_ask
 
-    # Получение общей стоимости покупки когкретной криптовалюты с Yobit Api
+    # Получение общей стоимости покупки конкретной криптовалюты с Yobit Api
     def get_total_trades_bid(self):
         response = requests.get(
             url=f"https://yobit.net/api/3/trades/{self.__crypto}_{self.__currency}?limit={self.__limit}&ignore_invalid=1"
@@ -63,7 +63,7 @@ class Yobit:
                 total_trade_bid += item["price"] * item["amount"]
         return total_trade_bid
 
-    # Получение средней стоимости продажи когкретной криптовалюты с Yobit Api
+    # Получение средней стоимости продажи конкретной криптовалюты с Yobit Api
     def get_average_trades_ask(self):
         response = requests.get(
             url=f"https://yobit.net/api/3/trades/{self.__crypto}_{self.__currency}?limit={self.__limit}&ignore_invalid=1"
@@ -80,7 +80,7 @@ class Yobit:
             return 0
         return average_trade_ask
 
-    # Получение средней стоимости прокупки когкретной криптовалюты с Yobit Api
+    # Получение средней стоимости прокупки конкретной криптовалюты с Yobit Api
     def get_average_trades_bid(self):
         response = requests.get(
             url=f"https://yobit.net/api/3/trades/{self.__crypto}_{self.__currency}?limit={self.__limit}&ignore_invalid=1"
