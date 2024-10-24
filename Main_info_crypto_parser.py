@@ -36,10 +36,9 @@ class General:
             <= 2.5
             and (
                 float(
-                    soup.find("span", class_="gecko-up").text.replace("%", "") < 0.7
+                    float(soup.find("span", class_="gecko-up").text.replace("%", "")) < 0.7
                     or float(
-                        soup.find("span", class_="gecko-up").text.replace("%", "") > 2.5
-                    )
+                        soup.find("span", class_="gecko-up").text.replace("%", "")) > 2.5
                 )
             )
             and float(soup.find("span", class_="gecko-up").text.replace("%", "")) < 5

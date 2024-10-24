@@ -1,8 +1,8 @@
 # Установка необходимых пакетов для запуска программы
 # in venv:
-# python -m pip install requests, BeautifulSoup4, transliterate, langdetect
+# python -m pip install requests, BeautifulSoup4, transliterate, langdetect, lxml
 # if not work:
-# py -m pip install requests, BeautifulSoup4, transliterate, langdetect
+# py -m pip install requests, BeautifulSoup4, transliterate, langdetect, lxml
 
 # Импорт необходимых классов парсеров
 from Main_info_crypto_parser import General, Additional_CoinGecko_info
