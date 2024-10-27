@@ -9,14 +9,12 @@ def Buy_signal(copy):
         f" Цена перестала уменьшаться, вероятно, она начнёт расти.\n Советую купить {copy.get_abbreviation_crypto}"
     )
 
-
 # Сигнал на продажу криптовалюты
 def Sell_signal(copy):
     print("Сигнал на продажу")
     print(
         f" Цена перестала расти, вероятно, она начнёт уменьшаться.\n Советую продать имеющиеся {copy.get_abbreviation_crypto}"
     )
-
 
 # Запуск автоматического отслеживания криптовалюты
 def start_tracking_crypto(crypto="btc", currency="usd", limit=150, time_sleep=10):

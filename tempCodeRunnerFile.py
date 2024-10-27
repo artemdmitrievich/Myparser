@@ -1,1 +1,1 @@
-gets.QLabel(self.main_page)
+

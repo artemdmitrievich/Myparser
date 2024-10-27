@@ -8,19 +8,25 @@
 from Main_info_crypto_parser import General, Additional_CoinGecko_info
 from Item_info_crypto_parser import Crypto
 from Auto_Yobit_parser import start_tracking_crypto
+from time import sleep
 
 
 # Вывод рыночной капитализация криптовалюты
 print(
-    f"Рыночная капитализация криптовалюты = {General.get_data_market_capitalization()}$"
+    f"Рыночная капитализация криптовалюты = {General.get_data_market_capitalization()[0]}$"
 )
+sleep(0.5)
 
 # Вывод изменения рыночной капитализация криптовалюты за 24 часа
-print(General.get_change_market_capitalization())
+if General.get_change_market_capitalization()[2] == "down":
+    print(f"Рыночная капитализация криптовалюты понизилась на {General.get_change_market_capitalization()[0]}")
+else:
+    print(f"Рыночная капитализация криптовалюты повысилась на {General.get_change_market_capitalization()[0]}")
+sleep(0.5)
 
 # Вывод общего объёма торгов за 24 часа
-print(f"Общий объём торгов за 24 часа - {General.get_total_trading_volume_per_day()}$")
-
+print(f"Общий объём торгов за 24 часа - {General.get_total_trading_volume_per_day()[0]}$")
+sleep(0.5)
 
 name_crypto = "БиТкоин кэш"  # Вводимое название криптовалюты
 # Попытка создания экземпляра класса и дальнейших вызовов функций экземпляра класса
@@ -39,7 +45,6 @@ try:
 except:
     # Вывод в случае ошибки: "Некорректно введено название криптовалюты"
     print("Некорректно введено название криптовалюты")
-
 
 # Вывод самых популярных криптовалют
 My_Additional_CoinGecko_info = Additional_CoinGecko_info()

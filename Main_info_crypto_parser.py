@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from time import time, sleep
-from static.Soup_main_CoinGecko import soup
 from static.headers import Headers
+from time import strftime, localtime
 
 
 # Класс с общей информацией по криптовалюте
@@ -10,6 +10,9 @@ class General:
 
     # Получение общей капитализации криптовалюты
     def get_data_market_capitalization():
+        url = "https://www.coingecko.com/ru"
+        responce = requests.get(url, headers=Headers)
+        soup = BeautifulSoup(responce.text, "lxml")
         data_market_capitalization = (
             soup.find(
                 "div",
@@ -18,44 +21,28 @@ class General:
             .text.replace("\n", "")
             .replace("$", "")
         )
-        sleep(0.5)
-        return data_market_capitalization
+        return data_market_capitalization, strftime("%H:%M:%S", localtime())
 
     # Получение изменения общей капитализации криптовалюты за 24 часа
     def get_change_market_capitalization():
-
-        decrease_in_capitalization = ".gecko-up{--tw-text-opacity:1;color:rgb(0 168 62/var(--tw-text-opacity))}:is(.tw-dark .gecko-up){--tw-text-opacity:1;color:rgb(50 202 91/var(--tw-text-opacity))}.gecko-down{--tw-text-opacity:1;color:rgb(255 58 51/var(--tw-text-opacity))}"
-        url_css = (
-            "https://static.coingecko.com/packs/css/v2/application-c86563d7.chunk.css"
-        )
-        responce_css = requests.get(url_css, headers=Headers)
-        soup_css = str(BeautifulSoup(responce_css.text, "lxml"))
-        if (
-            0.7
-            <= float(soup.find("span", class_="gecko-down").text.replace("%", ""))
-            <= 2.5
-            and (
-                float(soup.find("span", class_="gecko-up").text.replace("%", "")) < 0.7
-                or float(soup.find("span", class_="gecko-up").text.replace("%", ""))
-                > 2.5
-            )
-            and float(soup.find("span", class_="gecko-up").text.replace("%", "")) < 5
-            or float(soup.find("span", class_="gecko-up").text.replace("%", "")) > 5
-        ):
-            change_market_capitalization_value = soup.find(
-                "span", class_="gecko-down"
-            ).text
-            sleep(0.5)
-            return f"Рыночная капитализация криптовалюты снизилась на {change_market_capitalization_value}"
+        url = "https://www.coingecko.com/ru"
+        responce = requests.get(url, headers=Headers)
+        soup = BeautifulSoup(responce.text, "lxml")
+        capitalization_div = soup.find("div", class_="tw-mt-1 tw-flex tw-flex-wrap tw-items-center tw-text-gray-500 dark:tw-text-moon-200 tw-font-semibold tw-text-sm tw-leading-5")
+        change_market_capitalization_value = 0
+        if "gecko-down" in str(capitalization_div):
+            direction = "down"
+            change_market_capitalization_value = capitalization_div.find("span", class_="gecko-down").text
         else:
-            change_market_capitalization_value = soup.find(
-                "span", class_="gecko-up"
-            ).text
-            sleep(0.5)
-            return f"Рыночная капитализация криптовалюты увеличилась на {change_market_capitalization_value}"
+            direction = "up"
+            change_market_capitalization_value = capitalization_div.find("span", class_="gecko-up").text
+        return change_market_capitalization_value, strftime("%H:%M:%S", localtime()), direction
 
     # Получение общего объёма торгов за 24 часа
     def get_total_trading_volume_per_day():
+        url = "https://www.coingecko.com/ru"
+        responce = requests.get(url, headers=Headers)
+        soup = BeautifulSoup(responce.text, "lxml")
         total_trading_volume_per_day = (
             soup.find(
                 "div",
@@ -69,14 +56,16 @@ class General:
             .text.replace("\n", "")
             .replace("$", "")
         )
-        sleep(0.5)
-        return total_trading_volume_per_day
+        return total_trading_volume_per_day, strftime("%H:%M:%S", localtime())
 
 
 # Класс с дополнительной информацией по криптовалюте
 class Additional_CoinGecko_info:
-
+    
     def __init__(self):
+        url = "https://www.coingecko.com/ru"
+        responce = requests.get(url, headers=Headers)
+        soup = BeautifulSoup(responce.text, "lxml")
         self.general_divs = soup.find_all(
             "div",
             class_="tw-max-w-[92vw] tw-ring-gray-200 dark:tw-ring-moon-700 tw-ring-2 tw-py-1.5 tw-px-2 tw-rounded-xl",

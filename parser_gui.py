@@ -15,38 +15,57 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(823, 700)
-        MainWindow.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"border: 0")
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setStyleSheet(
+            "border: 0;\n"
+            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(113, 7, 198, 255), stop:1 rgba(218, 148, 255, 255));\n"
+            ""
+        )
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(16)
         self.centralwidget.setFont(font)
-        self.centralwidget.setStyleSheet("QTabBar::tab\n"
-"{\n"
-"    background: rgb(242, 242, 242);\n"
-"    margin-left: 2ex;\n"
-"    min-width: 30ex;\n"
-"    min-height: 15ex;\n"
-"    border-top-left-radius: 10px;\n"
-"    border-top-right-radius: 10px;\n"
-"    margin-top: 2ex;\n"
-"}\n"
-"\n"
-"QTabBar::tab:selected\n"
-"{\n"
-"    background: rgb(195, 195, 195);\n"
-"}\n"
-"\n"
-"border: 0\n"
-"")
+        self.centralwidget.setStyleSheet(
+            "QTabBar::tab\n"
+            "{\n"
+            "    background: rgb(93, 26, 179);\n"
+            "    margin-left: 2ex;\n"
+            "    min-width: 30ex;\n"
+            "    min-height: 15ex;\n"
+            "    border-top-left-radius: 10px;\n"
+            "    border-top-right-radius: 10px;\n"
+            "    margin-top: 2ex;\n"
+            "    color: rgb(255,255,255);\n"
+            "}\n"
+            "\n"
+            "QTabBar::tab:selected\n"
+            "{\n"
+            "    background: rgb(89,0,159);\n"
+            "}\n"
+            "\n"
+            "QTabBar\n"
+            "{\n"
+            "    background: rgba(255,255,255,0)\n"
+            "}\n"
+            "\n"
+            "\n"
+            "border: 0\n"
+            ""
+        )
         self.centralwidget.setObjectName("centralwidget")
         self.menu = QtWidgets.QTabWidget(self.centralwidget)
         self.menu.setGeometry(QtCore.QRect(0, 10, 825, 701))
         font = QtGui.QFont()
-        font.setFamily("Bell MT")
+        font.setFamily("Gadugi")
         font.setPointSize(12)
         self.menu.setFont(font)
-        self.menu.setStyleSheet("border: 0;")
+        self.menu.setStyleSheet("border: 0;\n" "\n" "")
         self.menu.setTabPosition(QtWidgets.QTabWidget.North)
         self.menu.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.menu.setObjectName("menu")
@@ -57,81 +76,240 @@ class Ui_MainWindow(object):
         self.main_page.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.main_page.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.main_page.setAutoFillBackground(False)
-        self.main_page.setStyleSheet("background: rgb(195, 195, 195)")
+        self.main_page.setStyleSheet(
+            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));"
+        )
         self.main_page.setObjectName("main_page")
-        self.global_capitalization_label = QtWidgets.QLabel(self.main_page)
-        self.global_capitalization_label.setGeometry(QtCore.QRect(0, 10, 823, 171))
-        self.global_capitalization_label.setStyleSheet("border: 4px solid rgb(148, 148, 148)\n"
-"")
-        self.global_capitalization_label.setText("")
-        self.global_capitalization_label.setObjectName("global_capitalization_label")
-        self.global_volume_label = QtWidgets.QLabel(self.main_page)
-        self.global_volume_label.setGeometry(QtCore.QRect(0, 191, 823, 171))
-        self.global_volume_label.setStyleSheet("border: 4px solid rgb(148, 148, 148)")
-        self.global_volume_label.setText("")
-        self.global_volume_label.setObjectName("global_volume_label")
-        self.capitalization_label = QtWidgets.QLabel(self.main_page)
-        self.capitalization_label.setGeometry(QtCore.QRect(4, 14, 401, 163))
-        self.capitalization_label.setStyleSheet("border-right: 4px solid rgb(148, 148, 148)")
-        self.capitalization_label.setText("")
-        self.capitalization_label.setObjectName("capitalization_label")
-        self.change_capitalization_label = QtWidgets.QLabel(self.main_page)
-        self.change_capitalization_label.setGeometry(QtCore.QRect(405, 14, 414, 163))
-        self.change_capitalization_label.setText("")
-        self.change_capitalization_label.setObjectName("change_capitalization_label")
-        self.volume_label = QtWidgets.QLabel(self.main_page)
-        self.volume_label.setGeometry(QtCore.QRect(4, 195, 401, 163))
-        self.volume_label.setStyleSheet("border-right: 4px solid rgb(148, 148, 148)")
-        self.volume_label.setText("")
-        self.volume_label.setObjectName("volume_label")
-        self.change_volume_label = QtWidgets.QLabel(self.main_page)
-        self.change_volume_label.setGeometry(QtCore.QRect(405, 195, 414, 163))
-        self.change_volume_label.setText("")
-        self.change_volume_label.setObjectName("change_volume_label")
-        self.text_capitalization_label = QtWidgets.QLabel(self.main_page)
-        self.text_capitalization_label.setGeometry(QtCore.QRect(30, 30, 341, 21))
-        self.text_capitalization_label.setStyleSheet("font-size: 15px")
-        self.text_capitalization_label.setObjectName("text_capitalization_label")
-        self.result_capitalization_label = QtWidgets.QLabel(self.main_page)
-        self.result_capitalization_label.setGeometry(QtCore.QRect(26, 72, 351, 41))
-        self.result_capitalization_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font-size: 17px;\n"
-"font-weight: bold")
-        self.result_capitalization_label.setText("")
-        self.result_capitalization_label.setObjectName("result_capitalization_label")
-        self.change_capitalization_text_label = QtWidgets.QLabel(self.main_page)
-        self.change_capitalization_text_label.setGeometry(QtCore.QRect(440, 50, 351, 71))
-        self.change_capitalization_text_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font-size: 17px;\n"
-"font-weight: bold")
-        self.change_capitalization_text_label.setText("")
-        self.change_capitalization_text_label.setObjectName("change_capitalization_text_label")
-        self.text_volume_label = QtWidgets.QLabel(self.main_page)
-        self.text_volume_label.setGeometry(QtCore.QRect(30, 210, 341, 21))
-        self.text_volume_label.setStyleSheet("font-size: 15px")
-        self.text_volume_label.setObjectName("text_volume_label")
-        self.result_volume_label = QtWidgets.QLabel(self.main_page)
-        self.result_volume_label.setGeometry(QtCore.QRect(26, 250, 351, 41))
-        self.result_volume_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font-size: 17px;\n"
-"font-weight: bold")
-        self.result_volume_label.setText("")
-        self.result_volume_label.setObjectName("result_volume_label")
-        self.change_volume_text_label = QtWidgets.QLabel(self.main_page)
-        self.change_volume_text_label.setGeometry(QtCore.QRect(440, 230, 351, 71))
-        self.change_volume_text_label.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font-size: 17px;\n"
-"font-weight: bold")
-        self.change_volume_text_label.setText("")
-        self.change_volume_text_label.setObjectName("change_volume_text_label")
+        self.Change_capitalization_frame = QtWidgets.QFrame(self.main_page)
+        self.Change_capitalization_frame.setGeometry(QtCore.QRect(445, 15, 331, 101))
+        self.Change_capitalization_frame.setStyleSheet(
+            "background: rgba(255,255,255,0)"
+        )
+        self.Change_capitalization_frame.setObjectName("Change_capitalization_frame")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.Change_capitalization_frame)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.Text_change_capitalization_label = QtWidgets.QLabel(
+            self.Change_capitalization_frame
+        )
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.Text_change_capitalization_label.setFont(font)
+        self.Text_change_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(255,255,255);\n"
+            "background: rgba(255,255,255,0);"
+        )
+        self.Text_change_capitalization_label.setObjectName(
+            "Text_change_capitalization_label"
+        )
+        self.verticalLayout_3.addWidget(self.Text_change_capitalization_label)
+        self.Value_change_capitalization_label = QtWidgets.QLabel(
+            self.Change_capitalization_frame
+        )
+        self.Value_change_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(255,0,0);\n"
+            "background: rgba(255,255,255,0);\n"
+            "font-weight: bold"
+        )
+        self.Value_change_capitalization_label.setObjectName(
+            "Value_change_capitalization_label"
+        )
+        self.verticalLayout_3.addWidget(self.Value_change_capitalization_label)
+        self.Time_update_change_capitalization_label = QtWidgets.QLabel(
+            self.Change_capitalization_frame
+        )
+        self.Time_update_change_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n" "color: rgb(255,255,255)"
+        )
+        self.Time_update_change_capitalization_label.setObjectName(
+            "Time_update_change_capitalization_label"
+        )
+        self.verticalLayout_3.addWidget(self.Time_update_change_capitalization_label)
+        self.Value_volume_frame = QtWidgets.QFrame(self.main_page)
+        self.Value_volume_frame.setGeometry(QtCore.QRect(40, 141, 331, 101))
+        self.Value_volume_frame.setStyleSheet("background: rgba(255,255,255,0)")
+        self.Value_volume_frame.setObjectName("Value_volume_frame")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.Value_volume_frame)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.Text_volume_label = QtWidgets.QLabel(self.Value_volume_frame)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.Text_volume_label.setFont(font)
+        self.Text_volume_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(255,255,255);\n"
+            "background: rgba(255,255,255,0);"
+        )
+        self.Text_volume_label.setObjectName("Text_volume_label")
+        self.verticalLayout_7.addWidget(self.Text_volume_label)
+        self.Value_volume_label = QtWidgets.QLabel(self.Value_volume_frame)
+        self.Value_volume_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(0,255,0);\n"
+            "background: rgba(255,255,255,0);\n"
+            "font-weight: bold"
+        )
+        self.Value_volume_label.setObjectName("Value_volume_label")
+        self.verticalLayout_7.addWidget(self.Value_volume_label)
+        self.Time_update_volume_label = QtWidgets.QLabel(self.Value_volume_frame)
+        self.Time_update_volume_label.setStyleSheet(
+            "font-size: 16px;\n" "color: rgb(255,255,255)"
+        )
+        self.Time_update_volume_label.setObjectName("Time_update_volume_label")
+        self.verticalLayout_7.addWidget(self.Time_update_volume_label)
+        self.Change_volume_frame = QtWidgets.QFrame(self.main_page)
+        self.Change_volume_frame.setGeometry(QtCore.QRect(445, 141, 331, 101))
+        self.Change_volume_frame.setStyleSheet("background: rgba(255,255,255,0)")
+        self.Change_volume_frame.setObjectName("Change_volume_frame")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.Change_volume_frame)
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_8.setSpacing(0)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.Text_information_source_label = QtWidgets.QLabel(self.Change_volume_frame)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.Text_information_source_label.setFont(font)
+        self.Text_information_source_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(255,255,255);\n"
+            "background: rgba(255,255,255,0);"
+        )
+        self.Text_information_source_label.setObjectName(
+            "Text_information_source_label"
+        )
+        self.verticalLayout_8.addWidget(self.Text_information_source_label)
+        self.Value_information_source_label = QtWidgets.QLabel(self.Change_volume_frame)
+        self.Value_information_source_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(51,153,255);\n"
+            "background: rgba(255,255,255,0);\n"
+            "font-weight: bold"
+        )
+        self.Value_information_source_label.setObjectName(
+            "Value_information_source_label"
+        )
+        self.verticalLayout_8.addWidget(self.Value_information_source_label)
+        self.Main_frame = QtWidgets.QFrame(self.main_page)
+        self.Main_frame.setGeometry(QtCore.QRect(10, 10, 801, 241))
+        self.Main_frame.setStyleSheet("background: rgba(255,255,255,0)")
+        self.Main_frame.setObjectName("Main_frame")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.Main_frame)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setSpacing(10)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.Capitalization_frame = QtWidgets.QFrame(self.Main_frame)
+        self.Capitalization_frame.setStyleSheet("background-color: rgb(255,255,255,0);")
+        self.Capitalization_frame.setObjectName("Capitalization_frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.Capitalization_frame)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(10)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.Change_capitalization_label = QtWidgets.QLabel(self.Capitalization_frame)
+        self.Change_capitalization_label.setStyleSheet(
+            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
+        )
+        self.Change_capitalization_label.setText("")
+        self.Change_capitalization_label.setObjectName("Change_capitalization_label")
+        self.horizontalLayout.addWidget(self.Change_capitalization_label)
+        self.Capitalization_label = QtWidgets.QLabel(self.Capitalization_frame)
+        self.Capitalization_label.setStyleSheet(
+            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
+        )
+        self.Capitalization_label.setText("")
+        self.Capitalization_label.setObjectName("Capitalization_label")
+        self.horizontalLayout.addWidget(self.Capitalization_label)
+        self.verticalLayout_4.addWidget(self.Capitalization_frame)
+        self.Volume_frame = QtWidgets.QFrame(self.Main_frame)
+        self.Volume_frame.setStyleSheet("background-color: rgb(255,255,255,0);")
+        self.Volume_frame.setObjectName("Volume_frame")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.Volume_frame)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(10)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.Change_volume_label = QtWidgets.QLabel(self.Volume_frame)
+        self.Change_volume_label.setStyleSheet(
+            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
+        )
+        self.Change_volume_label.setText("")
+        self.Change_volume_label.setObjectName("Change_volume_label")
+        self.horizontalLayout_6.addWidget(self.Change_volume_label)
+        self.Volume_label = QtWidgets.QLabel(self.Volume_frame)
+        self.Volume_label.setStyleSheet(
+            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
+        )
+        self.Volume_label.setText("")
+        self.Volume_label.setObjectName("Volume_label")
+        self.horizontalLayout_6.addWidget(self.Volume_label)
+        self.verticalLayout_4.addWidget(self.Volume_frame)
+        self.Value_capitalization_frame = QtWidgets.QFrame(self.main_page)
+        self.Value_capitalization_frame.setGeometry(QtCore.QRect(40, 15, 331, 101))
+        self.Value_capitalization_frame.setStyleSheet("background: rgba(255,255,255,0)")
+        self.Value_capitalization_frame.setObjectName("Value_capitalization_frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.Value_capitalization_frame)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.Text_capitalization_label = QtWidgets.QLabel(
+            self.Value_capitalization_frame
+        )
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.Text_capitalization_label.setFont(font)
+        self.Text_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(255,255,255);\n"
+            "background: rgba(255,255,255,0);"
+        )
+        self.Text_capitalization_label.setObjectName("Text_capitalization_label")
+        self.verticalLayout.addWidget(self.Text_capitalization_label)
+        self.Value_capitalization_label = QtWidgets.QLabel(
+            self.Value_capitalization_frame
+        )
+        self.Value_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n"
+            "color: rgb(0,255,0);\n"
+            "background: rgba(255,255,255,0);\n"
+            "font-weight: bold"
+        )
+        self.Value_capitalization_label.setObjectName("Value_capitalization_label")
+        self.verticalLayout.addWidget(self.Value_capitalization_label)
+        self.Time_update_capitalization_label = QtWidgets.QLabel(
+            self.Value_capitalization_frame
+        )
+        self.Time_update_capitalization_label.setStyleSheet(
+            "font-size: 16px;\n" "color: rgb(255,255,255)"
+        )
+        self.Time_update_capitalization_label.setObjectName(
+            "Time_update_capitalization_label"
+        )
+        self.verticalLayout.addWidget(self.Time_update_capitalization_label)
+        self.Update_Button = QtWidgets.QPushButton(self.main_page)
+        self.Update_Button.setGeometry(QtCore.QRect(10, 260, 801, 31))
+        self.Update_Button.setStyleSheet(
+            "color: rgb(255,255,255);\n" "font-size: 15px;"
+        )
+        self.Update_Button.setObjectName("Update_Button")
+        self.Main_frame.raise_()
+        self.Value_capitalization_frame.raise_()
+        self.Change_capitalization_frame.raise_()
+        self.Value_volume_frame.raise_()
+        self.Change_volume_frame.raise_()
+        self.Update_Button.raise_()
         self.menu.addTab(self.main_page, "")
         self.item_page = QtWidgets.QWidget()
-        self.item_page.setStyleSheet("background: rgb(195, 195, 195)")
+        self.item_page.setStyleSheet(
+            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));"
+        )
         self.item_page.setObjectName("item_page")
         self.menu.addTab(self.item_page, "")
         self.additional_page = QtWidgets.QWidget()
-        self.additional_page.setStyleSheet("background: rgb(195, 195, 195)\n"
-"")
+        self.additional_page.setStyleSheet(
+            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));\n"
+            ""
+        )
         self.additional_page.setObjectName("additional_page")
         self.menu.addTab(self.additional_page, "")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -143,18 +321,54 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.text_capitalization_label.setText(_translate("MainWindow", "Общая рыночная капитализация криптовалюты:"))
-        self.text_volume_label.setText(_translate("MainWindow", "Общая рыночная капитализация криптовалюты:"))
-        self.menu.setTabText(self.menu.indexOf(self.main_page), _translate("MainWindow", "Main"))
-        self.menu.setTabText(self.menu.indexOf(self.item_page), _translate("MainWindow", "Item"))
-        self.menu.setTabText(self.menu.indexOf(self.additional_page), _translate("MainWindow", "Additional"))
+        self.Text_change_capitalization_label.setText(
+            _translate("MainWindow", "Изменение за последние сутки:")
+        )
+        self.Value_change_capitalization_label.setText(
+            _translate("MainWindow", "Снизилась на 1.4%")
+        )
+        self.Time_update_change_capitalization_label.setText(
+            _translate("MainWindow", "Обновлено в 12:13:14")
+        )
+        self.Text_volume_label.setText(_translate("MainWindow", "Общий объём торгов:"))
+        self.Value_volume_label.setText(_translate("MainWindow", "234 234 234$"))
+        self.Time_update_volume_label.setText(
+            _translate("MainWindow", "Обновлено в 12:13:14")
+        )
+        self.Text_information_source_label.setText(
+            _translate("MainWindow", "Информация с сайта:")
+        )
+        self.Value_information_source_label.setText(
+            _translate("MainWindow", '"coingecko.com"')
+        )
+        self.Text_capitalization_label.setText(
+            _translate("MainWindow", "Рыночная капитализация криптовалюты:")
+        )
+        self.Value_capitalization_label.setText(
+            _translate("MainWindow", "2 234 234 234 234$")
+        )
+        self.Time_update_capitalization_label.setText(
+            _translate("MainWindow", "Обновлено в 12:13:14")
+        )
+        self.Update_Button.setText(_translate("MainWindow", "Нажмите, чтобы обновить"))
+        self.menu.setTabText(
+            self.menu.indexOf(self.main_page), _translate("MainWindow", "Main")
+        )
+        self.menu.setTabText(
+            self.menu.indexOf(self.item_page), _translate("MainWindow", "Item")
+        )
+        self.menu.setTabText(
+            self.menu.indexOf(self.additional_page),
+            _translate("MainWindow", "Additional"),
+        )
 
 
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
