@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>MS Sans Serif</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -500,7 +505,7 @@ color: rgb(255,255,255)</string>
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="Update_Button">
+     <widget class="QToolButton" name="Update_Button">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -517,12 +522,90 @@ font-size: 15px;</string>
        <string>Нажмите, чтобы обновить</string>
       </property>
      </widget>
+     <widget class="QLabel" name="Footer_label">
+      <property name="geometry">
+       <rect>
+        <x>-4</x>
+        <y>372</y>
+        <width>831</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Telegram_Icon_Button">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>390</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255,0);
+text-align: end;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/icons8-телеграм-96.png</normaloff>:/icons/icons/icons8-телеграм-96.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Telegram_link_Button">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>395</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font-size: 16px;
+color: rgb(255,255,255);
+background: rgba(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string>Перейти в телеграм-бота</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Direction_change_capitalization_Icon_Button">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>45</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
      <zorder>Main_frame</zorder>
      <zorder>Value_capitalization_frame</zorder>
      <zorder>Change_capitalization_frame</zorder>
      <zorder>Value_volume_frame</zorder>
      <zorder>Change_volume_frame</zorder>
      <zorder>Update_Button</zorder>
+     <zorder>Footer_label</zorder>
+     <zorder>Telegram_Icon_Button</zorder>
+     <zorder>Telegram_link_Button</zorder>
+     <zorder>Direction_change_capitalization_Icon_Button</zorder>
     </widget>
     <widget class="QWidget" name="item_page">
      <property name="styleSheet">
@@ -544,6 +627,8 @@ font-size: 15px;</string>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
