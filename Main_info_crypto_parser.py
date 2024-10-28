@@ -91,7 +91,8 @@ class Additional_CoinGecko_info:
             class_="tw-flex tw-justify-between tw-px-2 tw-py-2.5 hover:tw-bg-gray-50 tw-rounded-lg dark:hover:tw-bg-moon-700",
         )
         dict_popular_crypto = {}
-        for item in class_popular_crypto:
+        for number in range(3):
+            item = class_popular_crypto[number]
             new_item = (
                 item.find(
                     "span",
@@ -113,9 +114,9 @@ class Additional_CoinGecko_info:
                 "span",
                 class_="gecko-up",
             ).text
-            dict_popular_crypto[new_item] = (
+            dict_popular_crypto[number] = (
                 new_item,
                 price_item,
-                "Рост на " + growth_item,
+                growth_item,
             )
-        return dict_popular_crypto
+        return dict_popular_crypto, strftime("%H:%M:%S", localtime())

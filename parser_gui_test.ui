@@ -505,7 +505,7 @@ color: rgb(255,255,255)</string>
        </item>
       </layout>
      </widget>
-     <widget class="QToolButton" name="Update_Button">
+     <widget class="QToolButton" name="Update_Main_Button">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -519,7 +519,7 @@ color: rgb(255,255,255)</string>
 font-size: 15px;</string>
       </property>
       <property name="text">
-       <string>Нажмите, чтобы обновить</string>
+       <string>Нажмите, чтобы обновить страницу</string>
       </property>
      </widget>
      <widget class="QPushButton" name="Telegram_Icon_Button">
@@ -725,7 +725,7 @@ font-size: 16px</string>
      <zorder>Change_capitalization_frame</zorder>
      <zorder>Value_volume_frame</zorder>
      <zorder>Change_volume_frame</zorder>
-     <zorder>Update_Button</zorder>
+     <zorder>Update_Main_Button</zorder>
      <zorder>Telegram_Icon_Button</zorder>
      <zorder>Telegram_text_Button</zorder>
      <zorder>Direction_change_capitalization_Icon_Button</zorder>
@@ -756,7 +756,7 @@ font-size: 16px</string>
       <property name="geometry">
        <rect>
         <x>257</x>
-        <y>10</y>
+        <y>2</y>
         <width>311</width>
         <height>30</height>
        </rect>
@@ -774,7 +774,7 @@ background: rgba(255,255,255,0);</string>
       <property name="geometry">
        <rect>
         <x>202</x>
-        <y>325</y>
+        <y>291</y>
         <width>421</width>
         <height>30</height>
        </rect>
@@ -792,7 +792,7 @@ background: rgba(255,255,255,0);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>126</y>
+        <y>109</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -818,7 +818,7 @@ background: rgba(255,255,255,0);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>194</y>
+        <y>169</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -844,7 +844,7 @@ background: rgba(255,255,255,0);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>260</y>
+        <y>229</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -870,13 +870,13 @@ background: rgba(255,255,255,0);</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>365</y>
+        <y>324</y>
         <width>781</width>
-        <height>261</height>
+        <height>250</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: rgba(255,255,255, 50);
+       <string notr="true">background: rgba(255,255,255, 100);
 border-radius: 15px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -918,7 +918,7 @@ font-size: 16px;
 background-color: rgb(79, 79, 79);</string>
            </property>
            <property name="text">
-            <string>          Стоимость</string>
+            <string>           Стоимость</string>
            </property>
           </widget>
          </item>
@@ -1108,7 +1108,7 @@ background-color: rgb(157, 0, 255);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>444</y>
+        <y>399</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -1134,7 +1134,7 @@ background-color: rgb(157, 0, 255);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>508</y>
+        <y>459</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -1160,7 +1160,7 @@ background-color: rgb(157, 0, 255);</string>
       <property name="geometry">
        <rect>
         <x>700</x>
-        <y>569</y>
+        <y>519</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -1182,17 +1182,35 @@ background-color: rgb(157, 0, 255);</string>
        </size>
       </property>
      </widget>
+     <widget class="QToolButton" name="Update_Additional_Button">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>590</y>
+        <width>801</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255);
+font-size: 15px;
+background-color: rgb(121, 34, 207);</string>
+      </property>
+      <property name="text">
+       <string>Нажмите, чтобы обновить страницу</string>
+      </property>
+     </widget>
      <widget class="QFrame" name="Main_popular_crypto_Frame">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>50</y>
+        <y>35</y>
         <width>781</width>
-        <height>261</height>
+        <height>250</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: rgba(255,255,255, 50);
+       <string notr="true">background: rgba(255,255,255, 100);
 border-radius: 15px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1234,7 +1252,7 @@ font-size: 16px;
 background-color: rgb(79, 79, 79);</string>
            </property>
            <property name="text">
-            <string>          Стоимость</string>
+            <string>           Стоимость</string>
            </property>
           </widget>
          </item>
@@ -1436,6 +1454,7 @@ background-color: rgb(157, 0, 255);</string>
      <zorder>Max_growth_Icon_Button_1</zorder>
      <zorder>Max_growth_Icon_Button_2</zorder>
      <zorder>Max_growth_Icon_Button_3</zorder>
+     <zorder>Update_Additional_Button</zorder>
     </widget>
    </widget>
   </widget>
