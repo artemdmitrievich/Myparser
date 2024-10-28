@@ -243,12 +243,8 @@ class Ui_MainWindow(object):
         self.Update_Button.setStyleSheet("color: rgb(255,255,255);\n"
 "font-size: 15px;")
         self.Update_Button.setObjectName("Update_Button")
-        self.Footer_label = QtWidgets.QLabel(self.main_page)
-        self.Footer_label.setGeometry(QtCore.QRect(-4, 372, 831, 261))
-        self.Footer_label.setText("")
-        self.Footer_label.setObjectName("Footer_label")
         self.Telegram_Icon_Button = QtWidgets.QPushButton(self.main_page)
-        self.Telegram_Icon_Button.setGeometry(QtCore.QRect(20, 390, 40, 40))
+        self.Telegram_Icon_Button.setGeometry(QtCore.QRect(20, 394, 40, 40))
         self.Telegram_Icon_Button.setStyleSheet("background: rgba(255,255,255,0);\n"
 "text-align: end;")
         self.Telegram_Icon_Button.setText("")
@@ -257,27 +253,77 @@ class Ui_MainWindow(object):
         self.Telegram_Icon_Button.setIcon(icon)
         self.Telegram_Icon_Button.setIconSize(QtCore.QSize(40, 40))
         self.Telegram_Icon_Button.setObjectName("Telegram_Icon_Button")
-        self.Telegram_link_Button = QtWidgets.QPushButton(self.main_page)
-        self.Telegram_link_Button.setGeometry(QtCore.QRect(70, 395, 191, 31))
-        self.Telegram_link_Button.setStyleSheet("font-size: 16px;\n"
+        self.Telegram_text_Button = QtWidgets.QPushButton(self.main_page)
+        self.Telegram_text_Button.setGeometry(QtCore.QRect(70, 399, 321, 31))
+        self.Telegram_text_Button.setStyleSheet("font-size: 16px;\n"
 "color: rgb(255,255,255);\n"
 "background: rgba(255,255,255,0)")
-        self.Telegram_link_Button.setObjectName("Telegram_link_Button")
+        self.Telegram_text_Button.setObjectName("Telegram_text_Button")
         self.Direction_change_capitalization_Icon_Button = QtWidgets.QPushButton(self.main_page)
         self.Direction_change_capitalization_Icon_Button.setGeometry(QtCore.QRect(620, 45, 51, 41))
         self.Direction_change_capitalization_Icon_Button.setStyleSheet("background: rgba(255,255,255,0)")
         self.Direction_change_capitalization_Icon_Button.setText("")
         self.Direction_change_capitalization_Icon_Button.setObjectName("Direction_change_capitalization_Icon_Button")
+        self.Coin_Icon_Button = QtWidgets.QPushButton(self.main_page)
+        self.Coin_Icon_Button.setGeometry(QtCore.QRect(20, 519, 40, 40))
+        self.Coin_Icon_Button.setStyleSheet("background: rgba(255,255,255,0);\n"
+"text-align: end;")
+        self.Coin_Icon_Button.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/coin.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.Coin_Icon_Button.setIcon(icon1)
+        self.Coin_Icon_Button.setIconSize(QtCore.QSize(40, 40))
+        self.Coin_Icon_Button.setObjectName("Coin_Icon_Button")
+        self.Coin_text_Button = QtWidgets.QPushButton(self.main_page)
+        self.Coin_text_Button.setGeometry(QtCore.QRect(70, 524, 271, 31))
+        self.Coin_text_Button.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,249,61);\n"
+"background: rgba(255,255,255,0)")
+        self.Coin_text_Button.setObjectName("Coin_text_Button")
+        self.Switch_to_telegram_bot_Button = QtWidgets.QPushButton(self.main_page)
+        self.Switch_to_telegram_bot_Button.setGeometry(QtCore.QRect(14, 384, 381, 60))
+        self.Switch_to_telegram_bot_Button.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
+        self.Switch_to_telegram_bot_Button.setText("")
+        self.Switch_to_telegram_bot_Button.setObjectName("Switch_to_telegram_bot_Button")
+        self.Switch_to_support_the_autor_Button = QtWidgets.QPushButton(self.main_page)
+        self.Switch_to_support_the_autor_Button.setGeometry(QtCore.QRect(14, 509, 381, 60))
+        self.Switch_to_support_the_autor_Button.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
+        self.Switch_to_support_the_autor_Button.setText("")
+        self.Switch_to_support_the_autor_Button.setObjectName("Switch_to_support_the_autor_Button")
+        self.Footer_label = QtWidgets.QLabel(self.main_page)
+        self.Footer_label.setGeometry(QtCore.QRect(0, 370, 825, 471))
+        self.Footer_label.setText("")
+        self.Footer_label.setObjectName("Footer_label")
+        self.Description_telegram_bot_label = QtWidgets.QLabel(self.main_page)
+        self.Description_telegram_bot_label.setGeometry(QtCore.QRect(450, 384, 331, 95))
+        self.Description_telegram_bot_label.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_telegram_bot_label.setObjectName("Description_telegram_bot_label")
+        self.Description_support_the_autor_label = QtWidgets.QLabel(self.main_page)
+        self.Description_support_the_autor_label.setGeometry(QtCore.QRect(450, 509, 331, 95))
+        self.Description_support_the_autor_label.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_support_the_autor_label.setObjectName("Description_support_the_autor_label")
+        self.Footer_label.raise_()
         self.Main_frame.raise_()
         self.Value_capitalization_frame.raise_()
         self.Change_capitalization_frame.raise_()
         self.Value_volume_frame.raise_()
         self.Change_volume_frame.raise_()
         self.Update_Button.raise_()
-        self.Footer_label.raise_()
         self.Telegram_Icon_Button.raise_()
-        self.Telegram_link_Button.raise_()
+        self.Telegram_text_Button.raise_()
         self.Direction_change_capitalization_Icon_Button.raise_()
+        self.Coin_Icon_Button.raise_()
+        self.Coin_text_Button.raise_()
+        self.Switch_to_telegram_bot_Button.raise_()
+        self.Switch_to_support_the_autor_Button.raise_()
+        self.Description_telegram_bot_label.raise_()
+        self.Description_support_the_autor_label.raise_()
         self.menu.addTab(self.main_page, "")
         self.item_page = QtWidgets.QWidget()
         self.item_page.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));")
@@ -287,6 +333,327 @@ class Ui_MainWindow(object):
         self.additional_page.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));\n"
 "")
         self.additional_page.setObjectName("additional_page")
+        self.Popular_text_label = QtWidgets.QLabel(self.additional_page)
+        self.Popular_text_label.setGeometry(QtCore.QRect(257, 10, 311, 30))
+        self.Popular_text_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 24px;\n"
+"background: rgba(255,255,255,0);")
+        self.Popular_text_label.setObjectName("Popular_text_label")
+        self.Max_growth_text_label = QtWidgets.QLabel(self.additional_page)
+        self.Max_growth_text_label.setGeometry(QtCore.QRect(202, 325, 421, 30))
+        self.Max_growth_text_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 24px;\n"
+"background: rgba(255,255,255,0);")
+        self.Max_growth_text_label.setObjectName("Max_growth_text_label")
+        self.Popular_Icon_Button_1 = QtWidgets.QPushButton(self.additional_page)
+        self.Popular_Icon_Button_1.setGeometry(QtCore.QRect(700, 126, 40, 40))
+        self.Popular_Icon_Button_1.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Popular_Icon_Button_1.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("icons/trending_up.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.Popular_Icon_Button_1.setIcon(icon2)
+        self.Popular_Icon_Button_1.setIconSize(QtCore.QSize(40, 40))
+        self.Popular_Icon_Button_1.setObjectName("Popular_Icon_Button_1")
+        self.Popular_Icon_Button_2 = QtWidgets.QPushButton(self.additional_page)
+        self.Popular_Icon_Button_2.setGeometry(QtCore.QRect(700, 194, 40, 40))
+        self.Popular_Icon_Button_2.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Popular_Icon_Button_2.setText("")
+        self.Popular_Icon_Button_2.setIcon(icon2)
+        self.Popular_Icon_Button_2.setIconSize(QtCore.QSize(40, 40))
+        self.Popular_Icon_Button_2.setObjectName("Popular_Icon_Button_2")
+        self.Popular_Icon_Button_3 = QtWidgets.QPushButton(self.additional_page)
+        self.Popular_Icon_Button_3.setGeometry(QtCore.QRect(700, 260, 40, 40))
+        self.Popular_Icon_Button_3.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Popular_Icon_Button_3.setText("")
+        self.Popular_Icon_Button_3.setIcon(icon2)
+        self.Popular_Icon_Button_3.setIconSize(QtCore.QSize(40, 40))
+        self.Popular_Icon_Button_3.setObjectName("Popular_Icon_Button_3")
+        self.Main_max_growth_crypto_Frame = QtWidgets.QFrame(self.additional_page)
+        self.Main_max_growth_crypto_Frame.setGeometry(QtCore.QRect(20, 365, 781, 261))
+        self.Main_max_growth_crypto_Frame.setStyleSheet("background: rgba(255,255,255, 50);\n"
+"border-radius: 15px;")
+        self.Main_max_growth_crypto_Frame.setObjectName("Main_max_growth_crypto_Frame")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.Main_max_growth_crypto_Frame)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.Max_growth_column_horizontal_Layout = QtWidgets.QHBoxLayout()
+        self.Max_growth_column_horizontal_Layout.setObjectName("Max_growth_column_horizontal_Layout")
+        self.Max_growth_column_name_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_name_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
+        self.Max_growth_column_name_label.setObjectName("Max_growth_column_name_label")
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_name_label)
+        self.Max_growth_column_time_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_time_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
+        self.Max_growth_column_time_label.setObjectName("Max_growth_column_time_label")
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_time_label)
+        self.Max_growth_column_cost_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_cost_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
+        self.Max_growth_column_cost_label.setObjectName("Max_growth_column_cost_label")
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_cost_label)
+        self.Max_growth_column_change_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_change_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
+        self.Max_growth_column_change_label.setObjectName("Max_growth_column_change_label")
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_change_label)
+        self.verticalLayout_5.addLayout(self.Max_growth_column_horizontal_Layout)
+        self.Max_growth_horizontal_Layout_1 = QtWidgets.QHBoxLayout()
+        self.Max_growth_horizontal_Layout_1.setObjectName("Max_growth_horizontal_Layout_1")
+        self.Max_growth_name_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_name_label_1.setObjectName("Max_growth_name_label_1")
+        self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_name_label_1)
+        self.Max_growth_time_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_time_label_1.setObjectName("Max_growth_time_label_1")
+        self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_time_label_1)
+        self.Max_growth_cost_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_cost_label_1.setObjectName("Max_growth_cost_label_1")
+        self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_cost_label_1)
+        self.Max_growth_change_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_change_label_1.setObjectName("Max_growth_change_label_1")
+        self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_change_label_1)
+        self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_1)
+        self.Max_growth_horizontal_Layout_2 = QtWidgets.QHBoxLayout()
+        self.Max_growth_horizontal_Layout_2.setObjectName("Max_growth_horizontal_Layout_2")
+        self.Max_growth_name_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_name_label_2.setObjectName("Max_growth_name_label_2")
+        self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_name_label_2)
+        self.Max_growth_time_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_time_label_2.setObjectName("Max_growth_time_label_2")
+        self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_time_label_2)
+        self.Max_growth_cost_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_cost_label_2.setObjectName("Max_growth_cost_label_2")
+        self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_cost_label_2)
+        self.Max_growth_change_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_change_label_2.setObjectName("Max_growth_change_label_2")
+        self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_change_label_2)
+        self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_2)
+        self.Max_growth_horizontal_Layout_3 = QtWidgets.QHBoxLayout()
+        self.Max_growth_horizontal_Layout_3.setObjectName("Max_growth_horizontal_Layout_3")
+        self.Max_growth_name_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_name_label_3.setObjectName("Max_growth_name_label_3")
+        self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_name_label_3)
+        self.Max_growth_time_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_time_label_3.setObjectName("Max_growth_time_label_3")
+        self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_time_label_3)
+        self.Max_growth_cost_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_cost_label_3.setObjectName("Max_growth_cost_label_3")
+        self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_cost_label_3)
+        self.Max_growth_change_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Max_growth_change_label_3.setObjectName("Max_growth_change_label_3")
+        self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_change_label_3)
+        self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_3)
+        self.Max_growth_Icon_Button_1 = QtWidgets.QPushButton(self.additional_page)
+        self.Max_growth_Icon_Button_1.setGeometry(QtCore.QRect(700, 444, 40, 40))
+        self.Max_growth_Icon_Button_1.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Max_growth_Icon_Button_1.setText("")
+        self.Max_growth_Icon_Button_1.setIcon(icon2)
+        self.Max_growth_Icon_Button_1.setIconSize(QtCore.QSize(40, 40))
+        self.Max_growth_Icon_Button_1.setObjectName("Max_growth_Icon_Button_1")
+        self.Max_growth_Icon_Button_2 = QtWidgets.QPushButton(self.additional_page)
+        self.Max_growth_Icon_Button_2.setGeometry(QtCore.QRect(700, 508, 40, 40))
+        self.Max_growth_Icon_Button_2.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Max_growth_Icon_Button_2.setText("")
+        self.Max_growth_Icon_Button_2.setIcon(icon2)
+        self.Max_growth_Icon_Button_2.setIconSize(QtCore.QSize(40, 40))
+        self.Max_growth_Icon_Button_2.setObjectName("Max_growth_Icon_Button_2")
+        self.Max_growth_Icon_Button_3 = QtWidgets.QPushButton(self.additional_page)
+        self.Max_growth_Icon_Button_3.setGeometry(QtCore.QRect(700, 569, 40, 40))
+        self.Max_growth_Icon_Button_3.setStyleSheet("background: rgb(255,255,255,0)")
+        self.Max_growth_Icon_Button_3.setText("")
+        self.Max_growth_Icon_Button_3.setIcon(icon2)
+        self.Max_growth_Icon_Button_3.setIconSize(QtCore.QSize(40, 40))
+        self.Max_growth_Icon_Button_3.setObjectName("Max_growth_Icon_Button_3")
+        self.Main_popular_crypto_Frame = QtWidgets.QFrame(self.additional_page)
+        self.Main_popular_crypto_Frame.setGeometry(QtCore.QRect(20, 50, 781, 261))
+        self.Main_popular_crypto_Frame.setStyleSheet("background: rgba(255,255,255, 50);\n"
+"border-radius: 15px;")
+        self.Main_popular_crypto_Frame.setObjectName("Main_popular_crypto_Frame")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.Main_popular_crypto_Frame)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.Popular_column_horizontalLayout = QtWidgets.QHBoxLayout()
+        self.Popular_column_horizontalLayout.setObjectName("Popular_column_horizontalLayout")
+        self.Popular_column_name_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_name_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
+        self.Popular_column_name_label.setObjectName("Popular_column_name_label")
+        self.Popular_column_horizontalLayout.addWidget(self.Popular_column_name_label)
+        self.Popular_column_time_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_time_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
+        self.Popular_column_time_label.setObjectName("Popular_column_time_label")
+        self.Popular_column_horizontalLayout.addWidget(self.Popular_column_time_label)
+        self.Popular_column_cost_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_cost_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
+        self.Popular_column_cost_label.setObjectName("Popular_column_cost_label")
+        self.Popular_column_horizontalLayout.addWidget(self.Popular_column_cost_label)
+        self.Popular_column_change_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_change_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
+        self.Popular_column_change_label.setObjectName("Popular_column_change_label")
+        self.Popular_column_horizontalLayout.addWidget(self.Popular_column_change_label)
+        self.verticalLayout_2.addLayout(self.Popular_column_horizontalLayout)
+        self.Popular_horizontal_Layout_1 = QtWidgets.QHBoxLayout()
+        self.Popular_horizontal_Layout_1.setObjectName("Popular_horizontal_Layout_1")
+        self.Popular_name_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_name_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_name_label_1.setObjectName("Popular_name_label_1")
+        self.Popular_horizontal_Layout_1.addWidget(self.Popular_name_label_1)
+        self.Popular_time_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_time_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_time_label_1.setObjectName("Popular_time_label_1")
+        self.Popular_horizontal_Layout_1.addWidget(self.Popular_time_label_1)
+        self.Popular_cost_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_cost_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_cost_label_1.setObjectName("Popular_cost_label_1")
+        self.Popular_horizontal_Layout_1.addWidget(self.Popular_cost_label_1)
+        self.Popular_change_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_change_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_change_label_1.setObjectName("Popular_change_label_1")
+        self.Popular_horizontal_Layout_1.addWidget(self.Popular_change_label_1)
+        self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_1)
+        self.Popular_horizontal_Layout_2 = QtWidgets.QHBoxLayout()
+        self.Popular_horizontal_Layout_2.setObjectName("Popular_horizontal_Layout_2")
+        self.Popular_name_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_name_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_name_label_2.setObjectName("Popular_name_label_2")
+        self.Popular_horizontal_Layout_2.addWidget(self.Popular_name_label_2)
+        self.Popular_time_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_time_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_time_label_2.setObjectName("Popular_time_label_2")
+        self.Popular_horizontal_Layout_2.addWidget(self.Popular_time_label_2)
+        self.Popular_cost_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_cost_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_cost_label_2.setObjectName("Popular_cost_label_2")
+        self.Popular_horizontal_Layout_2.addWidget(self.Popular_cost_label_2)
+        self.Popular_change_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_change_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_change_label_2.setObjectName("Popular_change_label_2")
+        self.Popular_horizontal_Layout_2.addWidget(self.Popular_change_label_2)
+        self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_2)
+        self.Popular_horizontal_Layout_3 = QtWidgets.QHBoxLayout()
+        self.Popular_horizontal_Layout_3.setObjectName("Popular_horizontal_Layout_3")
+        self.Popular_name_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_name_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_name_label_3.setObjectName("Popular_name_label_3")
+        self.Popular_horizontal_Layout_3.addWidget(self.Popular_name_label_3)
+        self.Popular_time_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_time_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_time_label_3.setObjectName("Popular_time_label_3")
+        self.Popular_horizontal_Layout_3.addWidget(self.Popular_time_label_3)
+        self.Popular_cost_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_cost_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_cost_label_3.setObjectName("Popular_cost_label_3")
+        self.Popular_horizontal_Layout_3.addWidget(self.Popular_cost_label_3)
+        self.Popular_change_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_change_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
+        self.Popular_change_label_3.setObjectName("Popular_change_label_3")
+        self.Popular_horizontal_Layout_3.addWidget(self.Popular_change_label_3)
+        self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_3)
+        self.Popular_text_label.raise_()
+        self.Max_growth_text_label.raise_()
+        self.Popular_column_change_label.raise_()
+        self.Popular_column_cost_label.raise_()
+        self.Popular_column_time_label.raise_()
+        self.Popular_column_name_label.raise_()
+        self.Main_max_growth_crypto_Frame.raise_()
+        self.Popular_Icon_Button_1.raise_()
+        self.Popular_Icon_Button_2.raise_()
+        self.Popular_Icon_Button_3.raise_()
+        self.Max_growth_Icon_Button_1.raise_()
+        self.Max_growth_Icon_Button_2.raise_()
+        self.Max_growth_Icon_Button_3.raise_()
         self.menu.addTab(self.additional_page, "")
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -301,17 +668,68 @@ class Ui_MainWindow(object):
         self.Value_change_capitalization_label.setText(_translate("MainWindow", "Снизилась на 1.4%"))
         self.Time_update_change_capitalization_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
         self.Text_volume_label.setText(_translate("MainWindow", "Общий объём торгов:"))
-        self.Value_volume_label.setText(_translate("MainWindow", "234 234 234$"))
+        self.Value_volume_label.setText(_translate("MainWindow", "$ 234 234 234"))
         self.Time_update_volume_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
         self.Text_information_source_label.setText(_translate("MainWindow", "Информация с сайта:"))
         self.Value_information_source_label.setText(_translate("MainWindow", "\"coingecko.com\""))
         self.Text_capitalization_label.setText(_translate("MainWindow", "Рыночная капитализация криптовалюты:"))
-        self.Value_capitalization_label.setText(_translate("MainWindow", "2 234 234 234 234$"))
+        self.Value_capitalization_label.setText(_translate("MainWindow", "$ 2 234 234 234 234"))
         self.Time_update_capitalization_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
         self.Update_Button.setText(_translate("MainWindow", "Нажмите, чтобы обновить"))
-        self.Telegram_link_Button.setText(_translate("MainWindow", "Перейти в телеграм-бота"))
+        self.Telegram_text_Button.setText(_translate("MainWindow", "Нажмите, чтобы перейти в телеграм-бота"))
+        self.Coin_text_Button.setText(_translate("MainWindow", "Нажмите,чтобы поддержать автора"))
+        self.Description_telegram_bot_label.setText(_translate("MainWindow", "Преимущества телеграм-бота,\n"
+"по сравнению с приложением:\n"
+"1. Сигналы от торгового бота\n"
+"2. Отслеживание выбранной криптовалюты\n"
+"3. Демо-счёт для обучения торговле"))
+        self.Description_support_the_autor_label.setText(_translate("MainWindow", "Преимущества телеграм-бота,\n"
+"по сравнению с приложением:\n"
+"1. Сигналы от торгового бота\n"
+"2. Отслеживание выбранной криптовалюты\n"
+"3. Демо-счёт для обучения торговле"))
         self.menu.setTabText(self.menu.indexOf(self.main_page), _translate("MainWindow", "Main"))
         self.menu.setTabText(self.menu.indexOf(self.item_page), _translate("MainWindow", "Item"))
+        self.Popular_text_label.setText(_translate("MainWindow", "Популярные криптовалюты"))
+        self.Max_growth_text_label.setText(_translate("MainWindow", "Криптовалюты с наибольшим ростом"))
+        self.Max_growth_column_name_label.setText(_translate("MainWindow", "            Название\n"
+"        криптовалюты"))
+        self.Max_growth_column_time_label.setText(_translate("MainWindow", "           Обновлено\n"
+"             (время)"))
+        self.Max_growth_column_cost_label.setText(_translate("MainWindow", "          Стоимость"))
+        self.Max_growth_column_change_label.setText(_translate("MainWindow", "   Изменение стоимости\n"
+"           за 24 часа"))
+        self.Max_growth_name_label_1.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_1.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_1.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Max_growth_change_label_1.setText(_translate("MainWindow", "        6%"))
+        self.Max_growth_name_label_2.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_2.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_2.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Max_growth_change_label_2.setText(_translate("MainWindow", "        6%"))
+        self.Max_growth_name_label_3.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_3.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_3.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Max_growth_change_label_3.setText(_translate("MainWindow", "        6%"))
+        self.Popular_column_name_label.setText(_translate("MainWindow", "            Название\n"
+"        криптовалюты"))
+        self.Popular_column_time_label.setText(_translate("MainWindow", "           Обновлено\n"
+"             (время)"))
+        self.Popular_column_cost_label.setText(_translate("MainWindow", "          Стоимость"))
+        self.Popular_column_change_label.setText(_translate("MainWindow", "   Изменение стоимости\n"
+"           за 24 часа"))
+        self.Popular_name_label_1.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_1.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_1.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Popular_change_label_1.setText(_translate("MainWindow", "        6%"))
+        self.Popular_name_label_2.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_2.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_2.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Popular_change_label_2.setText(_translate("MainWindow", "        6%"))
+        self.Popular_name_label_3.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_3.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_3.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Popular_change_label_3.setText(_translate("MainWindow", "        6%"))
         self.menu.setTabText(self.menu.indexOf(self.additional_page), _translate("MainWindow", "Additional"))
 
 

@@ -19,13 +19,13 @@ class My_Ui_MainWindow(Ui_MainWindow):
 
         # Заполнение значений в основных окнах
         self.Value_capitalization_label.setText(
-            f"{General.get_data_market_capitalization()[0]}$"
+            f"$ {General.get_data_market_capitalization()[0]}"
         )
         self.Time_update_capitalization_label.setText(
             f"Обновлено в {General.get_data_market_capitalization()[1]}"
         )
         self.Value_volume_label.setText(
-            f"{General.get_total_trading_volume_per_day()[0]}$"
+            f"$ {General.get_total_trading_volume_per_day()[0]}"
         )
         self.Time_update_volume_label.setText(
             f"Обновлено в {General.get_total_trading_volume_per_day()[1]}"
@@ -48,13 +48,16 @@ class My_Ui_MainWindow(Ui_MainWindow):
         )
         self.Value_information_source_label.setOpenExternalLinks(True)
 
-        # Создание ссылок на телеграм-бота
+        # Создание ссылки на телеграм-бота
         telegram_bot_url = "https://www.coingecko.com/ru"  # url телеграм-бота
-        self.Telegram_Icon_Button.clicked.connect(
+        self.Switch_to_telegram_bot_Button.clicked.connect(
             lambda: webbrowser.open(telegram_bot_url)
         )
-        self.Telegram_link_Button.clicked.connect(
-            lambda: webbrowser.open(telegram_bot_url)
+
+        # Создание ссылки на донаты автору
+        donates_url = "https://www.coingecko.com/ru"  # url на донаты автору
+        self.Switch_to_support_the_autor_Button.clicked.connect(
+            lambda: webbrowser.open(donates_url)
         )
 
         # Создание иконок trending_up и trending_down
@@ -90,13 +93,13 @@ class My_Ui_MainWindow(Ui_MainWindow):
     def _Update_main_page(self):
         # lambda: self.start_animation()
         self.Value_capitalization_label.setText(
-            f"{General.get_data_market_capitalization()[0]}$"
+            f"$ {General.get_data_market_capitalization()[0]}"
         )
         self.Time_update_capitalization_label.setText(
             f"Обновлено в {General.get_data_market_capitalization()[1]}"
         )
         self.Value_volume_label.setText(
-            f"{General.get_total_trading_volume_per_day()[0]}$"
+            f"$ {General.get_total_trading_volume_per_day()[0]}"
         )
         self.Time_update_volume_label.setText(
             f"Обновлено в {General.get_total_trading_volume_per_day()[1]}"

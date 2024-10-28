@@ -234,7 +234,7 @@ background: rgba(255,255,255,0);
 font-weight: bold</string>
          </property>
          <property name="text">
-          <string>234 234 234$</string>
+          <string>$ 234 234 234</string>
          </property>
         </widget>
        </item>
@@ -488,7 +488,7 @@ background: rgba(255,255,255,0);
 font-weight: bold</string>
          </property>
          <property name="text">
-          <string>2 234 234 234 234$</string>
+          <string>$ 2 234 234 234 234</string>
          </property>
         </widget>
        </item>
@@ -522,24 +522,11 @@ font-size: 15px;</string>
        <string>Нажмите, чтобы обновить</string>
       </property>
      </widget>
-     <widget class="QLabel" name="Footer_label">
-      <property name="geometry">
-       <rect>
-        <x>-4</x>
-        <y>372</y>
-        <width>831</width>
-        <height>261</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QPushButton" name="Telegram_Icon_Button">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>390</y>
+        <y>394</y>
         <width>40</width>
         <height>40</height>
        </rect>
@@ -562,12 +549,12 @@ text-align: end;</string>
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="Telegram_link_Button">
+     <widget class="QPushButton" name="Telegram_text_Button">
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>395</y>
-        <width>191</width>
+        <y>399</y>
+        <width>321</width>
         <height>31</height>
        </rect>
       </property>
@@ -577,7 +564,7 @@ color: rgb(255,255,255);
 background: rgba(255,255,255,0)</string>
       </property>
       <property name="text">
-       <string>Перейти в телеграм-бота</string>
+       <string>Нажмите, чтобы перейти в телеграм-бота</string>
       </property>
      </widget>
      <widget class="QPushButton" name="Direction_change_capitalization_Icon_Button">
@@ -596,16 +583,158 @@ background: rgba(255,255,255,0)</string>
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="Coin_Icon_Button">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>519</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255,0);
+text-align: end;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/coin.png</normaloff>:/icons/icons/coin.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Coin_text_Button">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>524</y>
+        <width>271</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font-size: 16px;
+color: rgb(255,249,61);
+background: rgba(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string>Нажмите,чтобы поддержать автора</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Switch_to_telegram_bot_Button">
+      <property name="geometry">
+       <rect>
+        <x>14</x>
+        <y>384</y>
+        <width>381</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255,255,255,50);
+border-radius: 18px</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Switch_to_support_the_autor_Button">
+      <property name="geometry">
+       <rect>
+        <x>14</x>
+        <y>509</y>
+        <width>381</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255,255,255,50);
+border-radius: 18px</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Footer_label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>370</y>
+        <width>825</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Description_telegram_bot_label">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>384</y>
+        <width>331</width>
+        <height>95</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255,0);
+color: rgb(255,255,255);
+font-size: 16px</string>
+      </property>
+      <property name="text">
+       <string>Преимущества телеграм-бота,
+по сравнению с приложением:
+1. Сигналы от торгового бота
+2. Отслеживание выбранной криптовалюты
+3. Демо-счёт для обучения торговле</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Description_support_the_autor_label">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>509</y>
+        <width>331</width>
+        <height>95</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255,0);
+color: rgb(255,255,255);
+font-size: 16px</string>
+      </property>
+      <property name="text">
+       <string>Преимущества телеграм-бота,
+по сравнению с приложением:
+1. Сигналы от торгового бота
+2. Отслеживание выбранной криптовалюты
+3. Демо-счёт для обучения торговле</string>
+      </property>
+     </widget>
+     <zorder>Footer_label</zorder>
      <zorder>Main_frame</zorder>
      <zorder>Value_capitalization_frame</zorder>
      <zorder>Change_capitalization_frame</zorder>
      <zorder>Value_volume_frame</zorder>
      <zorder>Change_volume_frame</zorder>
      <zorder>Update_Button</zorder>
-     <zorder>Footer_label</zorder>
      <zorder>Telegram_Icon_Button</zorder>
-     <zorder>Telegram_link_Button</zorder>
+     <zorder>Telegram_text_Button</zorder>
      <zorder>Direction_change_capitalization_Icon_Button</zorder>
+     <zorder>Coin_Icon_Button</zorder>
+     <zorder>Coin_text_Button</zorder>
+     <zorder>Switch_to_telegram_bot_Button</zorder>
+     <zorder>Switch_to_support_the_autor_Button</zorder>
+     <zorder>Description_telegram_bot_label</zorder>
+     <zorder>Description_support_the_autor_label</zorder>
     </widget>
     <widget class="QWidget" name="item_page">
      <property name="styleSheet">
@@ -623,6 +752,690 @@ background: rgba(255,255,255,0)</string>
      <attribute name="title">
       <string>Additional</string>
      </attribute>
+     <widget class="QLabel" name="Popular_text_label">
+      <property name="geometry">
+       <rect>
+        <x>257</x>
+        <y>10</y>
+        <width>311</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255);
+font-size: 24px;
+background: rgba(255,255,255,0);</string>
+      </property>
+      <property name="text">
+       <string>Популярные криптовалюты</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Max_growth_text_label">
+      <property name="geometry">
+       <rect>
+        <x>202</x>
+        <y>325</y>
+        <width>421</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255,255,255);
+font-size: 24px;
+background: rgba(255,255,255,0);</string>
+      </property>
+      <property name="text">
+       <string>Криптовалюты с наибольшим ростом</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Popular_Icon_Button_1">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>126</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Popular_Icon_Button_2">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>194</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Popular_Icon_Button_3">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>260</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QFrame" name="Main_max_growth_crypto_Frame">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>365</y>
+        <width>781</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255, 50);
+border-radius: 15px;</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="Max_growth_column_horizontal_Layout">
+         <item>
+          <widget class="QLabel" name="Max_growth_column_name_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);
+</string>
+           </property>
+           <property name="text">
+            <string>            Название
+        криптовалюты</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_column_time_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);
+</string>
+           </property>
+           <property name="text">
+            <string>           Обновлено
+             (время)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_column_cost_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);</string>
+           </property>
+           <property name="text">
+            <string>          Стоимость</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_column_change_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);</string>
+           </property>
+           <property name="text">
+            <string>   Изменение стоимости
+           за 24 часа</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Max_growth_horizontal_Layout_1">
+         <item>
+          <widget class="QLabel" name="Max_growth_name_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_time_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_cost_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_change_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Max_growth_horizontal_Layout_2">
+         <item>
+          <widget class="QLabel" name="Max_growth_name_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_time_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_cost_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_change_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Max_growth_horizontal_Layout_3">
+         <item>
+          <widget class="QLabel" name="Max_growth_name_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_time_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_cost_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Max_growth_change_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="Max_growth_Icon_Button_1">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>444</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Max_growth_Icon_Button_2">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>508</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Max_growth_Icon_Button_3">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>569</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgb(255,255,255,0)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QFrame" name="Main_popular_crypto_Frame">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>781</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: rgba(255,255,255, 50);
+border-radius: 15px;</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="Popular_column_horizontalLayout">
+         <item>
+          <widget class="QLabel" name="Popular_column_name_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);
+</string>
+           </property>
+           <property name="text">
+            <string>            Название
+        криптовалюты</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_column_time_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);
+</string>
+           </property>
+           <property name="text">
+            <string>           Обновлено
+             (время)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_column_cost_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);</string>
+           </property>
+           <property name="text">
+            <string>          Стоимость</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_column_change_label">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(79, 79, 79);</string>
+           </property>
+           <property name="text">
+            <string>   Изменение стоимости
+           за 24 часа</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Popular_horizontal_Layout_1">
+         <item>
+          <widget class="QLabel" name="Popular_name_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_time_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_cost_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_change_label_1">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Popular_horizontal_Layout_2">
+         <item>
+          <widget class="QLabel" name="Popular_name_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_time_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_cost_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_change_label_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="Popular_horizontal_Layout_3">
+         <item>
+          <widget class="QLabel" name="Popular_name_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>             bitcoin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_time_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255,255,255);
+font-size: 16px;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>            12:13:14</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_cost_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>           $ 70 000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Popular_change_label_3">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0,255,0);
+font-size: 16px;
+font-weight: bold;
+background-color: rgb(157, 0, 255);</string>
+           </property>
+           <property name="text">
+            <string>        6%</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <zorder>Popular_text_label</zorder>
+     <zorder>Max_growth_text_label</zorder>
+     <zorder>Popular_column_change_label</zorder>
+     <zorder>Popular_column_cost_label</zorder>
+     <zorder>Popular_column_time_label</zorder>
+     <zorder>Popular_column_name_label</zorder>
+     <zorder>layoutWidget</zorder>
+     <zorder>layoutWidget_2</zorder>
+     <zorder>layoutWidget_3</zorder>
+     <zorder>Main_max_growth_crypto_Frame</zorder>
+     <zorder>Popular_Icon_Button_1</zorder>
+     <zorder>Popular_Icon_Button_2</zorder>
+     <zorder>Popular_Icon_Button_3</zorder>
+     <zorder>Max_growth_Icon_Button_1</zorder>
+     <zorder>Max_growth_Icon_Button_2</zorder>
+     <zorder>Max_growth_Icon_Button_3</zorder>
     </widget>
    </widget>
   </widget>
