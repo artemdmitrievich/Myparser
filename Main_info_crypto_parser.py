@@ -1,8 +1,5 @@
-import requests
-from bs4 import BeautifulSoup
-from time import time, sleep
-from static.headers import Headers
-from time import strftime, localtime
+from time import time, sleep, strftime, localtime
+from static.Soup_main_CoinGecko import coingecko_soup
 
 
 # Класс с общей информацией по криптовалюте
@@ -10,11 +7,8 @@ class General:
 
     # Получение общей капитализации криптовалюты
     def get_data_market_capitalization():
-        url = "https://www.coingecko.com/ru"
-        responce = requests.get(url, headers=Headers)
-        soup = BeautifulSoup(responce.text, "lxml")
         data_market_capitalization = (
-            soup.find(
+            coingecko_soup().find(
                 "div",
                 class_="tw-font-bold tw-text-gray-900 dark:tw-text-moon-50 tw-text-lg tw-leading-7",
             )
@@ -25,10 +19,7 @@ class General:
 
     # Получение изменения общей капитализации криптовалюты за 24 часа
     def get_change_market_capitalization():
-        url = "https://www.coingecko.com/ru"
-        responce = requests.get(url, headers=Headers)
-        soup = BeautifulSoup(responce.text, "lxml")
-        capitalization_div = soup.find("div", class_="tw-mt-1 tw-flex tw-flex-wrap tw-items-center tw-text-gray-500 dark:tw-text-moon-200 tw-font-semibold tw-text-sm tw-leading-5")
+        capitalization_div = coingecko_soup().find("div", class_="tw-mt-1 tw-flex tw-flex-wrap tw-items-center tw-text-gray-500 dark:tw-text-moon-200 tw-font-semibold tw-text-sm tw-leading-5")
         change_market_capitalization_value = 0
         if "gecko-down" in str(capitalization_div):
             direction = "down"
@@ -40,11 +31,8 @@ class General:
 
     # Получение общего объёма торгов за 24 часа
     def get_total_trading_volume_per_day():
-        url = "https://www.coingecko.com/ru"
-        responce = requests.get(url, headers=Headers)
-        soup = BeautifulSoup(responce.text, "lxml")
         total_trading_volume_per_day = (
-            soup.find(
+            coingecko_soup().find(
                 "div",
                 class_="tw-flex tw-flex-col tw-gap-2",
             )
@@ -63,10 +51,7 @@ class General:
 class Additional_CoinGecko_info:
     
     def __init__(self):
-        url = "https://www.coingecko.com/ru"
-        responce = requests.get(url, headers=Headers)
-        soup = BeautifulSoup(responce.text, "lxml")
-        self.general_divs = soup.find_all(
+        self.general_divs = coingecko_soup().find_all(
             "div",
             class_="tw-max-w-[92vw] tw-ring-gray-200 dark:tw-ring-moon-700 tw-ring-2 tw-py-1.5 tw-px-2 tw-rounded-xl",
         )
