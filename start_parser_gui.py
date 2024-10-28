@@ -159,18 +159,22 @@ class My_Ui_MainWindow(Ui_MainWindow):
     def _Update_main_page(self):
         # lambda: self.start_animation()
         Current_General = General
-        Current_data_market_capitalization = Current_General.get_data_market_capitalization()
-        Current_change_market_capitalization = Current_General.get_change_market_capitalization()
-        Current_total_trading_volume_per_day = Current_General.get_total_trading_volume_per_day()
+        Current_data_market_capitalization = (
+            Current_General.get_data_market_capitalization()
+        )
+        Current_change_market_capitalization = (
+            Current_General.get_change_market_capitalization()
+        )
+        Current_total_trading_volume_per_day = (
+            Current_General.get_total_trading_volume_per_day()
+        )
         self.Value_capitalization_label.setText(
             f"$ {Current_data_market_capitalization[0]}"
         )
         self.Time_update_capitalization_label.setText(
             f"Обновлено в {Current_data_market_capitalization[1]}"
         )
-        self.Value_volume_label.setText(
-            f"$ {Current_total_trading_volume_per_day[0]}"
-        )
+        self.Value_volume_label.setText(f"$ {Current_total_trading_volume_per_day[0]}")
         self.Time_update_volume_label.setText(
             f"Обновлено в {Current_total_trading_volume_per_day[1]}"
         )
@@ -196,6 +200,11 @@ class My_Ui_MainWindow(Ui_MainWindow):
             )
         return f"{direction} {Current[0]}"
 
+    # Обновляет все страницы
+    def _Update_all(self):
+        self._Update_additional_page()
+        self._Update_main_page()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -203,7 +212,7 @@ if __name__ == "__main__":
     ui = My_Ui_MainWindow(MainWindow=MainWindow)
     # Создание цикла обновлений главной страницы
     timer = QtCore.QTimer()
-    timer.timeout.connect(ui._Update_main_page)
+    timer.timeout.connect(ui._Update_all)
     timer.start(300000)
     MainWindow.show()
     sys.exit(app.exec_())
