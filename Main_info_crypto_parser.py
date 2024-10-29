@@ -97,18 +97,21 @@ class Additional_CoinGecko_info:
                 .find("span")
                 .text.replace("$", "")
             )
-            if "gecko-down" in item:
+            if "gecko-down" in str(item):
                 direction = "down"
                 change_value = item.find(
                     "span",
                     class_="gecko-down",
                 ).text
-            else:
+            elif "gecko-up" in str(item):
                 direction = "up"
                 change_value = item.find(
                     "span",
                     class_="gecko-up",
                 ).text
+            else:
+                direction = "None"
+                change_value = "None"
             dict_popular_crypto[number] = name_item, price_item, change_value, direction
         return dict_popular_crypto, strftime("%H:%M:%S", localtime())
 
@@ -121,7 +124,7 @@ class Additional_CoinGecko_info:
         dict_greatest_growth_crypto = {}
         for number in range(3):
             item = class_greatest_growth_crypto[number]
-            new_item = (
+            name_item = (
                 item.find(
                     "span",
                     class_="tw-text-gray-700 dark:tw-text-moon-100 tw-font-semibold tw-text-sm tw-leading-5",
@@ -143,7 +146,7 @@ class Additional_CoinGecko_info:
                 class_="gecko-up",
             ).text
             dict_greatest_growth_crypto[number] = (
-                new_item,
+                name_item,
                 price_item,
                 growth_item,
             )
