@@ -6,7 +6,10 @@ import webbrowser
 
 class Main_page:
 
-    def __init__(self):
+    # Обработка нажатия кнопки "Нажмите, чтобы обновить" на главной странице
+    # Срабатывает в промежутке времени от 5 до 8 секунд
+    def _Update_main_page(self):
+
         # Создание ссылки на coingecko.com
         self.Value_information_source_label.setText(
             '<a href="https://www.coingecko.com/ru">coingecko.com</a>'
@@ -32,10 +35,6 @@ class Main_page:
             lambda: webbrowser.open(donates_url)
         )
         self.Coin_Icon_Button.clicked.connect(lambda: webbrowser.open(donates_url))
-
-    # Обработка нажатия кнопки "Нажмите, чтобы обновить" на главной странице
-    # Срабатывает в промежутке времени от 5 до 8 секунд
-    def _Update_main_page(self):
 
         # Создание текущего экземпляра класса и вызов функций
         Current_General = General()

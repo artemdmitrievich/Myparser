@@ -1,4 +1,4 @@
-from time import time, sleep, strftime, localtime
+from time import strftime, localtime
 from static.Soup_main_CoinGecko import coingecko_soup
 
 

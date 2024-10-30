@@ -4,6 +4,7 @@ from time import time, sleep
 from transliterate import translit  # Функция для создания транслита строки
 from langdetect import detect  # Функция для определения языка строки
 from static.headers import Headers
+from time import strftime, localtime
 
 
 # Класс с информацией по конкретной криптовалюте
@@ -40,12 +41,12 @@ class Crypto:
         else:
             return crypto_name
 
-    #Получение названия криптовалюты
+    # Получение названия криптовалюты
     @property
     def get_crypto_name(self):
         return self.__crypto_name.lower()
-    
-    #Изменение названия криптовалюты
+
+    # Изменение названия криптовалюты
     @get_crypto_name.setter
     def set_crypto_name(self, new_crypto_name):
         self.__crypto_name = self.__is_valid_crypto_name(new_crypto_name)
@@ -69,7 +70,7 @@ class Crypto:
                 continue
             break
 
-        return current_crypto_price
+        return current_crypto_price, strftime("%H:%M:%S", localtime())
 
     # Получение капитализации данной криптовалюты
     def get_current_crypto_capitalization(self):
@@ -82,4 +83,4 @@ class Crypto:
         except:
             current_crypto_capitalization = "Нет информации"
         sleep(0.5)
-        return current_crypto_capitalization
+        return current_crypto_capitalization, strftime("%H:%M:%S", localtime())
