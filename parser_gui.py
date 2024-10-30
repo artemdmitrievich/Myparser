@@ -9,15 +9,13 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import res_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(823, 700)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -25,42 +23,38 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         MainWindow.setFont(font)
-        MainWindow.setStyleSheet(
-            "border: 0;\n"
-            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(113, 7, 198, 255), stop:1 rgba(218, 148, 255, 255));\n"
-            ""
-        )
+        MainWindow.setStyleSheet("border: 0;\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(113, 7, 198, 255), stop:1 rgba(218, 148, 255, 255));\n"
+"")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(16)
         self.centralwidget.setFont(font)
-        self.centralwidget.setStyleSheet(
-            "QTabBar::tab\n"
-            "{\n"
-            "    background: rgb(93, 26, 179);\n"
-            "    margin-left: 2ex;\n"
-            "    min-width: 30ex;\n"
-            "    min-height: 15ex;\n"
-            "    border-top-left-radius: 10px;\n"
-            "    border-top-right-radius: 10px;\n"
-            "    margin-top: 2ex;\n"
-            "    color: rgb(255,255,255);\n"
-            "}\n"
-            "\n"
-            "QTabBar::tab:selected\n"
-            "{\n"
-            "    background: rgb(89,0,159);\n"
-            "}\n"
-            "\n"
-            "QTabBar\n"
-            "{\n"
-            "    background: rgba(255,255,255,0)\n"
-            "}\n"
-            "\n"
-            "\n"
-            "border: 0\n"
-            ""
-        )
+        self.centralwidget.setStyleSheet("QTabBar::tab\n"
+"{\n"
+"    background: rgb(93, 26, 179);\n"
+"    margin-left: 2ex;\n"
+"    min-width: 30ex;\n"
+"    min-height: 15ex;\n"
+"    border-top-left-radius: 10px;\n"
+"    border-top-right-radius: 10px;\n"
+"    margin-top: 2ex;\n"
+"    color: rgb(255,255,255);\n"
+"}\n"
+"\n"
+"QTabBar::tab:selected\n"
+"{\n"
+"    background: rgb(89,0,159);\n"
+"}\n"
+"\n"
+"QTabBar\n"
+"{\n"
+"    background: rgba(255,255,255,0)\n"
+"}\n"
+"\n"
+"\n"
+"border: 0\n"
+"")
         self.centralwidget.setObjectName("centralwidget")
         self.menu = QtWidgets.QTabWidget(self.centralwidget)
         self.menu.setGeometry(QtCore.QRect(0, 10, 825, 701))
@@ -68,7 +62,9 @@ class Ui_MainWindow(object):
         font.setFamily("Gadugi")
         font.setPointSize(12)
         self.menu.setFont(font)
-        self.menu.setStyleSheet("border: 0;\n" "\n" "")
+        self.menu.setStyleSheet("border: 0;\n"
+"\n"
+"")
         self.menu.setTabPosition(QtWidgets.QTabWidget.North)
         self.menu.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.menu.setObjectName("menu")
@@ -79,57 +75,36 @@ class Ui_MainWindow(object):
         self.main_page.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.main_page.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.main_page.setAutoFillBackground(False)
-        self.main_page.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));"
-        )
+        self.main_page.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));")
         self.main_page.setObjectName("main_page")
         self.Change_capitalization_frame = QtWidgets.QFrame(self.main_page)
         self.Change_capitalization_frame.setGeometry(QtCore.QRect(445, 15, 331, 101))
-        self.Change_capitalization_frame.setStyleSheet(
-            "background: rgba(255,255,255,0)"
-        )
+        self.Change_capitalization_frame.setStyleSheet("background: rgba(255,255,255,0)")
         self.Change_capitalization_frame.setObjectName("Change_capitalization_frame")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.Change_capitalization_frame)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.Text_change_capitalization_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame
-        )
+        self.Text_change_capitalization_label = QtWidgets.QLabel(self.Change_capitalization_frame)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_change_capitalization_label.setFont(font)
-        self.Text_change_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
-        self.Text_change_capitalization_label.setObjectName(
-            "Text_change_capitalization_label"
-        )
+        self.Text_change_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
+        self.Text_change_capitalization_label.setObjectName("Text_change_capitalization_label")
         self.verticalLayout_3.addWidget(self.Text_change_capitalization_label)
-        self.Value_change_capitalization_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame
-        )
-        self.Value_change_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,0,0);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
-        self.Value_change_capitalization_label.setObjectName(
-            "Value_change_capitalization_label"
-        )
+        self.Value_change_capitalization_label = QtWidgets.QLabel(self.Change_capitalization_frame)
+        self.Value_change_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,0,0);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
+        self.Value_change_capitalization_label.setObjectName("Value_change_capitalization_label")
         self.verticalLayout_3.addWidget(self.Value_change_capitalization_label)
-        self.Time_update_change_capitalization_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame
-        )
-        self.Time_update_change_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n" "color: rgb(255,255,255)"
-        )
-        self.Time_update_change_capitalization_label.setObjectName(
-            "Time_update_change_capitalization_label"
-        )
+        self.Time_update_change_capitalization_label = QtWidgets.QLabel(self.Change_capitalization_frame)
+        self.Time_update_change_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255)")
+        self.Time_update_change_capitalization_label.setObjectName("Time_update_change_capitalization_label")
         self.verticalLayout_3.addWidget(self.Time_update_change_capitalization_label)
         self.Value_volume_frame = QtWidgets.QFrame(self.main_page)
         self.Value_volume_frame.setGeometry(QtCore.QRect(40, 141, 331, 101))
@@ -142,26 +117,21 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_volume_label.setFont(font)
-        self.Text_volume_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
+        self.Text_volume_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
         self.Text_volume_label.setObjectName("Text_volume_label")
         self.verticalLayout_7.addWidget(self.Text_volume_label)
         self.Value_volume_label = QtWidgets.QLabel(self.Value_volume_frame)
-        self.Value_volume_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(0,255,0);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
+        self.Value_volume_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(0,255,0);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
         self.Value_volume_label.setObjectName("Value_volume_label")
         self.verticalLayout_7.addWidget(self.Value_volume_label)
         self.Time_update_volume_label = QtWidgets.QLabel(self.Value_volume_frame)
-        self.Time_update_volume_label.setStyleSheet(
-            "font-size: 16px;\n" "color: rgb(255,255,255)"
-        )
+        self.Time_update_volume_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255)")
         self.Time_update_volume_label.setObjectName("Time_update_volume_label")
         self.verticalLayout_7.addWidget(self.Time_update_volume_label)
         self.Change_volume_frame = QtWidgets.QFrame(self.main_page)
@@ -176,25 +146,17 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_information_source_label.setFont(font)
-        self.Text_information_source_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
-        self.Text_information_source_label.setObjectName(
-            "Text_information_source_label"
-        )
+        self.Text_information_source_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
+        self.Text_information_source_label.setObjectName("Text_information_source_label")
         self.verticalLayout_8.addWidget(self.Text_information_source_label)
         self.Value_information_source_label = QtWidgets.QLabel(self.Change_volume_frame)
-        self.Value_information_source_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(51,153,255);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
-        self.Value_information_source_label.setObjectName(
-            "Value_information_source_label"
-        )
+        self.Value_information_source_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(51,153,255);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
+        self.Value_information_source_label.setObjectName("Value_information_source_label")
         self.verticalLayout_8.addWidget(self.Value_information_source_label)
         self.Main_frame = QtWidgets.QFrame(self.main_page)
         self.Main_frame.setGeometry(QtCore.QRect(10, 10, 801, 241))
@@ -212,16 +174,16 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Change_capitalization_label = QtWidgets.QLabel(self.Capitalization_frame)
-        self.Change_capitalization_label.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Change_capitalization_label.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Change_capitalization_label.setText("")
         self.Change_capitalization_label.setObjectName("Change_capitalization_label")
         self.horizontalLayout.addWidget(self.Change_capitalization_label)
         self.Capitalization_label = QtWidgets.QLabel(self.Capitalization_frame)
-        self.Capitalization_label.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Capitalization_label.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Capitalization_label.setText("")
         self.Capitalization_label.setObjectName("Capitalization_label")
         self.horizontalLayout.addWidget(self.Capitalization_label)
@@ -234,16 +196,16 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setSpacing(10)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.Change_volume_label = QtWidgets.QLabel(self.Volume_frame)
-        self.Change_volume_label.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Change_volume_label.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Change_volume_label.setText("")
         self.Change_volume_label.setObjectName("Change_volume_label")
         self.horizontalLayout_6.addWidget(self.Change_volume_label)
         self.Volume_label = QtWidgets.QLabel(self.Volume_frame)
-        self.Volume_label.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Volume_label.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Volume_label.setText("")
         self.Volume_label.setObjectName("Volume_label")
         self.horizontalLayout_6.addWidget(self.Volume_label)
@@ -255,149 +217,97 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.Value_capitalization_frame)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.Text_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame
-        )
+        self.Text_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_capitalization_label.setFont(font)
-        self.Text_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
+        self.Text_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
         self.Text_capitalization_label.setObjectName("Text_capitalization_label")
         self.verticalLayout.addWidget(self.Text_capitalization_label)
-        self.Value_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame
-        )
-        self.Value_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(0,255,0);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
+        self.Value_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame)
+        self.Value_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(0,255,0);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
         self.Value_capitalization_label.setObjectName("Value_capitalization_label")
         self.verticalLayout.addWidget(self.Value_capitalization_label)
-        self.Time_update_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame
-        )
-        self.Time_update_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n" "color: rgb(255,255,255)"
-        )
-        self.Time_update_capitalization_label.setObjectName(
-            "Time_update_capitalization_label"
-        )
+        self.Time_update_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame)
+        self.Time_update_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255)")
+        self.Time_update_capitalization_label.setObjectName("Time_update_capitalization_label")
         self.verticalLayout.addWidget(self.Time_update_capitalization_label)
         self.Update_Main_Button = QtWidgets.QToolButton(self.main_page)
         self.Update_Main_Button.setGeometry(QtCore.QRect(10, 260, 801, 31))
-        self.Update_Main_Button.setStyleSheet(
-            "color: rgb(255,255,255);\n" "font-size: 15px;"
-        )
+        self.Update_Main_Button.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 15px;")
         self.Update_Main_Button.setObjectName("Update_Main_Button")
         self.Telegram_Icon_Button = QtWidgets.QPushButton(self.main_page)
         self.Telegram_Icon_Button.setGeometry(QtCore.QRect(20, 394, 40, 40))
-        self.Telegram_Icon_Button.setStyleSheet(
-            "background: rgba(255,255,255,0);\n" "text-align: end;"
-        )
+        self.Telegram_Icon_Button.setStyleSheet("background: rgba(255,255,255,0);\n"
+"text-align: end;")
         self.Telegram_Icon_Button.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap("icons/icons8-телеграм-96.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon.addPixmap(QtGui.QPixmap(":/icons/icons/icons8-телеграм-96.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Telegram_Icon_Button.setIcon(icon)
         self.Telegram_Icon_Button.setIconSize(QtCore.QSize(40, 40))
         self.Telegram_Icon_Button.setObjectName("Telegram_Icon_Button")
         self.Telegram_text_Button = QtWidgets.QPushButton(self.main_page)
         self.Telegram_text_Button.setGeometry(QtCore.QRect(70, 399, 321, 31))
-        self.Telegram_text_Button.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0)"
-        )
+        self.Telegram_text_Button.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0)")
         self.Telegram_text_Button.setObjectName("Telegram_text_Button")
-        self.Direction_change_capitalization_Icon_Button = QtWidgets.QPushButton(
-            self.main_page
-        )
-        self.Direction_change_capitalization_Icon_Button.setGeometry(
-            QtCore.QRect(620, 45, 51, 41)
-        )
-        self.Direction_change_capitalization_Icon_Button.setStyleSheet(
-            "background: rgba(255,255,255,0)"
-        )
+        self.Direction_change_capitalization_Icon_Button = QtWidgets.QPushButton(self.main_page)
+        self.Direction_change_capitalization_Icon_Button.setGeometry(QtCore.QRect(620, 45, 51, 41))
+        self.Direction_change_capitalization_Icon_Button.setStyleSheet("background: rgba(255,255,255,0)")
         self.Direction_change_capitalization_Icon_Button.setText("")
-        self.Direction_change_capitalization_Icon_Button.setObjectName(
-            "Direction_change_capitalization_Icon_Button"
-        )
+        self.Direction_change_capitalization_Icon_Button.setObjectName("Direction_change_capitalization_Icon_Button")
         self.Coin_Icon_Button = QtWidgets.QPushButton(self.main_page)
         self.Coin_Icon_Button.setGeometry(QtCore.QRect(20, 519, 40, 40))
-        self.Coin_Icon_Button.setStyleSheet(
-            "background: rgba(255,255,255,0);\n" "text-align: end;"
-        )
+        self.Coin_Icon_Button.setStyleSheet("background: rgba(255,255,255,0);\n"
+"text-align: end;")
         self.Coin_Icon_Button.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(
-            QtGui.QPixmap("icons/coin.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
-        )
+        icon1.addPixmap(QtGui.QPixmap(":/icons/icons/coin.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Coin_Icon_Button.setIcon(icon1)
         self.Coin_Icon_Button.setIconSize(QtCore.QSize(40, 40))
         self.Coin_Icon_Button.setObjectName("Coin_Icon_Button")
         self.Coin_text_Button = QtWidgets.QPushButton(self.main_page)
         self.Coin_text_Button.setGeometry(QtCore.QRect(70, 524, 271, 31))
-        self.Coin_text_Button.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,249,61);\n"
-            "background: rgba(255,255,255,0)"
-        )
+        self.Coin_text_Button.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,249,61);\n"
+"background: rgba(255,255,255,0)")
         self.Coin_text_Button.setObjectName("Coin_text_Button")
         self.Switch_to_telegram_bot_Button = QtWidgets.QPushButton(self.main_page)
         self.Switch_to_telegram_bot_Button.setGeometry(QtCore.QRect(14, 384, 381, 60))
-        self.Switch_to_telegram_bot_Button.setStyleSheet(
-            "background-color: rgb(255,255,255,50);\n" "border-radius: 18px"
-        )
+        self.Switch_to_telegram_bot_Button.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
         self.Switch_to_telegram_bot_Button.setText("")
-        self.Switch_to_telegram_bot_Button.setObjectName(
-            "Switch_to_telegram_bot_Button"
-        )
+        self.Switch_to_telegram_bot_Button.setObjectName("Switch_to_telegram_bot_Button")
         self.Switch_to_support_the_autor_Button = QtWidgets.QPushButton(self.main_page)
-        self.Switch_to_support_the_autor_Button.setGeometry(
-            QtCore.QRect(14, 509, 381, 60)
-        )
-        self.Switch_to_support_the_autor_Button.setStyleSheet(
-            "background-color: rgb(255,255,255,50);\n" "border-radius: 18px"
-        )
+        self.Switch_to_support_the_autor_Button.setGeometry(QtCore.QRect(14, 509, 381, 60))
+        self.Switch_to_support_the_autor_Button.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
         self.Switch_to_support_the_autor_Button.setText("")
-        self.Switch_to_support_the_autor_Button.setObjectName(
-            "Switch_to_support_the_autor_Button"
-        )
+        self.Switch_to_support_the_autor_Button.setObjectName("Switch_to_support_the_autor_Button")
         self.Footer_label = QtWidgets.QLabel(self.main_page)
         self.Footer_label.setGeometry(QtCore.QRect(0, 370, 825, 471))
         self.Footer_label.setText("")
         self.Footer_label.setObjectName("Footer_label")
         self.Description_telegram_bot_label = QtWidgets.QLabel(self.main_page)
         self.Description_telegram_bot_label.setGeometry(QtCore.QRect(450, 384, 331, 95))
-        self.Description_telegram_bot_label.setStyleSheet(
-            "background: rgba(255,255,255,0);\n"
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px"
-        )
-        self.Description_telegram_bot_label.setObjectName(
-            "Description_telegram_bot_label"
-        )
+        self.Description_telegram_bot_label.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_telegram_bot_label.setObjectName("Description_telegram_bot_label")
         self.Description_support_the_autor_label = QtWidgets.QLabel(self.main_page)
-        self.Description_support_the_autor_label.setGeometry(
-            QtCore.QRect(450, 509, 331, 95)
-        )
-        self.Description_support_the_autor_label.setStyleSheet(
-            "background: rgba(255,255,255,0);\n"
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px"
-        )
-        self.Description_support_the_autor_label.setObjectName(
-            "Description_support_the_autor_label"
-        )
+        self.Description_support_the_autor_label.setGeometry(QtCore.QRect(450, 509, 331, 95))
+        self.Description_support_the_autor_label.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_support_the_autor_label.setObjectName("Description_support_the_autor_label")
         self.Footer_label.raise_()
         self.Main_frame.raise_()
         self.Value_capitalization_frame.raise_()
@@ -416,9 +326,7 @@ class Ui_MainWindow(object):
         self.Coin_Icon_Button.raise_()
         self.menu.addTab(self.main_page, "")
         self.item_page = QtWidgets.QWidget()
-        self.item_page.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));"
-        )
+        self.item_page.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));")
         self.item_page.setObjectName("item_page")
         self.Main_frame_item = QtWidgets.QFrame(self.item_page)
         self.Main_frame_item.setGeometry(QtCore.QRect(10, 10, 801, 241))
@@ -429,29 +337,23 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setSpacing(10)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.Capitalization_frame_2 = QtWidgets.QFrame(self.Main_frame_item)
-        self.Capitalization_frame_2.setStyleSheet(
-            "background-color: rgb(255,255,255,0);"
-        )
+        self.Capitalization_frame_2.setStyleSheet("background-color: rgb(255,255,255,0);")
         self.Capitalization_frame_2.setObjectName("Capitalization_frame_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.Capitalization_frame_2)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(10)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.Change_capitalization_label_2 = QtWidgets.QLabel(
-            self.Capitalization_frame_2
-        )
-        self.Change_capitalization_label_2.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Change_capitalization_label_2 = QtWidgets.QLabel(self.Capitalization_frame_2)
+        self.Change_capitalization_label_2.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Change_capitalization_label_2.setText("")
-        self.Change_capitalization_label_2.setObjectName(
-            "Change_capitalization_label_2"
-        )
+        self.Change_capitalization_label_2.setObjectName("Change_capitalization_label_2")
         self.horizontalLayout_2.addWidget(self.Change_capitalization_label_2)
         self.Capitalization_label_2 = QtWidgets.QLabel(self.Capitalization_frame_2)
-        self.Capitalization_label_2.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Capitalization_label_2.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Capitalization_label_2.setText("")
         self.Capitalization_label_2.setObjectName("Capitalization_label_2")
         self.horizontalLayout_2.addWidget(self.Capitalization_label_2)
@@ -464,118 +366,76 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setSpacing(10)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.Change_volume_label_2 = QtWidgets.QLabel(self.Volume_frame_2)
-        self.Change_volume_label_2.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Change_volume_label_2.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Change_volume_label_2.setText("")
         self.Change_volume_label_2.setObjectName("Change_volume_label_2")
         self.horizontalLayout_7.addWidget(self.Change_volume_label_2)
         self.Volume_label_2 = QtWidgets.QLabel(self.Volume_frame_2)
-        self.Volume_label_2.setStyleSheet(
-            "background-color: rgb(255,255,255,30);\n" "border-radius: 10px\n" ""
-        )
+        self.Volume_label_2.setStyleSheet("background-color: rgb(255,255,255,30);\n"
+"border-radius: 10px\n"
+"")
         self.Volume_label_2.setText("")
         self.Volume_label_2.setObjectName("Volume_label_2")
         self.horizontalLayout_7.addWidget(self.Volume_label_2)
         self.verticalLayout_6.addWidget(self.Volume_frame_2)
         self.Value_capitalization_frame_2 = QtWidgets.QFrame(self.item_page)
         self.Value_capitalization_frame_2.setGeometry(QtCore.QRect(40, 15, 331, 101))
-        self.Value_capitalization_frame_2.setStyleSheet(
-            "background: rgba(255,255,255,0)"
-        )
+        self.Value_capitalization_frame_2.setStyleSheet("background: rgba(255,255,255,0)")
         self.Value_capitalization_frame_2.setObjectName("Value_capitalization_frame_2")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.Value_capitalization_frame_2)
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
-        self.Text_item_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame_2
-        )
+        self.Text_item_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame_2)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_item_capitalization_label.setFont(font)
-        self.Text_item_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
-        self.Text_item_capitalization_label.setObjectName(
-            "Text_item_capitalization_label"
-        )
+        self.Text_item_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
+        self.Text_item_capitalization_label.setObjectName("Text_item_capitalization_label")
         self.verticalLayout_9.addWidget(self.Text_item_capitalization_label)
-        self.Value_item_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame_2
-        )
-        self.Value_item_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(0,255,0);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
-        self.Value_item_capitalization_label.setObjectName(
-            "Value_item_capitalization_label"
-        )
+        self.Value_item_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame_2)
+        self.Value_item_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(0,255,0);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
+        self.Value_item_capitalization_label.setObjectName("Value_item_capitalization_label")
         self.verticalLayout_9.addWidget(self.Value_item_capitalization_label)
-        self.Time_update_item_capitalization_label = QtWidgets.QLabel(
-            self.Value_capitalization_frame_2
-        )
-        self.Time_update_item_capitalization_label.setStyleSheet(
-            "font-size: 16px;\n" "color: rgb(255,255,255)"
-        )
-        self.Time_update_item_capitalization_label.setObjectName(
-            "Time_update_item_capitalization_label"
-        )
+        self.Time_update_item_capitalization_label = QtWidgets.QLabel(self.Value_capitalization_frame_2)
+        self.Time_update_item_capitalization_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255)")
+        self.Time_update_item_capitalization_label.setObjectName("Time_update_item_capitalization_label")
         self.verticalLayout_9.addWidget(self.Time_update_item_capitalization_label)
         self.Change_capitalization_frame_2 = QtWidgets.QFrame(self.item_page)
         self.Change_capitalization_frame_2.setGeometry(QtCore.QRect(445, 15, 331, 101))
-        self.Change_capitalization_frame_2.setStyleSheet(
-            "background: rgba(255,255,255,0)"
-        )
-        self.Change_capitalization_frame_2.setObjectName(
-            "Change_capitalization_frame_2"
-        )
-        self.verticalLayout_11 = QtWidgets.QVBoxLayout(
-            self.Change_capitalization_frame_2
-        )
+        self.Change_capitalization_frame_2.setStyleSheet("background: rgba(255,255,255,0)")
+        self.Change_capitalization_frame_2.setObjectName("Change_capitalization_frame_2")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.Change_capitalization_frame_2)
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_11.setSpacing(0)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
-        self.Text_avarage_item_price_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame_2
-        )
+        self.Text_avarage_item_price_label = QtWidgets.QLabel(self.Change_capitalization_frame_2)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_avarage_item_price_label.setFont(font)
-        self.Text_avarage_item_price_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
-        self.Text_avarage_item_price_label.setObjectName(
-            "Text_avarage_item_price_label"
-        )
+        self.Text_avarage_item_price_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
+        self.Text_avarage_item_price_label.setObjectName("Text_avarage_item_price_label")
         self.verticalLayout_11.addWidget(self.Text_avarage_item_price_label)
-        self.Value_change_avarage_item_price_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame_2
-        )
-        self.Value_change_avarage_item_price_label.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(0,255,0);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
-        self.Value_change_avarage_item_price_label.setObjectName(
-            "Value_change_avarage_item_price_label"
-        )
+        self.Value_change_avarage_item_price_label = QtWidgets.QLabel(self.Change_capitalization_frame_2)
+        self.Value_change_avarage_item_price_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(0,255,0);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
+        self.Value_change_avarage_item_price_label.setObjectName("Value_change_avarage_item_price_label")
         self.verticalLayout_11.addWidget(self.Value_change_avarage_item_price_label)
-        self.Time_update_avarage_item_price_label = QtWidgets.QLabel(
-            self.Change_capitalization_frame_2
-        )
-        self.Time_update_avarage_item_price_label.setStyleSheet(
-            "font-size: 16px;\n" "color: rgb(255,255,255)"
-        )
-        self.Time_update_avarage_item_price_label.setObjectName(
-            "Time_update_avarage_item_price_label"
-        )
+        self.Time_update_avarage_item_price_label = QtWidgets.QLabel(self.Change_capitalization_frame_2)
+        self.Time_update_avarage_item_price_label.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255)")
+        self.Time_update_avarage_item_price_label.setObjectName("Time_update_avarage_item_price_label")
         self.verticalLayout_11.addWidget(self.Time_update_avarage_item_price_label)
         self.Change_volume_frame_2 = QtWidgets.QFrame(self.item_page)
         self.Change_volume_frame_2.setGeometry(QtCore.QRect(445, 141, 331, 101))
@@ -585,176 +445,125 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_12.setSpacing(0)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.Text_information_source_label_2 = QtWidgets.QLabel(
-            self.Change_volume_frame_2
-        )
+        self.Text_information_source_label_2 = QtWidgets.QLabel(self.Change_volume_frame_2)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.Text_information_source_label_2.setFont(font)
-        self.Text_information_source_label_2.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0);"
-        )
-        self.Text_information_source_label_2.setObjectName(
-            "Text_information_source_label_2"
-        )
+        self.Text_information_source_label_2.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0);")
+        self.Text_information_source_label_2.setObjectName("Text_information_source_label_2")
         self.verticalLayout_12.addWidget(self.Text_information_source_label_2)
-        self.Value_information_source_label_2 = QtWidgets.QLabel(
-            self.Change_volume_frame_2
-        )
-        self.Value_information_source_label_2.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(51,153,255);\n"
-            "background: rgba(255,255,255,0);\n"
-            "font-weight: bold"
-        )
-        self.Value_information_source_label_2.setObjectName(
-            "Value_information_source_label_2"
-        )
+        self.Value_information_source_label_2 = QtWidgets.QLabel(self.Change_volume_frame_2)
+        self.Value_information_source_label_2.setStyleSheet("font-size: 16px;\n"
+"color: rgb(51,153,255);\n"
+"background: rgba(255,255,255,0);\n"
+"font-weight: bold")
+        self.Value_information_source_label_2.setObjectName("Value_information_source_label_2")
         self.verticalLayout_12.addWidget(self.Value_information_source_label_2)
         self.Input_item_lineEdit = QtWidgets.QLineEdit(self.item_page)
         self.Input_item_lineEdit.setGeometry(QtCore.QRect(40, 185, 251, 40))
-        self.Input_item_lineEdit.setStyleSheet(
-            "background: rgba(255,255,255,100);\n"
-            "border: 2px solid rgb(125, 13, 204);\n"
-            "border-radius: 10px;\n"
-            "font-size: 16px"
-        )
+        self.Input_item_lineEdit.setStyleSheet("background: rgba(255,255,255,100);\n"
+"border: 2px solid rgb(125, 13, 204);\n"
+"border-radius: 10px;\n"
+"font-size: 16px")
         self.Input_item_lineEdit.setObjectName("Input_item_lineEdit")
         self.label = QtWidgets.QLabel(self.item_page)
         self.label.setGeometry(QtCore.QRect(40, 145, 251, 31))
-        self.label.setStyleSheet(
-            "background: none;\n" "color: white;\n" "font-size: 16px"
-        )
+        self.label.setStyleSheet("background: none;\n"
+"color: white;\n"
+"font-size: 16px")
         self.label.setObjectName("label")
         self.Get_input_Button = QtWidgets.QToolButton(self.item_page)
         self.Get_input_Button.setGeometry(QtCore.QRect(295, 185, 91, 40))
-        self.Get_input_Button.setStyleSheet(
-            "font-size: 16px;\n" "color: white;\n" "border-radius: 10px"
-        )
+        self.Get_input_Button.setStyleSheet("font-size: 16px;\n"
+"color: white;\n"
+"border-radius: 10px")
         self.Get_input_Button.setObjectName("Get_input_Button")
         self.Update_item_Button = QtWidgets.QToolButton(self.item_page)
         self.Update_item_Button.setGeometry(QtCore.QRect(10, 260, 801, 31))
-        self.Update_item_Button.setStyleSheet(
-            "color: rgb(255,255,255);\n" "font-size: 15px;"
-        )
+        self.Update_item_Button.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 15px;")
         self.Update_item_Button.setObjectName("Update_item_Button")
         self.Footer_label_2 = QtWidgets.QLabel(self.item_page)
         self.Footer_label_2.setGeometry(QtCore.QRect(0, 370, 825, 471))
         self.Footer_label_2.setText("")
         self.Footer_label_2.setObjectName("Footer_label_2")
         self.Description_telegram_bot_label_2 = QtWidgets.QLabel(self.item_page)
-        self.Description_telegram_bot_label_2.setGeometry(
-            QtCore.QRect(450, 384, 331, 95)
-        )
-        self.Description_telegram_bot_label_2.setStyleSheet(
-            "background: rgba(255,255,255,0);\n"
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px"
-        )
-        self.Description_telegram_bot_label_2.setObjectName(
-            "Description_telegram_bot_label_2"
-        )
+        self.Description_telegram_bot_label_2.setGeometry(QtCore.QRect(450, 384, 331, 95))
+        self.Description_telegram_bot_label_2.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_telegram_bot_label_2.setObjectName("Description_telegram_bot_label_2")
         self.Description_support_the_autor_label_2 = QtWidgets.QLabel(self.item_page)
-        self.Description_support_the_autor_label_2.setGeometry(
-            QtCore.QRect(450, 509, 331, 95)
-        )
-        self.Description_support_the_autor_label_2.setStyleSheet(
-            "background: rgba(255,255,255,0);\n"
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px"
-        )
-        self.Description_support_the_autor_label_2.setObjectName(
-            "Description_support_the_autor_label_2"
-        )
+        self.Description_support_the_autor_label_2.setGeometry(QtCore.QRect(450, 509, 331, 95))
+        self.Description_support_the_autor_label_2.setStyleSheet("background: rgba(255,255,255,0);\n"
+"color: rgb(255,255,255);\n"
+"font-size: 16px")
+        self.Description_support_the_autor_label_2.setObjectName("Description_support_the_autor_label_2")
         self.Coin_text_Button_2 = QtWidgets.QPushButton(self.item_page)
         self.Coin_text_Button_2.setGeometry(QtCore.QRect(70, 524, 271, 31))
-        self.Coin_text_Button_2.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,249,61);\n"
-            "background: rgba(255,255,255,0)"
-        )
+        self.Coin_text_Button_2.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,249,61);\n"
+"background: rgba(255,255,255,0)")
         self.Coin_text_Button_2.setObjectName("Coin_text_Button_2")
         self.Telegram_text_Button_2 = QtWidgets.QPushButton(self.item_page)
         self.Telegram_text_Button_2.setGeometry(QtCore.QRect(70, 399, 321, 31))
-        self.Telegram_text_Button_2.setStyleSheet(
-            "font-size: 16px;\n"
-            "color: rgb(255,255,255);\n"
-            "background: rgba(255,255,255,0)"
-        )
+        self.Telegram_text_Button_2.setStyleSheet("font-size: 16px;\n"
+"color: rgb(255,255,255);\n"
+"background: rgba(255,255,255,0)")
         self.Telegram_text_Button_2.setObjectName("Telegram_text_Button_2")
         self.Switch_to_telegram_bot_Button_2 = QtWidgets.QPushButton(self.item_page)
         self.Switch_to_telegram_bot_Button_2.setGeometry(QtCore.QRect(14, 384, 381, 60))
-        self.Switch_to_telegram_bot_Button_2.setStyleSheet(
-            "background-color: rgb(255,255,255,50);\n" "border-radius: 18px"
-        )
+        self.Switch_to_telegram_bot_Button_2.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
         self.Switch_to_telegram_bot_Button_2.setText("")
-        self.Switch_to_telegram_bot_Button_2.setObjectName(
-            "Switch_to_telegram_bot_Button_2"
-        )
-        self.Switch_to_support_the_autor_Button_2 = QtWidgets.QPushButton(
-            self.item_page
-        )
-        self.Switch_to_support_the_autor_Button_2.setGeometry(
-            QtCore.QRect(14, 509, 381, 60)
-        )
-        self.Switch_to_support_the_autor_Button_2.setStyleSheet(
-            "background-color: rgb(255,255,255,50);\n" "border-radius: 18px"
-        )
+        self.Switch_to_telegram_bot_Button_2.setObjectName("Switch_to_telegram_bot_Button_2")
+        self.Switch_to_support_the_autor_Button_2 = QtWidgets.QPushButton(self.item_page)
+        self.Switch_to_support_the_autor_Button_2.setGeometry(QtCore.QRect(14, 509, 381, 60))
+        self.Switch_to_support_the_autor_Button_2.setStyleSheet("background-color: rgb(255,255,255,50);\n"
+"border-radius: 18px")
         self.Switch_to_support_the_autor_Button_2.setText("")
-        self.Switch_to_support_the_autor_Button_2.setObjectName(
-            "Switch_to_support_the_autor_Button_2"
-        )
+        self.Switch_to_support_the_autor_Button_2.setObjectName("Switch_to_support_the_autor_Button_2")
         self.Telegram_Icon_Button_2 = QtWidgets.QPushButton(self.item_page)
         self.Telegram_Icon_Button_2.setGeometry(QtCore.QRect(20, 394, 40, 40))
-        self.Telegram_Icon_Button_2.setStyleSheet(
-            "background: rgba(255,255,255,0);\n" "text-align: end;"
-        )
+        self.Telegram_Icon_Button_2.setStyleSheet("background: rgba(255,255,255,0);\n"
+"text-align: end;")
         self.Telegram_Icon_Button_2.setText("")
         self.Telegram_Icon_Button_2.setIcon(icon)
         self.Telegram_Icon_Button_2.setIconSize(QtCore.QSize(40, 40))
         self.Telegram_Icon_Button_2.setObjectName("Telegram_Icon_Button_2")
         self.Coin_Icon_Button_2 = QtWidgets.QPushButton(self.item_page)
         self.Coin_Icon_Button_2.setGeometry(QtCore.QRect(20, 519, 40, 40))
-        self.Coin_Icon_Button_2.setStyleSheet(
-            "background: rgba(255,255,255,0);\n" "text-align: end;"
-        )
+        self.Coin_Icon_Button_2.setStyleSheet("background: rgba(255,255,255,0);\n"
+"text-align: end;")
         self.Coin_Icon_Button_2.setText("")
         self.Coin_Icon_Button_2.setIcon(icon1)
         self.Coin_Icon_Button_2.setIconSize(QtCore.QSize(40, 40))
         self.Coin_Icon_Button_2.setObjectName("Coin_Icon_Button_2")
         self.menu.addTab(self.item_page, "")
         self.additional_page = QtWidgets.QWidget()
-        self.additional_page.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));\n"
-            ""
-        )
+        self.additional_page.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 0, 159, 255), stop:1  rgba(218, 148, 255, 255));\n"
+"")
         self.additional_page.setObjectName("additional_page")
         self.Popular_text_label = QtWidgets.QLabel(self.additional_page)
         self.Popular_text_label.setGeometry(QtCore.QRect(257, 2, 311, 30))
-        self.Popular_text_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 24px;\n"
-            "background: rgba(255,255,255,0);"
-        )
+        self.Popular_text_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 24px;\n"
+"background: rgba(255,255,255,0);")
         self.Popular_text_label.setObjectName("Popular_text_label")
         self.Max_growth_text_label = QtWidgets.QLabel(self.additional_page)
         self.Max_growth_text_label.setGeometry(QtCore.QRect(202, 291, 421, 30))
-        self.Max_growth_text_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 24px;\n"
-            "background: rgba(255,255,255,0);"
-        )
+        self.Max_growth_text_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 24px;\n"
+"background: rgba(255,255,255,0);")
         self.Max_growth_text_label.setObjectName("Max_growth_text_label")
         self.Popular_Icon_Button_1 = QtWidgets.QPushButton(self.additional_page)
         self.Popular_Icon_Button_1.setGeometry(QtCore.QRect(710, 109, 40, 40))
         self.Popular_Icon_Button_1.setStyleSheet("background: rgb(255,255,255,0)")
         self.Popular_Icon_Button_1.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(
-            QtGui.QPixmap("icons/trending_up.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
-        )
+        icon2.addPixmap(QtGui.QPixmap(":/icons/icons/trending_up.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Popular_Icon_Button_1.setIcon(icon2)
         self.Popular_Icon_Button_1.setIconSize(QtCore.QSize(40, 40))
         self.Popular_Icon_Button_1.setObjectName("Popular_Icon_Button_1")
@@ -774,210 +583,127 @@ class Ui_MainWindow(object):
         self.Popular_Icon_Button_3.setObjectName("Popular_Icon_Button_3")
         self.Main_max_growth_crypto_Frame = QtWidgets.QFrame(self.additional_page)
         self.Main_max_growth_crypto_Frame.setGeometry(QtCore.QRect(20, 324, 781, 250))
-        self.Main_max_growth_crypto_Frame.setStyleSheet(
-            "background: rgba(255,255,255, 100);\n" "border-radius: 15px;"
-        )
+        self.Main_max_growth_crypto_Frame.setStyleSheet("background: rgba(255,255,255, 100);\n"
+"border-radius: 15px;")
         self.Main_max_growth_crypto_Frame.setObjectName("Main_max_growth_crypto_Frame")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.Main_max_growth_crypto_Frame)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.Max_growth_column_horizontal_Layout = QtWidgets.QHBoxLayout()
-        self.Max_growth_column_horizontal_Layout.setObjectName(
-            "Max_growth_column_horizontal_Layout"
-        )
-        self.Max_growth_column_name_label = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_column_name_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);\n"
-            ""
-        )
+        self.Max_growth_column_horizontal_Layout.setObjectName("Max_growth_column_horizontal_Layout")
+        self.Max_growth_column_name_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_name_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
         self.Max_growth_column_name_label.setObjectName("Max_growth_column_name_label")
-        self.Max_growth_column_horizontal_Layout.addWidget(
-            self.Max_growth_column_name_label
-        )
-        self.Max_growth_column_time_label = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_column_time_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);\n"
-            ""
-        )
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_name_label)
+        self.Max_growth_column_time_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_time_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
         self.Max_growth_column_time_label.setObjectName("Max_growth_column_time_label")
-        self.Max_growth_column_horizontal_Layout.addWidget(
-            self.Max_growth_column_time_label
-        )
-        self.Max_growth_column_cost_label = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_column_cost_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);"
-        )
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_time_label)
+        self.Max_growth_column_cost_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_cost_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
         self.Max_growth_column_cost_label.setObjectName("Max_growth_column_cost_label")
-        self.Max_growth_column_horizontal_Layout.addWidget(
-            self.Max_growth_column_cost_label
-        )
-        self.Max_growth_column_change_label = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_column_change_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);"
-        )
-        self.Max_growth_column_change_label.setObjectName(
-            "Max_growth_column_change_label"
-        )
-        self.Max_growth_column_horizontal_Layout.addWidget(
-            self.Max_growth_column_change_label
-        )
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_cost_label)
+        self.Max_growth_column_change_label = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_column_change_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
+        self.Max_growth_column_change_label.setObjectName("Max_growth_column_change_label")
+        self.Max_growth_column_horizontal_Layout.addWidget(self.Max_growth_column_change_label)
         self.verticalLayout_5.addLayout(self.Max_growth_column_horizontal_Layout)
         self.Max_growth_horizontal_Layout_1 = QtWidgets.QHBoxLayout()
-        self.Max_growth_horizontal_Layout_1.setObjectName(
-            "Max_growth_horizontal_Layout_1"
-        )
-        self.Max_growth_name_label_1 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_name_label_1.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_horizontal_Layout_1.setObjectName("Max_growth_horizontal_Layout_1")
+        self.Max_growth_name_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_name_label_1.setObjectName("Max_growth_name_label_1")
         self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_name_label_1)
-        self.Max_growth_time_label_1 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_time_label_1.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_time_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_time_label_1.setObjectName("Max_growth_time_label_1")
         self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_time_label_1)
-        self.Max_growth_cost_label_1 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_cost_label_1.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_cost_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_cost_label_1.setObjectName("Max_growth_cost_label_1")
         self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_cost_label_1)
-        self.Max_growth_change_label_1 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_change_label_1.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_change_label_1 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_change_label_1.setObjectName("Max_growth_change_label_1")
         self.Max_growth_horizontal_Layout_1.addWidget(self.Max_growth_change_label_1)
         self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_1)
         self.Max_growth_horizontal_Layout_2 = QtWidgets.QHBoxLayout()
-        self.Max_growth_horizontal_Layout_2.setObjectName(
-            "Max_growth_horizontal_Layout_2"
-        )
-        self.Max_growth_name_label_2 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_name_label_2.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_horizontal_Layout_2.setObjectName("Max_growth_horizontal_Layout_2")
+        self.Max_growth_name_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_name_label_2.setObjectName("Max_growth_name_label_2")
         self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_name_label_2)
-        self.Max_growth_time_label_2 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_time_label_2.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_time_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_time_label_2.setObjectName("Max_growth_time_label_2")
         self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_time_label_2)
-        self.Max_growth_cost_label_2 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_cost_label_2.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_cost_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_cost_label_2.setObjectName("Max_growth_cost_label_2")
         self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_cost_label_2)
-        self.Max_growth_change_label_2 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_change_label_2.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_change_label_2 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_change_label_2.setObjectName("Max_growth_change_label_2")
         self.Max_growth_horizontal_Layout_2.addWidget(self.Max_growth_change_label_2)
         self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_2)
         self.Max_growth_horizontal_Layout_3 = QtWidgets.QHBoxLayout()
-        self.Max_growth_horizontal_Layout_3.setObjectName(
-            "Max_growth_horizontal_Layout_3"
-        )
-        self.Max_growth_name_label_3 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_name_label_3.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_horizontal_Layout_3.setObjectName("Max_growth_horizontal_Layout_3")
+        self.Max_growth_name_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_name_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_name_label_3.setObjectName("Max_growth_name_label_3")
         self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_name_label_3)
-        self.Max_growth_time_label_3 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_time_label_3.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_time_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_time_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_time_label_3.setObjectName("Max_growth_time_label_3")
         self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_time_label_3)
-        self.Max_growth_cost_label_3 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_cost_label_3.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_cost_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_cost_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_cost_label_3.setObjectName("Max_growth_cost_label_3")
         self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_cost_label_3)
-        self.Max_growth_change_label_3 = QtWidgets.QLabel(
-            self.Main_max_growth_crypto_Frame
-        )
-        self.Max_growth_change_label_3.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Max_growth_change_label_3 = QtWidgets.QLabel(self.Main_max_growth_crypto_Frame)
+        self.Max_growth_change_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Max_growth_change_label_3.setObjectName("Max_growth_change_label_3")
         self.Max_growth_horizontal_Layout_3.addWidget(self.Max_growth_change_label_3)
         self.verticalLayout_5.addLayout(self.Max_growth_horizontal_Layout_3)
@@ -1004,178 +730,133 @@ class Ui_MainWindow(object):
         self.Max_growth_Icon_Button_3.setObjectName("Max_growth_Icon_Button_3")
         self.Update_Additional_Button = QtWidgets.QToolButton(self.additional_page)
         self.Update_Additional_Button.setGeometry(QtCore.QRect(10, 590, 801, 31))
-        self.Update_Additional_Button.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 15px;\n"
-            "background-color: rgb(121, 34, 207);"
-        )
+        self.Update_Additional_Button.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 15px;\n"
+"background-color: rgb(121, 34, 207);")
         self.Update_Additional_Button.setObjectName("Update_Additional_Button")
         self.Main_popular_crypto_Frame = QtWidgets.QFrame(self.additional_page)
         self.Main_popular_crypto_Frame.setGeometry(QtCore.QRect(20, 35, 781, 250))
-        self.Main_popular_crypto_Frame.setStyleSheet(
-            "background: rgba(255,255,255, 100);\n" "border-radius: 15px;"
-        )
+        self.Main_popular_crypto_Frame.setStyleSheet("background: rgba(255,255,255, 100);\n"
+"border-radius: 15px;")
         self.Main_popular_crypto_Frame.setObjectName("Main_popular_crypto_Frame")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.Main_popular_crypto_Frame)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.Popular_column_horizontalLayout = QtWidgets.QHBoxLayout()
-        self.Popular_column_horizontalLayout.setObjectName(
-            "Popular_column_horizontalLayout"
-        )
-        self.Popular_column_name_label = QtWidgets.QLabel(
-            self.Main_popular_crypto_Frame
-        )
-        self.Popular_column_name_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);\n"
-            ""
-        )
+        self.Popular_column_horizontalLayout.setObjectName("Popular_column_horizontalLayout")
+        self.Popular_column_name_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_name_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
         self.Popular_column_name_label.setObjectName("Popular_column_name_label")
         self.Popular_column_horizontalLayout.addWidget(self.Popular_column_name_label)
-        self.Popular_column_time_label = QtWidgets.QLabel(
-            self.Main_popular_crypto_Frame
-        )
-        self.Popular_column_time_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);\n"
-            ""
-        )
+        self.Popular_column_time_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_time_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);\n"
+"")
         self.Popular_column_time_label.setObjectName("Popular_column_time_label")
         self.Popular_column_horizontalLayout.addWidget(self.Popular_column_time_label)
-        self.Popular_column_cost_label = QtWidgets.QLabel(
-            self.Main_popular_crypto_Frame
-        )
-        self.Popular_column_cost_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);"
-        )
+        self.Popular_column_cost_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_cost_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
         self.Popular_column_cost_label.setObjectName("Popular_column_cost_label")
         self.Popular_column_horizontalLayout.addWidget(self.Popular_column_cost_label)
-        self.Popular_column_change_label = QtWidgets.QLabel(
-            self.Main_popular_crypto_Frame
-        )
-        self.Popular_column_change_label.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(79, 79, 79);"
-        )
+        self.Popular_column_change_label = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
+        self.Popular_column_change_label.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(79, 79, 79);")
         self.Popular_column_change_label.setObjectName("Popular_column_change_label")
         self.Popular_column_horizontalLayout.addWidget(self.Popular_column_change_label)
         self.verticalLayout_2.addLayout(self.Popular_column_horizontalLayout)
         self.Popular_horizontal_Layout_1 = QtWidgets.QHBoxLayout()
         self.Popular_horizontal_Layout_1.setObjectName("Popular_horizontal_Layout_1")
         self.Popular_name_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_name_label_1.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_name_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_name_label_1.setObjectName("Popular_name_label_1")
         self.Popular_horizontal_Layout_1.addWidget(self.Popular_name_label_1)
         self.Popular_time_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_time_label_1.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_time_label_1.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_time_label_1.setObjectName("Popular_time_label_1")
         self.Popular_horizontal_Layout_1.addWidget(self.Popular_time_label_1)
         self.Popular_cost_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_cost_label_1.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_cost_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_cost_label_1.setObjectName("Popular_cost_label_1")
         self.Popular_horizontal_Layout_1.addWidget(self.Popular_cost_label_1)
         self.Popular_change_label_1 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_change_label_1.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_change_label_1.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_change_label_1.setObjectName("Popular_change_label_1")
         self.Popular_horizontal_Layout_1.addWidget(self.Popular_change_label_1)
         self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_1)
         self.Popular_horizontal_Layout_2 = QtWidgets.QHBoxLayout()
         self.Popular_horizontal_Layout_2.setObjectName("Popular_horizontal_Layout_2")
         self.Popular_name_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_name_label_2.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_name_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_name_label_2.setObjectName("Popular_name_label_2")
         self.Popular_horizontal_Layout_2.addWidget(self.Popular_name_label_2)
         self.Popular_time_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_time_label_2.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_time_label_2.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_time_label_2.setObjectName("Popular_time_label_2")
         self.Popular_horizontal_Layout_2.addWidget(self.Popular_time_label_2)
         self.Popular_cost_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_cost_label_2.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_cost_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_cost_label_2.setObjectName("Popular_cost_label_2")
         self.Popular_horizontal_Layout_2.addWidget(self.Popular_cost_label_2)
         self.Popular_change_label_2 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_change_label_2.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_change_label_2.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_change_label_2.setObjectName("Popular_change_label_2")
         self.Popular_horizontal_Layout_2.addWidget(self.Popular_change_label_2)
         self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_2)
         self.Popular_horizontal_Layout_3 = QtWidgets.QHBoxLayout()
         self.Popular_horizontal_Layout_3.setObjectName("Popular_horizontal_Layout_3")
         self.Popular_name_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_name_label_3.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_name_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_name_label_3.setObjectName("Popular_name_label_3")
         self.Popular_horizontal_Layout_3.addWidget(self.Popular_name_label_3)
         self.Popular_time_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_time_label_3.setStyleSheet(
-            "color: rgb(255,255,255);\n"
-            "font-size: 16px;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_time_label_3.setStyleSheet("color: rgb(255,255,255);\n"
+"font-size: 16px;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_time_label_3.setObjectName("Popular_time_label_3")
         self.Popular_horizontal_Layout_3.addWidget(self.Popular_time_label_3)
         self.Popular_cost_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_cost_label_3.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_cost_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_cost_label_3.setObjectName("Popular_cost_label_3")
         self.Popular_horizontal_Layout_3.addWidget(self.Popular_cost_label_3)
         self.Popular_change_label_3 = QtWidgets.QLabel(self.Main_popular_crypto_Frame)
-        self.Popular_change_label_3.setStyleSheet(
-            "color: rgb(0,255,0);\n"
-            "font-size: 16px;\n"
-            "font-weight: bold;\n"
-            "background-color: rgb(157, 0, 255);"
-        )
+        self.Popular_change_label_3.setStyleSheet("color: rgb(0,255,0);\n"
+"font-size: 16px;\n"
+"font-weight: bold;\n"
+"background-color: rgb(157, 0, 255);")
         self.Popular_change_label_3.setObjectName("Popular_change_label_3")
         self.Popular_horizontal_Layout_3.addWidget(self.Popular_change_label_3)
         self.verticalLayout_2.addLayout(self.Popular_horizontal_Layout_3)
@@ -1200,231 +881,102 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Text_change_capitalization_label.setText(
-            _translate("MainWindow", "Изменение за последние сутки:")
-        )
-        self.Value_change_capitalization_label.setText(
-            _translate("MainWindow", "Снизилась на 1.4%")
-        )
-        self.Time_update_change_capitalization_label.setText(
-            _translate("MainWindow", "Обновлено в 12:13:14")
-        )
+        self.Text_change_capitalization_label.setText(_translate("MainWindow", "Изменение за последние сутки:"))
+        self.Value_change_capitalization_label.setText(_translate("MainWindow", "Снизилась на 1.4%"))
+        self.Time_update_change_capitalization_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
         self.Text_volume_label.setText(_translate("MainWindow", "Общий объём торгов:"))
         self.Value_volume_label.setText(_translate("MainWindow", "$ 234 234 234"))
-        self.Time_update_volume_label.setText(
-            _translate("MainWindow", "Обновлено в 12:13:14")
-        )
-        self.Text_information_source_label.setText(
-            _translate("MainWindow", "Информация с сайта:")
-        )
-        self.Value_information_source_label.setText(
-            _translate("MainWindow", '"coingecko.com"')
-        )
-        self.Text_capitalization_label.setText(
-            _translate("MainWindow", "Рыночная капитализация криптовалюты:")
-        )
-        self.Value_capitalization_label.setText(
-            _translate("MainWindow", "$ 2 234 234 234 234")
-        )
-        self.Time_update_capitalization_label.setText(
-            _translate("MainWindow", "Обновлено в 12:13:14")
-        )
-        self.Update_Main_Button.setText(
-            _translate("MainWindow", "Нажмите, чтобы обновить страницу")
-        )
-        self.Telegram_text_Button.setText(
-            _translate("MainWindow", "Нажмите, чтобы перейти в телеграм-бота")
-        )
-        self.Coin_text_Button.setText(
-            _translate("MainWindow", "Нажмите,чтобы поддержать автора")
-        )
-        self.Description_telegram_bot_label.setText(
-            _translate(
-                "MainWindow",
-                "Преимущества телеграм-бота,\n"
-                "по сравнению с приложением:\n"
-                "1. Сигналы от торгового бота\n"
-                "2. Отслеживание выбранной криптовалюты\n"
-                "3. Демо-счёт для обучения торговле",
-            )
-        )
-        self.Description_support_the_autor_label.setText(
-            _translate(
-                "MainWindow",
-                "Уважаемый пользователь, если тебе\n"
-                "действительно нравится данное\n"
-                "приложение, то ты можешь поддержать\n"
-                "автора, перейдя по ссылке и пожертвуя\n"
-                "столько, сколько посчитаешь нужным",
-            )
-        )
-        self.menu.setTabText(
-            self.menu.indexOf(self.main_page),
-            _translate("MainWindow", "         Главная         "),
-        )
-        self.Text_item_capitalization_label.setText(
-            _translate("MainWindow", "Рыночная капитализация bitcoin:")
-        )
-        self.Value_item_capitalization_label.setText(
-            _translate("MainWindow", "$ 2 234 234 234 234")
-        )
-        self.Time_update_item_capitalization_label.setText(
-            _translate("MainWindow", "Обновлено в 12:13:14")
-        )
-        self.Text_avarage_item_price_label.setText(
-            _translate("MainWindow", "Средняя стоимость bitcoin")
-        )
-        self.Value_change_avarage_item_price_label.setText(
-            _translate("MainWindow", "$ 234 234 234")
-        )
-        self.Time_update_avarage_item_price_label.setText(
-            _translate("MainWindow", "Обновлено в 12:13:14")
-        )
-        self.Text_information_source_label_2.setText(
-            _translate("MainWindow", "Информация с сайта:")
-        )
-        self.Value_information_source_label_2.setText(
-            _translate("MainWindow", '"bitinfocharts.com"')
-        )
+        self.Time_update_volume_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
+        self.Text_information_source_label.setText(_translate("MainWindow", "Информация с сайта:"))
+        self.Value_information_source_label.setText(_translate("MainWindow", "\"coingecko.com\""))
+        self.Text_capitalization_label.setText(_translate("MainWindow", "Рыночная капитализация криптовалюты:"))
+        self.Value_capitalization_label.setText(_translate("MainWindow", "$ 2 234 234 234 234"))
+        self.Time_update_capitalization_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
+        self.Update_Main_Button.setText(_translate("MainWindow", "Нажмите, чтобы обновить страницу"))
+        self.Telegram_text_Button.setText(_translate("MainWindow", "Нажмите, чтобы перейти в телеграм-бота"))
+        self.Coin_text_Button.setText(_translate("MainWindow", "Нажмите,чтобы поддержать автора"))
+        self.Description_telegram_bot_label.setText(_translate("MainWindow", "Преимущества телеграм-бота,\n"
+"по сравнению с приложением:\n"
+"1. Сигналы от торгового бота\n"
+"2. Отслеживание выбранной криптовалюты\n"
+"3. Демо-счёт для обучения торговле"))
+        self.Description_support_the_autor_label.setText(_translate("MainWindow", "Уважаемый пользователь, если тебе\n"
+"действительно нравится данное\n"
+"приложение, то ты можешь поддержать\n"
+"автора, перейдя по ссылке и пожертвуя\n"
+"столько, сколько посчитаешь нужным"))
+        self.menu.setTabText(self.menu.indexOf(self.main_page), _translate("MainWindow", "         Главная         "))
+        self.Text_item_capitalization_label.setText(_translate("MainWindow", "Рыночная капитализация bitcoin:"))
+        self.Value_item_capitalization_label.setText(_translate("MainWindow", "$ 2 234 234 234 234"))
+        self.Time_update_item_capitalization_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
+        self.Text_avarage_item_price_label.setText(_translate("MainWindow", "Средняя стоимость bitcoin"))
+        self.Value_change_avarage_item_price_label.setText(_translate("MainWindow", "$ 234 234 234"))
+        self.Time_update_avarage_item_price_label.setText(_translate("MainWindow", "Обновлено в 12:13:14"))
+        self.Text_information_source_label_2.setText(_translate("MainWindow", "Информация с сайта:"))
+        self.Value_information_source_label_2.setText(_translate("MainWindow", "\"bitinfocharts.com\""))
         self.label.setText(_translate("MainWindow", "Введите название криптовалюты"))
         self.Get_input_Button.setText(_translate("MainWindow", "Сохранить"))
-        self.Update_item_Button.setText(
-            _translate("MainWindow", "Нажмите, чтобы обновить страницу")
-        )
-        self.Description_telegram_bot_label_2.setText(
-            _translate(
-                "MainWindow",
-                "Преимущества телеграм-бота,\n"
-                "по сравнению с приложением:\n"
-                "1. Сигналы от торгового бота\n"
-                "2. Отслеживание выбранной криптовалюты\n"
-                "3. Демо-счёт для обучения торговле",
-            )
-        )
-        self.Description_support_the_autor_label_2.setText(
-            _translate(
-                "MainWindow",
-                "Уважаемый пользователь, если тебе\n"
-                "действительно нравится данное\n"
-                "приложение, то ты можешь поддержать\n"
-                "автора, перейдя по ссылке и пожертвуя\n"
-                "столько, сколько посчитаешь нужным",
-            )
-        )
-        self.Coin_text_Button_2.setText(
-            _translate("MainWindow", "Нажмите,чтобы поддержать автора")
-        )
-        self.Telegram_text_Button_2.setText(
-            _translate("MainWindow", "Нажмите, чтобы перейти в телеграм-бота")
-        )
-        self.menu.setTabText(
-            self.menu.indexOf(self.item_page),
-            _translate("MainWindow", "   Криптовалюта   "),
-        )
-        self.Popular_text_label.setText(
-            _translate("MainWindow", "Популярные криптовалюты")
-        )
-        self.Max_growth_text_label.setText(
-            _translate("MainWindow", "Криптовалюты с наибольшим ростом")
-        )
-        self.Max_growth_column_name_label.setText(
-            _translate("MainWindow", "            Название\n" "        криптовалюты")
-        )
-        self.Max_growth_column_time_label.setText(
-            _translate("MainWindow", "           Обновлено\n" "             (время)")
-        )
-        self.Max_growth_column_cost_label.setText(
-            _translate("MainWindow", "           Стоимость")
-        )
-        self.Max_growth_column_change_label.setText(
-            _translate("MainWindow", "   Изменение стоимости\n" "           за 24 часа")
-        )
-        self.Max_growth_name_label_1.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Max_growth_time_label_1.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Max_growth_cost_label_1.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
-        self.Max_growth_change_label_1.setText(
-            _translate("MainWindow", "        137.5%")
-        )
-        self.Max_growth_name_label_2.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Max_growth_time_label_2.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Max_growth_cost_label_2.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
+        self.Update_item_Button.setText(_translate("MainWindow", "Нажмите, чтобы обновить страницу"))
+        self.Description_telegram_bot_label_2.setText(_translate("MainWindow", "Преимущества телеграм-бота,\n"
+"по сравнению с приложением:\n"
+"1. Сигналы от торгового бота\n"
+"2. Отслеживание выбранной криптовалюты\n"
+"3. Демо-счёт для обучения торговле"))
+        self.Description_support_the_autor_label_2.setText(_translate("MainWindow", "Уважаемый пользователь, если тебе\n"
+"действительно нравится данное\n"
+"приложение, то ты можешь поддержать\n"
+"автора, перейдя по ссылке и пожертвуя\n"
+"столько, сколько посчитаешь нужным"))
+        self.Coin_text_Button_2.setText(_translate("MainWindow", "Нажмите,чтобы поддержать автора"))
+        self.Telegram_text_Button_2.setText(_translate("MainWindow", "Нажмите, чтобы перейти в телеграм-бота"))
+        self.menu.setTabText(self.menu.indexOf(self.item_page), _translate("MainWindow", "   Криптовалюта   "))
+        self.Popular_text_label.setText(_translate("MainWindow", "Популярные криптовалюты"))
+        self.Max_growth_text_label.setText(_translate("MainWindow", "Криптовалюты с наибольшим ростом"))
+        self.Max_growth_column_name_label.setText(_translate("MainWindow", "            Название\n"
+"        криптовалюты"))
+        self.Max_growth_column_time_label.setText(_translate("MainWindow", "           Обновлено\n"
+"             (время)"))
+        self.Max_growth_column_cost_label.setText(_translate("MainWindow", "           Стоимость"))
+        self.Max_growth_column_change_label.setText(_translate("MainWindow", "   Изменение стоимости\n"
+"           за 24 часа"))
+        self.Max_growth_name_label_1.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_1.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_1.setText(_translate("MainWindow", "           $ 70 000"))
+        self.Max_growth_change_label_1.setText(_translate("MainWindow", "        137.5%"))
+        self.Max_growth_name_label_2.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_2.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_2.setText(_translate("MainWindow", "           $ 70 000"))
         self.Max_growth_change_label_2.setText(_translate("MainWindow", "        6%"))
-        self.Max_growth_name_label_3.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Max_growth_time_label_3.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Max_growth_cost_label_3.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
+        self.Max_growth_name_label_3.setText(_translate("MainWindow", "             bitcoin"))
+        self.Max_growth_time_label_3.setText(_translate("MainWindow", "            12:13:14"))
+        self.Max_growth_cost_label_3.setText(_translate("MainWindow", "           $ 70 000"))
         self.Max_growth_change_label_3.setText(_translate("MainWindow", "        6%"))
-        self.Update_Additional_Button.setText(
-            _translate("MainWindow", "Нажмите, чтобы обновить страницу")
-        )
-        self.Popular_column_name_label.setText(
-            _translate("MainWindow", "            Название\n" "        криптовалюты")
-        )
-        self.Popular_column_time_label.setText(
-            _translate("MainWindow", "           Обновлено\n" "             (время)")
-        )
-        self.Popular_column_cost_label.setText(
-            _translate("MainWindow", "           Стоимость")
-        )
-        self.Popular_column_change_label.setText(
-            _translate("MainWindow", "   Изменение стоимости\n" "           за 24 часа")
-        )
-        self.Popular_name_label_1.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Popular_time_label_1.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Popular_cost_label_1.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
+        self.Update_Additional_Button.setText(_translate("MainWindow", "Нажмите, чтобы обновить страницу"))
+        self.Popular_column_name_label.setText(_translate("MainWindow", "            Название\n"
+"        криптовалюты"))
+        self.Popular_column_time_label.setText(_translate("MainWindow", "           Обновлено\n"
+"             (время)"))
+        self.Popular_column_cost_label.setText(_translate("MainWindow", "           Стоимость"))
+        self.Popular_column_change_label.setText(_translate("MainWindow", "   Изменение стоимости\n"
+"           за 24 часа"))
+        self.Popular_name_label_1.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_1.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_1.setText(_translate("MainWindow", "           $ 70 000"))
         self.Popular_change_label_1.setText(_translate("MainWindow", "        6%"))
-        self.Popular_name_label_2.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Popular_time_label_2.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Popular_cost_label_2.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
+        self.Popular_name_label_2.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_2.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_2.setText(_translate("MainWindow", "           $ 70 000"))
         self.Popular_change_label_2.setText(_translate("MainWindow", "        6%"))
-        self.Popular_name_label_3.setText(
-            _translate("MainWindow", "             bitcoin")
-        )
-        self.Popular_time_label_3.setText(
-            _translate("MainWindow", "            12:13:14")
-        )
-        self.Popular_cost_label_3.setText(
-            _translate("MainWindow", "           $ 70 000")
-        )
+        self.Popular_name_label_3.setText(_translate("MainWindow", "             bitcoin"))
+        self.Popular_time_label_3.setText(_translate("MainWindow", "            12:13:14"))
+        self.Popular_cost_label_3.setText(_translate("MainWindow", "           $ 70 000"))
         self.Popular_change_label_3.setText(_translate("MainWindow", "        6%"))
-        self.menu.setTabText(
-            self.menu.indexOf(self.additional_page),
-            _translate("MainWindow", "  Дополнительно  "),
-        )
+        self.menu.setTabText(self.menu.indexOf(self.additional_page), _translate("MainWindow", "  Дополнительно  "))
+
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

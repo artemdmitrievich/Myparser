@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from time import time, sleep
-from transliterate import translit  # Функция для создания транслита строки
+# from transliterate import translit  # Функция для создания транслита строки
+from translit import translit
 from langdetect import detect  # Функция для определения языка строки
 from static.headers import Headers
 from time import strftime, localtime
@@ -24,7 +25,7 @@ class Crypto:
     def __is_valid_crypto_name(self, crypto_name):
         if str(detect(crypto_name)) != "fi":
             crypto_name = (
-                str(translit(crypto_name, language_code="ru", reversed=True))
+                str(translit(crypto_name))
                 .replace("koin", "coin")
                 .replace("kesh", "cash")
                 .lower()

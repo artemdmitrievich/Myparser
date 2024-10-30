@@ -1,5 +1,6 @@
 from Item_info_crypto_parser import Crypto
-from transliterate import translit  # Функция для создания транслита строки
+# from transliterate import translit  # Функция для создания транслита строки
+from translit import translit
 from langdetect import detect  # Функция для определения языка строки
 import requests
 from bs4 import BeautifulSoup
@@ -14,7 +15,7 @@ class Item_page:
         if crypto_name != "":
             if str(detect(crypto_name)) != "fi":
                 crypto_name = (
-                    str(translit(crypto_name, language_code="ru", reversed=True))
+                    str(translit(crypto_name))
                     .replace("koin", "coin")
                     .replace("kesh", "cash")
                     .lower()
