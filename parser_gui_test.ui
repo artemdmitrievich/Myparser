@@ -726,15 +726,15 @@ font-size: 16px</string>
      <zorder>Value_volume_frame</zorder>
      <zorder>Change_volume_frame</zorder>
      <zorder>Update_Main_Button</zorder>
-     <zorder>Telegram_Icon_Button</zorder>
      <zorder>Telegram_text_Button</zorder>
      <zorder>Direction_change_capitalization_Icon_Button</zorder>
-     <zorder>Coin_Icon_Button</zorder>
      <zorder>Coin_text_Button</zorder>
      <zorder>Switch_to_telegram_bot_Button</zorder>
      <zorder>Switch_to_support_the_autor_Button</zorder>
      <zorder>Description_telegram_bot_label</zorder>
      <zorder>Description_support_the_autor_label</zorder>
+     <zorder>Telegram_Icon_Button</zorder>
+     <zorder>Coin_Icon_Button</zorder>
     </widget>
     <widget class="QWidget" name="item_page">
      <property name="styleSheet">
@@ -1438,15 +1438,9 @@ background-color: rgb(157, 0, 255);</string>
        </item>
       </layout>
      </widget>
+     <zorder>Main_popular_crypto_Frame</zorder>
      <zorder>Popular_text_label</zorder>
      <zorder>Max_growth_text_label</zorder>
-     <zorder>Popular_column_change_label</zorder>
-     <zorder>Popular_column_cost_label</zorder>
-     <zorder>Popular_column_time_label</zorder>
-     <zorder>Popular_column_name_label</zorder>
-     <zorder>layoutWidget</zorder>
-     <zorder>layoutWidget_2</zorder>
-     <zorder>layoutWidget_3</zorder>
      <zorder>Main_max_growth_crypto_Frame</zorder>
      <zorder>Popular_Icon_Button_1</zorder>
      <zorder>Popular_Icon_Button_2</zorder>

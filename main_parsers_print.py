@@ -13,19 +13,19 @@ from time import sleep
 
 # Вывод рыночной капитализация криптовалюты
 print(
-    f"Рыночная капитализация криптовалюты = {General.get_data_market_capitalization()[0]}$"
+    f"Рыночная капитализация криптовалюты = {General().get_data_market_capitalization()[0]}$"
 )
 sleep(0.5)
 
 # Вывод изменения рыночной капитализация криптовалюты за 24 часа
-if General.get_change_market_capitalization()[2] == "down":
-    print(f"Рыночная капитализация криптовалюты понизилась на {General.get_change_market_capitalization()[0]}")
+if General().get_change_market_capitalization()[2] == "down":
+    print(f"Рыночная капитализация криптовалюты понизилась на {General().get_change_market_capitalization()[0]}")
 else:
-    print(f"Рыночная капитализация криптовалюты повысилась на {General.get_change_market_capitalization()[0]}")
+    print(f"Рыночная капитализация криптовалюты повысилась на {General().get_change_market_capitalization()[0]}")
 sleep(0.5)
 
 # Вывод общего объёма торгов за 24 часа
-print(f"Общий объём торгов за 24 часа - {General.get_total_trading_volume_per_day()[0]}$")
+print(f"Общий объём торгов за 24 часа - {General().get_total_trading_volume_per_day()[0]}$")
 sleep(0.5)
 
 name_crypto = "БиТкоин кэш"  # Вводимое название криптовалюты
@@ -48,7 +48,7 @@ except:
 
 # Вывод самых популярных криптовалют
 My_Additional_CoinGecko_info = Additional_CoinGecko_info()
-popular_crypto_dict = My_Additional_CoinGecko_info.get_popular_crypto()
+popular_crypto_dict = My_Additional_CoinGecko_info.get_popular_crypto()[0]
 print("Самые популярные криптовалюты:", end=" ")
 for _ in popular_crypto_dict:
     print(popular_crypto_dict[_], end="; ")
@@ -57,7 +57,7 @@ for _ in popular_crypto_dict:
 print()
 
 # Вывод криптовалют с самым большим ростом за 24 часа
-greatest_growth_dict = My_Additional_CoinGecko_info.get_greatest_growth_crypto()
+greatest_growth_dict = My_Additional_CoinGecko_info.get_greatest_growth_crypto()[0]
 print("Самый большой рост у криптовалют:", end=" ")
 for _ in greatest_growth_dict:
     print(greatest_growth_dict[_], end="; ")
