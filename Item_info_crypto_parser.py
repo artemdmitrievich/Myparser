@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from time import time, sleep
+
 # from transliterate import translit  # Функция для создания транслита строки
 from translit import translit
 from langdetect import detect  # Функция для определения языка строки

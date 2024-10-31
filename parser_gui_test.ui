@@ -539,7 +539,7 @@ text-align: end;</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/icons8-телеграм-96.png</normaloff>:/icons/icons/icons8-телеграм-96.png</iconset>
       </property>
       <property name="iconSize">
@@ -582,6 +582,16 @@ background: rgba(255,255,255,0)</string>
       <property name="text">
        <string/>
       </property>
+      <property name="icon">
+       <iconset resource="res-rc.qrc">
+        <normaloff>:/icons/icons/trending_down.png</normaloff>:/icons/icons/trending_down.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
      </widget>
      <widget class="QPushButton" name="Coin_Icon_Button">
       <property name="geometry">
@@ -600,7 +610,7 @@ text-align: end;</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/coin.png</normaloff>:/icons/icons/coin.png</iconset>
       </property>
       <property name="iconSize">
@@ -1281,7 +1291,7 @@ text-align: end;</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/icons8-телеграм-96.png</normaloff>:/icons/icons/icons8-телеграм-96.png</iconset>
       </property>
       <property name="iconSize">
@@ -1308,7 +1318,7 @@ text-align: end;</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/coin.png</normaloff>:/icons/icons/coin.png</iconset>
       </property>
       <property name="iconSize">
@@ -1379,7 +1389,7 @@ background: rgba(255,255,255,0);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -1405,7 +1415,7 @@ background: rgba(255,255,255,0);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -1431,7 +1441,7 @@ background: rgba(255,255,255,0);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -1695,7 +1705,7 @@ background-color: rgb(157, 0, 255);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -1721,7 +1731,7 @@ background-color: rgb(157, 0, 255);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -1747,7 +1757,7 @@ background-color: rgb(157, 0, 255);</string>
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="resource.qrc">
+       <iconset resource="res-rc.qrc">
         <normaloff>:/icons/icons/trending_up.png</normaloff>:/icons/icons/trending_up.png</iconset>
       </property>
       <property name="iconSize">
@@ -2029,7 +2039,7 @@ background-color: rgb(157, 0, 255);</string>
   </widget>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="res-rc.qrc"/>
  </resources>
  <connections/>
 </ui>

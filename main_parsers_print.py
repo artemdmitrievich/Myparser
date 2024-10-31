@@ -19,13 +19,19 @@ sleep(0.5)
 
 # Вывод изменения рыночной капитализация криптовалюты за 24 часа
 if General().get_change_market_capitalization()[2] == "down":
-    print(f"Рыночная капитализация криптовалюты понизилась на {General().get_change_market_capitalization()[0]}")
+    print(
+        f"Рыночная капитализация криптовалюты понизилась на {General().get_change_market_capitalization()[0]}"
+    )
 else:
-    print(f"Рыночная капитализация криптовалюты повысилась на {General().get_change_market_capitalization()[0]}")
+    print(
+        f"Рыночная капитализация криптовалюты повысилась на {General().get_change_market_capitalization()[0]}"
+    )
 sleep(0.5)
 
 # Вывод общего объёма торгов за 24 часа
-print(f"Общий объём торгов за 24 часа - {General().get_total_trading_volume_per_day()[0]}$")
+print(
+    f"Общий объём торгов за 24 часа - {General().get_total_trading_volume_per_day()[0]}$"
+)
 sleep(0.5)
 
 name_crypto = "БиТкоин кэш"  # Вводимое название криптовалюты

@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/Main_window_icon.png</file>
+    <file>icons/coin.png</file>
+    <file>icons/icons8-телеграм-96.png</file>
+    <file>icons/trending_down.png</file>
+    <file>icons/trending_up.png</file>
+  </qresource>
+</RCC>

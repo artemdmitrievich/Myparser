@@ -21,7 +21,7 @@ class Main_page:
         self.Value_information_source_label.setOpenExternalLinks(True)
 
         # Создание ссылки на телеграм-бота
-        telegram_bot_url = "https://www.coingecko.com/ru"  # url телеграм-бота
+        telegram_bot_url = "https://t.me/My_electronics_site_bot"  # url телеграм-бота
         self.Switch_to_telegram_bot_Button.clicked.connect(
             lambda: webbrowser.open(telegram_bot_url)
         )
@@ -30,7 +30,7 @@ class Main_page:
         )
 
         # Создание ссылки на донаты автору
-        donates_url = "https://www.coingecko.com/ru"  # url на донаты автору
+        donates_url = "https://yoomoney.ru/to/4100118875611605"  # url на донаты автору
         self.Switch_to_support_the_autor_Button.clicked.connect(
             lambda: webbrowser.open(donates_url)
         )

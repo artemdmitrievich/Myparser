@@ -19,14 +19,16 @@ class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):
         MainWindow.setFixedSize(823, 700)
         # Полное наследование от Ui_MainWindow, Main_page, Item_page
         super().setupUi(MainWindow)
-        MainWindow.setWindowTitle("My_crypto_info_portal")
-        MainWindow.setWindowIcon(QtGui.QIcon(":/icons/icons/coin.png"))
+        MainWindow.setWindowTitle("My crypto info portal")
+        MainWindow.setWindowIcon(QtGui.QIcon(":/icons/icons/Main_window_icon.png"))
 
         # Создание иконок trending_up и trending_down
         self.Icon_trending_up = QtGui.QIcon()
         self.Icon_trending_down = QtGui.QIcon()
         self.Icon_trending_up.addPixmap(
-            QtGui.QPixmap(":/icons/icons/trending_up.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+            QtGui.QPixmap(":/icons/icons/trending_up.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
         )
         self.Icon_trending_down.addPixmap(
             QtGui.QPixmap(":/icons/icons/trending_down.png"),
@@ -35,7 +37,7 @@ class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):
         )
 
         # Создание ссылки на телеграм-бота
-        telegram_bot_url = "https://www.coingecko.com/ru"  # url телеграм-бота
+        telegram_bot_url = "https://t.me/My_electronics_site_bot"  # url телеграм-бота
         self.Switch_to_telegram_bot_Button_2.clicked.connect(
             lambda: webbrowser.open(telegram_bot_url)
         )
@@ -44,7 +46,7 @@ class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):
         )
 
         # Создание ссылки на донаты автору
-        donates_url = "https://www.coingecko.com/ru"  # url на донаты автору
+        donates_url = "https://yoomoney.ru/to/4100118875611605"  # url на донаты автору
         self.Switch_to_support_the_autor_Button_2.clicked.connect(
             lambda: webbrowser.open(donates_url)
         )
