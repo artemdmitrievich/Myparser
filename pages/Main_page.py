@@ -1,4 +1,4 @@
-from Main_info_crypto_parser import General
+from Parsers.Main_info_crypto_parser import General
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 import webbrowser

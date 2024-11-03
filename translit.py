@@ -64,6 +64,3 @@ def translit(stroka):
     for i in dictionary:
         stroka = stroka.replace(i, dictionary[i])
     return stroka
-
-
-print(translit("биткоин кэш"))

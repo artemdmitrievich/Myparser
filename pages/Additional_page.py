@@ -1,4 +1,4 @@
-from Main_info_crypto_parser import Additional_CoinGecko_info
+from Parsers.Main_info_crypto_parser import Additional_CoinGecko_info
 
 
 class Additional_page:

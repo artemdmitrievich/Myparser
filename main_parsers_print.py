@@ -5,9 +5,9 @@
 # py -m pip install requests, BeautifulSoup4, transliterate, langdetect, lxml
 
 # Импорт необходимых классов парсеров
-from Main_info_crypto_parser import General, Additional_CoinGecko_info
-from Item_info_crypto_parser import Crypto
-from Auto_Yobit_parser import start_tracking_crypto
+from Parsers.Main_info_crypto_parser import General, Additional_CoinGecko_info
+from Parsers.Item_info_crypto_parser import Crypto
+from Yobit_net.Auto_Yobit_parser import start_tracking_crypto
 from time import sleep
 
 

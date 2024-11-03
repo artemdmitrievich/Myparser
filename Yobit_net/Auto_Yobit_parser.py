@@ -1,4 +1,4 @@
-from Yobit_parser import Yobit
+from Yobit_net.Yobit_parser import Yobit
 from time import sleep
 
 

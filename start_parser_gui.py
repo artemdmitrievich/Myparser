@@ -1,15 +1,13 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from parser_gui import Ui_MainWindow
-from Additional_page import Additional_page
-from Main_page import Main_page
-from Item_page import Item_page
-from Item_info_crypto_parser import Crypto
+from Qt_designer.parser_gui import Ui_MainWindow
+from pages.Additional_page import Additional_page
+from pages.Main_page import Main_page
+from pages.Item_page import Item_page
+from Parsers.Item_info_crypto_parser import Crypto
 from PyQt5.QtCore import Qt
 import webbrowser
-import res_rc
-
-# "icons/icons8-телеграм-96.png" - путь к иконке телеграма
+import Qt_designer.res_rc as res_rc
 
 
 class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):

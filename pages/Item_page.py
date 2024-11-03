@@ -1,4 +1,4 @@
-from Item_info_crypto_parser import Crypto
+from Parsers.Item_info_crypto_parser import Crypto
 
 # from transliterate import translit  # Функция для создания транслита строки
 from translit import translit
