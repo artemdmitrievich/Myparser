@@ -60,6 +60,10 @@ def translit(stroka):
         "Э": "e",
         "Ю": "ju",
         "Я": "ja",
+        "ь": "",
+        "Ь": "",
+        "ъ": "",
+        "Ъ": "",
     }
     for i in dictionary:
         stroka = stroka.replace(i, dictionary[i])

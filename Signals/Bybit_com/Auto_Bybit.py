@@ -18,13 +18,28 @@ def Sell_signal(copy):
     )
 
 
+def ex_all():
+    print("Произошла ошибка")
+
+
+def ex_coins():
+    print("Ошибка ввода данных")
+
+
 # Запуск автоматического отслеживания криптовалюты
 def start_tracking_crypto(
-    coin1="btc", coin2="usd", time_sleep=18, support=0, resistance=999999999
+    support=0, resistance=999999999, time_sleep=18, *args, **kwargs
 ):
-    My_Bybit = Bybit(coin1=coin1, coin2=coin2)
+    My_Bybit = Bybit(*args, **kwargs)
     stack_ask = []
     stack_bid = []
+
+    try:
+        My_Bybit.get_average_trades_ask()
+        sleep(1)
+    except:
+        ex_coins()
+        return
 
     while True:
         try:
@@ -70,7 +85,7 @@ def start_tracking_crypto(
                     stack_bid.append((curr_bid, My_Bybit.get_avarage_spread()))
                 sleep(2)
         except:
-            pass
+            ex_all()
 
         if (
             len(stack_bid) == 4
@@ -101,4 +116,5 @@ def start_tracking_crypto(
         sleep(time_sleep - 16)
 
 
-# start_tracking_crypto()
+if __name__ == "__main__":
+    start_tracking_crypto(coin1="eth", coin2="usd")

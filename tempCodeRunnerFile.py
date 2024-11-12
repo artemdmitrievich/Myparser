@@ -1,1 +1,0 @@
-        # super(Item_page, self).__init__()

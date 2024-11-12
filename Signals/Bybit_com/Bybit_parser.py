@@ -52,5 +52,6 @@ class Bybit:
         return self._ask - self._bid
 
 
-# print(Bybit().get_avarage_trades_bid())
-# print(Bybit().get_avarage_trades_ask())
+if __name__ == "__main__":
+    print(Bybit().get_average_trades_bid())
+    print(Bybit().get_average_trades_ask())
