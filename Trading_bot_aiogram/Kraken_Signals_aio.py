@@ -1,5 +1,6 @@
 import krakenex, time
 import pandas as pd
+from Signals_messages import Sell_signal_message, Buy_signal_message
 
 
 class MovingAverageCrossover:
@@ -58,12 +59,12 @@ class MovingAverageCrossover:
             self._Sell_Signal()
 
     def _Buy_Signal(self):
-        print(f"Сигнал на покупку {self.coin1} в {self.coin2}")
-        # Buy_signal_message(user_id=1270674543)
+        # print(f"Сигнал на покупку {self.coin1} в {self.coin2}")
+        Buy_signal_message(user_id=1270674543)
 
     def _Sell_Signal(self):
-        print(f"Сигнал на продажу {self.coin1} в {self.coin2}")
-        # Sell_signal_message(user_id=1270674543)
+        # print(f"Сигнал на продажу {self.coin1} в {self.coin2}")
+        Sell_signal_message(user_id=1270674543)
 
     def run(self):
         while True:
