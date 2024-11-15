@@ -5,7 +5,7 @@ from Signals_messages import Sell_signal_message, Buy_signal_message
 
 class MovingAverageCrossover:
 
-    def __init__(self, coin1, coin2, short_window, long_window, interval=1):
+    def __init__(self, query, coin1, coin2, short_window, long_window, interval=1):
         self.coin1 = coin1
         self.coin2 = coin2
         self.pair = coin1.upper() + coin2.upper()
@@ -13,6 +13,7 @@ class MovingAverageCrossover:
         self.long_window = long_window
         self.interval = interval  # Интервал в минутах
         self.api = krakenex.API()
+        self.query = query
 
     def __ex_coins(self):
         print("Ошибка ввода данных")
@@ -60,11 +61,11 @@ class MovingAverageCrossover:
 
     def _Buy_Signal(self):
         # print(f"Сигнал на покупку {self.coin1} в {self.coin2}")
-        Buy_signal_message(user_id=1270674543)
+        Buy_signal_message(query=self.query)
 
     def _Sell_Signal(self):
         # print(f"Сигнал на продажу {self.coin1} в {self.coin2}")
-        Sell_signal_message(user_id=1270674543)
+        Sell_signal_message(query=self.query)
 
     def run(self):
         while True:

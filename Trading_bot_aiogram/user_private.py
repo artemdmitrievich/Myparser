@@ -1,18 +1,31 @@
 from aiogram import F, Router, types
 from aiogram.filters import CommandStart, Command
-import sqlite3
+import sqlite3, pickle
+# import weakref
 from Keyboards.inline_buttons import MyCallback, create_keyboard
 from aiogram.types.callback_query import CallbackQuery
 from Kraken_Signals_aio import MovingAverageCrossover
+from multiprocessing import Process
+
 user_private_router = Router()
 
+# # Функция для сериализации
+# def serialize_weakref(weak_ref):
+#     # Получаем объект на который ссылается weak_ref
+#     real_object = weak_ref()
+#     if real_object is not None:
+#         # Если объект все ещё существует, сериализуем его атрибуты
+#         return pickle.dumps(real_object.__dict__)
+#     else:
+#         # Если объект был удален, возвращаем None
+#         return None
 
 @user_private_router.message(CommandStart())
 async def start_cmd(message: types.Message):
 
     await message.reply(
         f"Привет, {message.from_user.first_name}, я твой виртуальный крипто помощник.",
-        reply_markup=create_keyboard()
+        reply_markup=create_keyboard(),
     )
 
     # Подключение к базе данных
@@ -43,6 +56,8 @@ async def start_cmd(message: types.Message):
     )
 """
     )
+
+    # pickled_message_instance = serialize_weakref(message)
 
     cursor.execute(
         """
@@ -81,8 +96,21 @@ async def start_cmd(message: types.Message):
 
 @user_private_router.callback_query(MyCallback.filter(F.foo == "start_tracking"))
 async def my_callback_foo(query: CallbackQuery, callback_data: MyCallback):
-    MovingAverageCrossover("btc", "usd", 20, 50, 1).run()
 
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        UPDATE users SET tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ? WHERE Id = ?""",
+        (1, "btc", "usd", 20, 50, 1, query.from_user.id),
+    )
+    conn.commit()
+    conn.close()
+
+    # await query.message.answer("Сообщение")
+    # curr = MovingAverageCrossover(query, "btc", "usd", 20, 50, 1)
+    # process = Process(target=curr.run)
+    # process.start()
 
 
 @user_private_router.message(Command("adding_crypto"))

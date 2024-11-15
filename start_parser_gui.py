@@ -7,7 +7,7 @@ from pages.Item_page import Item_page
 from Parsers.Item_info_crypto_parser import Crypto
 from PyQt5.QtCore import Qt
 import webbrowser
-import Qt_designer.res_rc as res_rc
+
 
 
 class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):
@@ -100,6 +100,7 @@ class My_Ui_MainWindow(Ui_MainWindow, Additional_page, Main_page, Item_page):
     def _Update_all(self):
         self._Update_additional_page()
         self._Update_main_page()
+        self._Update_Item_page()
 
 
 if __name__ == "__main__":

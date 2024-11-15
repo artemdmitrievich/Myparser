@@ -7,7 +7,8 @@
 # Импорт необходимых классов парсеров
 from Parsers.Main_info_crypto_parser import General, Additional_CoinGecko_info
 from Parsers.Item_info_crypto_parser import Crypto
-from Yobit_net.Auto_Yobit_parser import start_tracking_crypto
+# from Signals.Yobit_net.Auto_Yobit_parser import start_tracking_crypto
+# from Signals.Yobit_net.Auto_Yobit_parser import start_tracking_crypto
 from time import sleep
 
 
@@ -69,4 +70,4 @@ for _ in greatest_growth_dict:
     print(greatest_growth_dict[_], end="; ")
 
 # Запуск автоматического отслеживания криптовалюты
-start_tracking_crypto(time_sleep=2)
+# start_tracking_crypto(time_sleep=2)

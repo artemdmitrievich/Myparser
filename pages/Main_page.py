@@ -65,7 +65,7 @@ class Main_page:
                 QtCore.QSize(40, 40)
             )
 
-        # Установка основныз значений
+        # Установка основных значений
         self.Value_capitalization_label.setText(
             f"$ {Current_data_market_capitalization[0]}"
         )
