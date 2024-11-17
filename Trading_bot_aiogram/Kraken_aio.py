@@ -1,11 +1,11 @@
-import krakenex, time
+import asyncio, krakenex, time
 import pandas as pd
-from Signals_messages import Sell_signal_message, Buy_signal_message
+from Bot import send_message
 
 
 class MovingAverageCrossover:
 
-    def __init__(self, query, coin1, coin2, short_window, long_window, interval=1):
+    def __init__(self, Id, coin1, coin2, short_window, long_window, interval=1):
         self.coin1 = coin1
         self.coin2 = coin2
         self.pair = coin1.upper() + coin2.upper()
@@ -13,7 +13,7 @@ class MovingAverageCrossover:
         self.long_window = long_window
         self.interval = interval  # Интервал в минутах
         self.api = krakenex.API()
-        self.query = query
+        self.Id = Id
 
     def __ex_coins(self):
         print("Ошибка ввода данных")
@@ -55,17 +55,14 @@ class MovingAverageCrossover:
             and short_sma.iloc[-2] > long_sma.iloc[-2]
         ):
             self._Sell_Signal()
-        
         else:
-            self._Sell_Signal()
+            self._Buy_Signal()
 
     def _Buy_Signal(self):
-        # print(f"Сигнал на покупку {self.coin1} в {self.coin2}")
-        Buy_signal_message(query=self.query)
+        asyncio.get_event_loop().run_until_complete(send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}"))
 
     def _Sell_Signal(self):
-        # print(f"Сигнал на продажу {self.coin1} в {self.coin2}")
-        Sell_signal_message(query=self.query)
+        asyncio.get_event_loop().run_until_complete(send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}"))
 
     def run(self):
         while True:
@@ -73,13 +70,5 @@ class MovingAverageCrossover:
             if curr_check == "error":
                 return
             time.sleep(
-                self.interval * 10
+                self.interval * 10 # нужно self.interval * 60
             )  # задержка между запросами длительностью в одну свечу
-
-
-# Пример использования
-if __name__ == "__main__":
-    ma_crossover = MovingAverageCrossover(
-        coin1="sol", coin2="usd", short_window=20, long_window=50
-    )
-    ma_crossover.run()
