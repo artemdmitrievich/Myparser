@@ -66,47 +66,50 @@ async def start_cmd(message: types.Message):
         conn.commit()
 
     else:
-        index_delete_all = ""
-        if item[3]:
-            index_delete_all += "3_4;"
-        if item[9]:
-            index_delete_all += "9_10;"
-        if item[15]:
-            index_delete_all += "15_16;"
+        if item[2] != 0:
+            index_delete_all = ""
+            if item[3]:
+                index_delete_all += "3_4;"
+            if item[9]:
+                index_delete_all += "9_10;"
+            if item[15]:
+                index_delete_all += "15_16;"
 
-        cursor.execute(
-            """
-                UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
-                coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
-                coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
-                WHERE Id = ?
-                """,
-            (
-                index_delete_all,
-                0,
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                message.from_user.id,
-            ),
-        )
-        await message.answer(
-            "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания"
+            cursor.execute(
+                """
+                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
+                    coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
+                    coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
+                    WHERE Id = ?
+                    """,
+                (
+                    index_delete_all,
+                    0,
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    message.from_user.id,
+                ),
+            )
+
+        await message.reply(
+            "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания",
+            reply_markup=create_keyboard(),
         )
         conn.commit()
 
@@ -159,82 +162,95 @@ async def process_message(message: types.Message, state: FSMContext):
     ):
         sucsess = False
 
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT tracking_quantity FROM users")
+    items = cursor.fetchall()
+    conn.close()
+    sum_items = 0
+    for i in items:
+        sum_items += i[0]
+    if sum_items < 15:
+        if sucsess:
+            conn = sqlite3.connect("Data_base.db")
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
+            item = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
-        item = cursor.fetchone()
+            if item[2] > 2:
+                limit = False
+            else:
+                limit = True
+                tracking_quantity = item[2] + 1
 
-        if item[2] > 2:
-            limit = False
+            if item[8] == "False" and limit:
+                cursor.execute(
+                    """
+                    UPDATE users SET tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
+                    (
+                        tracking_quantity,
+                        coin1,
+                        coin2,
+                        short_window,
+                        long_window,
+                        interval,
+                        "Waiting",
+                        message.from_user.id,
+                    ),
+                )
+
+            elif item[14] == "False" and limit:
+                cursor.execute(
+                    """
+                    UPDATE users SET tracking_quantity = ?, coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
+                    (
+                        tracking_quantity,
+                        coin1,
+                        coin2,
+                        short_window,
+                        long_window,
+                        interval,
+                        "Waiting",
+                        message.from_user.id,
+                    ),
+                )
+
+            elif item[20] == "False" and limit:
+                cursor.execute(
+                    """
+                    UPDATE users SET tracking_quantity = ?, coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
+                    (
+                        tracking_quantity,
+                        coin1,
+                        coin2,
+                        short_window,
+                        long_window,
+                        interval,
+                        "Waiting",
+                        message.from_user.id,
+                    ),
+                )
+            else:
+                await message.answer(
+                    "Слишком много криптовалют\nбыло добавлено\nлимит: 3"
+                )
+
+            conn.commit()
+            conn.close()
+            if limit:
+                await message.answer("Успех!!!")
         else:
-            limit = True
-            tracking_quantity = item[2] + 1
-
-        if item[8] == "False" and limit:
-            cursor.execute(
-                """
-                UPDATE users SET tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
-                (
-                    tracking_quantity,
-                    coin1,
-                    coin2,
-                    short_window,
-                    long_window,
-                    interval,
-                    "Waiting",
-                    message.from_user.id,
-                ),
-            )
-
-        elif item[14] == "False" and limit:
-            cursor.execute(
-                """
-                UPDATE users SET tracking_quantity = ?, coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
-                (
-                    tracking_quantity,
-                    coin1,
-                    coin2,
-                    short_window,
-                    long_window,
-                    interval,
-                    "Waiting",
-                    message.from_user.id,
-                ),
-            )
-
-        elif item[20] == "False" and limit:
-            cursor.execute(
-                """
-                UPDATE users SET tracking_quantity = ?, coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
-                (
-                    tracking_quantity,
-                    coin1,
-                    coin2,
-                    short_window,
-                    long_window,
-                    interval,
-                    "Waiting",
-                    message.from_user.id,
-                ),
-            )
-
-        else:
-            await message.answer("Слишком много криптовалют\nбыло добавлено\nлимит: 3")
-
-        conn.commit()
-        conn.close()
-        if limit:
-            await message.answer("Успех!!!")
+            await message.answer("Неудача")
     else:
-        await message.answer("Неудача")
+        await message.answer(
+            "Нет свободных мест на отслеживание,\nлимит на всех пользователей: 15"
+        )
 
     await state.clear()
 
 
 @user_private_router.message(Command("profile"))
-async def about(message: types.Message):
+async def profile(message: types.Message):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
@@ -292,123 +308,124 @@ async def stop(message: types.Message):
         )
     else:
         await message.answer(
-            "У вас не отслеживается ни одной криптовалюты\nдля начала отслеживания,\nиспользуйте команду '/adding_crypto'"
+            f"{message.from_user.first_name}, у вас не отслеживается ни одной криптовалюты\nдля начала отслеживания,\nиспользуйте команду '/adding_crypto'"
         )
 
 
 @user_private_router.callback_query(
     lambda c: c.data in ["delete_all", "delete_first", "delete_second", "delete_third"]
 )
-async def delete_callback_buttons(callback_query: CallbackQuery):
+async def on_delete_callback(callback_query: CallbackQuery):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE Id = ?", (callback_query.from_user.id,))
     item = cursor.fetchone()
 
-    if callback_query.data == "delete_all":
-        index_delete_all = ""
-        if item[3]:
-            index_delete_all += "3_4;"
-        if item[9]:
-            index_delete_all += "9_10;"
-        if item[15]:
-            index_delete_all += "15_16;"
+    if item[2] != 0:
+        if callback_query.data == "delete_all":
+            index_delete_all = ""
+            if item[3]:
+                index_delete_all += "3_4;"
+            if item[9]:
+                index_delete_all += "9_10;"
+            if item[15]:
+                index_delete_all += "15_16;"
 
-        cursor.execute(
-            """
-                UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
-                coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
-                coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
-                WHERE Id = ?
-                """,
-            (
-                index_delete_all,
-                0,
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                callback_query.from_user.id,
-            ),
-        )
-        await callback_query.message.answer(
-            "Все криптовалюты успешно\nудалены из отслеживания!"
-        )
+            cursor.execute(
+                """
+                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
+                    coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
+                    coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
+                    WHERE Id = ?
+                    """,
+                (
+                    index_delete_all,
+                    0,
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    callback_query.from_user.id,
+                ),
+            )
+            await callback_query.message.answer(
+                "Все криптовалюты успешно\nудалены из отслеживания!"
+            )
 
-    elif callback_query.data == "delete_first":
-        cursor.execute(
-            """
-                UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
-            (
-                "3_4;",
-                item[2] - 1,
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                callback_query.from_user.id,
-            ),
-        )
-        await callback_query.message.answer(
-            f"Пара {item[3]}_{item[4]} успешно\nудалена из отслеживания!"
-        )
+        elif callback_query.data == "delete_first":
+            cursor.execute(
+                """
+                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
+                (
+                    "3_4;",
+                    item[2] - 1,
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    callback_query.from_user.id,
+                ),
+            )
+            await callback_query.message.answer(
+                f"Пара {item[3]}_{item[4]} успешно\nудалена из отслеживания!"
+            )
 
-    elif callback_query.data == "delete_second":
-        cursor.execute(
-            """
-                UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
-            (
-                "9_10;",
-                item[2] - 1,
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                callback_query.from_user.id,
-            ),
-        )
-        await callback_query.message.answer(
-            f"Пара {item[9]}_{item[10]} успешно\nудалена из отслеживания!"
-        )
+        elif callback_query.data == "delete_second":
+            cursor.execute(
+                """
+                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
+                (
+                    "9_10;",
+                    item[2] - 1,
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    callback_query.from_user.id,
+                ),
+            )
+            await callback_query.message.answer(
+                f"Пара {item[9]}_{item[10]} успешно\nудалена из отслеживания!"
+            )
 
-    else:
-        cursor.execute(
-            """
-                UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
-            (
-                "15_16;",
-                item[2] - 1,
-                None,
-                None,
-                0,
-                0,
-                0,
-                "False",
-                callback_query.from_user.id,
-            ),
-        )
-        await callback_query.message.answer(
-            f"Пара {item[15]}_{item[16]} успешно\nудалена из отслеживания!"
-        )
+        else:
+            cursor.execute(
+                """
+                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
+                (
+                    "15_16;",
+                    item[2] - 1,
+                    None,
+                    None,
+                    0,
+                    0,
+                    0,
+                    "False",
+                    callback_query.from_user.id,
+                ),
+            )
+            await callback_query.message.answer(
+                f"Пара {item[15]}_{item[16]} успешно\nудалена из отслеживания!"
+            )
 
     conn.commit()
     conn.close()
