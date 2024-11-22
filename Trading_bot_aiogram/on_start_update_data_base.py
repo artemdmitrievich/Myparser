@@ -32,9 +32,7 @@ async def on_start_update_data_base():
     )
 """
     )
-    cursor.execute(
-        "SELECT * FROM users"
-    )
+    cursor.execute("SELECT * FROM users")
     items = cursor.fetchall()
     if items:
         for item in items:
@@ -45,7 +43,7 @@ async def on_start_update_data_base():
                     ("Waiting", item[0]),
                 )
                 conn.commit()
-            
+
             if item[14] == "True":
                 cursor.execute(
                     """
@@ -53,7 +51,7 @@ async def on_start_update_data_base():
                     ("Waiting", item[0]),
                 )
                 conn.commit()
-            
+
             if item[20] == "True":
                 cursor.execute(
                     """

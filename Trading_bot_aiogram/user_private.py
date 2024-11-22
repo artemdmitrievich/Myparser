@@ -5,14 +5,24 @@ from aiogram.types.callback_query import CallbackQuery
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from Keyboards.inline_buttons import MyCallback, create_keyboard, create_delete_keyboard
+from Parsers_aio.Main_info_crypto_parser import General
+from Parsers_aio.Item_info_crypto_parser import Crypto
 
 
 user_private_router = Router()
 
 
 # Определяем состояния
-class Form(StatesGroup):
-    waiting_for_message = State()
+class Form_start_tracking(StatesGroup):
+    waiting_for_message_start_tracking = State()
+
+
+class Form_crypto_cap(StatesGroup):
+    waiting_for_message_crypto_cap = State()
+
+
+class Form_crypto_price(StatesGroup):
+    waiting_for_message_crypto_price = State()
 
 
 @user_private_router.message(CommandStart())
@@ -117,9 +127,7 @@ async def start_cmd(message: types.Message):
 
 
 @user_private_router.callback_query(MyCallback.filter(F.foo == "start_tracking"))
-async def my_callback_foo(
-    query: CallbackQuery, callback_data: MyCallback, state: FSMContext
-):
+async def my_callback_foo(query: CallbackQuery):
 
     await query.message.answer(
         text="Для начала отслеживания введи команду '/adding_crypto'"
@@ -128,7 +136,7 @@ async def my_callback_foo(
 
 @user_private_router.message(Command("adding_crypto"))
 async def adding_crypto(message: types.Message, state: FSMContext):
-    await state.set_state(Form.waiting_for_message)
+    await state.set_state(Form_start_tracking.waiting_for_message_start_tracking)
     await message.answer(
         text="""Чтобы добавить криптовалютную пару в отслеживание,
 введи данные в формате:
@@ -141,8 +149,8 @@ async def adding_crypto(message: types.Message, state: FSMContext):
     )
 
 
-@user_private_router.message(Form.waiting_for_message)
-async def process_message(message: types.Message, state: FSMContext):
+@user_private_router.message(Form_start_tracking.waiting_for_message_start_tracking)
+async def process_message_start_tracking(message: types.Message, state: FSMContext):
     try:
         text = str(message.text).split(",")
         coin1 = text[0].strip().upper()
@@ -291,7 +299,105 @@ async def profile(message: types.Message):
 
 @user_private_router.message(Command("about"))
 async def about(message: types.Message):
-    await message.answer("Информация о боте")
+    await message.answer("Информация о боте:")
+
+
+@user_private_router.message(Command("command_list"))
+async def about(message: types.Message):
+    await message.answer(
+        """
+Список доступных команд:
+
+1. '/start' - Запуск | Перезапуск;
+2. '/about' - Информация о боте;
+3. '/profile' - Профиль;
+4. '/command_list' - Полный список всех команд;
+5. '/adding_crypto' - Добавить криптовалюту в отслеживание;
+6. '/stop' - Прекратить отслеживание криптовалюты;
+7. '/help' - Техподдержка.
+8. '/get_total_capitalization' - Получить общую рыночную
+капитализацию;
+9. '/get_total_trading_volume' - Получить общий объём торгов;
+10. '/get_crypto_capitalization' - Получить рыночную
+капитализацию конкретной криптовалюты;
+11. '/get_crypto_price' - Получить текущую среднюю
+стоимость конкретной криптовалюты;"""
+    )
+
+
+@user_private_router.message(Command("get_total_capitalization"))
+async def get_total_capitalization(message: types.Message):
+    curr_General = General()
+    curr_capitalization = curr_General.get_data_market_capitalization()[0]
+    curr_change = curr_General.get_change_market_capitalization()
+    curr_change_value = curr_change[0]
+    curr_direction = "увеличилась" if curr_change[2] == "up" else "уменьшилась"
+    await message.answer(
+        f"Общая рыночная каптилизация составляет:\n$ {curr_capitalization}\n\nРыночная капитализация {curr_direction}\nна {curr_change_value} за последние 24 часа."
+    )
+
+
+@user_private_router.message(Command("get_total_trading_volume"))
+async def get_total_trading_volume(message: types.Message):
+    curr_General = General()
+    curr_volume = curr_General.get_total_trading_volume_per_day()[0]
+    await message.answer(
+        f"Общий объём торгов криптовалютой составляет:\n$ {curr_volume}"
+    )
+
+
+@user_private_router.message(Command("get_crypto_capitalization"))
+async def get_crypto_capitalization(message: types.Message, state: FSMContext):
+    await state.set_state(Form_crypto_cap.waiting_for_message_crypto_cap)
+    await message.answer(
+        "Для получения рыночной капитализации,\nвведите название криптовалюты:"
+    )
+
+
+@user_private_router.message(Form_crypto_cap.waiting_for_message_crypto_cap)
+async def process_message_crypto_cap(message: types.Message, state: FSMContext):
+    try:
+        curr_Crypto = Crypto(message.text)
+        curr_name = curr_Crypto.get_crypto_name
+        curr_capitalization = curr_Crypto.get_current_crypto_capitalization()[0]
+        await message.answer(
+            f"Рыночная капитализация {curr_name}:\n$ {curr_capitalization}"
+        )
+    except:
+        await message.answer("Введена некорректная криптовалюта")
+
+    await state.clear()
+
+
+@user_private_router.message(Command("get_crypto_price"))
+async def get_crypto_price(message: types.Message, state: FSMContext):
+    await state.set_state(Form_crypto_price.waiting_for_message_crypto_price)
+    await message.answer(
+        "Для получения средней стоимости,\nвведите название криптовалюты:"
+    )
+
+
+@user_private_router.message(Form_crypto_price.waiting_for_message_crypto_price)
+async def process_message_crypto_price(message: types.Message, state: FSMContext):
+    try:
+        curr_Crypto = Crypto(message.text)
+        curr_name = curr_Crypto.get_crypto_name
+        curr_price = curr_Crypto.get_current_average_crypto_price()[0]
+        await message.answer(f"Средняя стоимость {curr_name}:\n$ {curr_price}")
+    except:
+        await message.answer("Введена некорректная криптовалюта")
+
+    await state.clear()
+
+
+@user_private_router.message(Command("help"))
+async def about(message: types.Message):
+    link_text = "Андрианов Артём"
+    url = "t.me/ArtemkaAndrianov"
+    await message.answer(
+        f"Техподдержка:\n\nЕсли при использовании бота возникла\nошибка, пишите в личные сообщения\n[{link_text}]({url})",
+        parse_mode="Markdown",
+    )
 
 
 @user_private_router.message(Command("stop"))
