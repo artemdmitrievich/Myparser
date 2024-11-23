@@ -36,7 +36,11 @@ async def on_start_update_data_base():
     items = cursor.fetchall()
     if items:
         for item in items:
-            if item[8] == "True":
+            if not item[1]:
+                item_1 = "None"
+            else:
+                item_1 = item[1]
+            if item[8] == "True" and "3_4;" not in item_1:
                 cursor.execute(
                     """
                     UPDATE users SET is_tracking_first = ? WHERE Id = ?""",
@@ -44,7 +48,7 @@ async def on_start_update_data_base():
                 )
                 conn.commit()
 
-            if item[14] == "True":
+            if item[14] == "True" and "9_10;" not in item_1:
                 cursor.execute(
                     """
                     UPDATE users SET is_tracking_second = ? WHERE Id = ?""",
@@ -52,11 +56,19 @@ async def on_start_update_data_base():
                 )
                 conn.commit()
 
-            if item[20] == "True":
+            if item[20] == "True" and "15_16;" not in item_1:
                 cursor.execute(
                     """
                     UPDATE users SET is_tracking_third = ? WHERE Id = ?""",
                     ("Waiting", item[0]),
+                )
+                conn.commit()
+            
+            if item[1]:
+                cursor.execute(
+                    """
+                    UPDATE users SET stop_flag = ? WHERE Id = ?""",
+                    (None, item[0]),
                 )
                 conn.commit()
 

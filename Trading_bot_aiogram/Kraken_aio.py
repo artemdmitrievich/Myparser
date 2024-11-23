@@ -111,6 +111,7 @@ class MovingAverageCrossover:
             curr_check = self.__check_signals()
             if curr_check == "error":
                 return
-            time.sleep(
-                self.interval * 60 # нужно self.interval * 60
-            )  # задержка между запросами длительностью в одну свечу
+            if self.interval >= 1 and self.interval <= 60:
+                time.sleep(60)
+            else:
+                time.sleep(300)
