@@ -71,13 +71,13 @@ class MovingAverageCrossover:
     def __check_stop_signals(self):
         conn = sqlite3.connect("Data_base.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE Id = ?", (self.Id,))
+        cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (self.Id,))
         item = cursor.fetchone()
 
         if self.pair_index == item[1]:
             cursor.execute(
                     """
-                        UPDATE users SET stop_flag = ? WHERE Id = ?""",
+                        UPDATE users_tracking SET stop_flag = ? WHERE Id = ?""",
                     (
                         None,
                         self.Id,
@@ -90,7 +90,7 @@ class MovingAverageCrossover:
             if self.pair_index in item[1]:
                 cursor.execute(
                         """
-                            UPDATE users SET stop_flag = ? WHERE Id = ?""",
+                            UPDATE users_tracking SET stop_flag = ? WHERE Id = ?""",
                         (
                             item[1].replace(self.pair_index, ""),
                             self.Id,

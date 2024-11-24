@@ -20,7 +20,7 @@ def create_delete_keyboard(Id):
 
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE Id = ?", (Id,))
+    cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (Id,))
     item = cursor.fetchone()
     conn.close()
 
@@ -50,4 +50,19 @@ def create_delete_keyboard(Id):
             )
 
         builder.adjust(1, 2)
+    return builder.as_markup()
+
+def create_is_auto_operation_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(
+        text="Да",
+        callback_data="is_auto_operation_True"
+    )
+
+    builder.button(
+        text="Нет",
+        callback_data="is_auto_operation_False"
+    )
+
     return builder.as_markup()

@@ -4,7 +4,12 @@ from aiogram.filters import CommandStart, Command
 from aiogram.types.callback_query import CallbackQuery
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
-from Keyboards.inline_buttons import MyCallback, create_keyboard, create_delete_keyboard
+from Keyboards.inline_buttons import (
+    MyCallback,
+    create_keyboard,
+    create_delete_keyboard,
+    create_is_auto_operation_keyboard,
+)
 from Parsers_aio.Main_info_crypto_parser import General
 from Parsers_aio.Item_info_crypto_parser import Crypto
 from on_start_update_data_base import on_start_update_data_base
@@ -13,30 +18,15 @@ from on_start_update_data_base import on_start_update_data_base
 user_private_router = Router()
 
 
-# Определяем состояния
-class Form_start_tracking(StatesGroup):
-    waiting_for_message_start_tracking = State()
-
-
-class Form_crypto_cap(StatesGroup):
-    waiting_for_message_crypto_cap = State()
-
-
-class Form_crypto_price(StatesGroup):
-    waiting_for_message_crypto_price = State()
-
-
 @user_private_router.message(CommandStart())
 async def start_cmd(message: types.Message):
-
     await on_start_update_data_base()
 
-    # Подключение к базе данных
     conn = sqlite3.connect("Data_base.db")
-    # Создание курсора
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
+    cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,))
     item = cursor.fetchone()
+
     if not item:
         await message.reply(
             f"Привет, {message.from_user.first_name}, я твой виртуальный крипто помощник.",
@@ -44,7 +34,7 @@ async def start_cmd(message: types.Message):
         )
         cursor.execute(
             """
-            INSERT OR IGNORE INTO users (
+            INSERT OR IGNORE INTO users_tracking (
             Id, stop_flag, tracking_quantity,
             coin1_first, coin2_first, short_window_first, long_window_first, interval_first, is_tracking_first,
             coin1_second, coin2_second, short_window_second, long_window_second, interval_second, is_tracking_second,
@@ -75,6 +65,22 @@ async def start_cmd(message: types.Message):
             ),
         )
 
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO users_demo_account (
+            Id, is_demo_account, start_sum, current_sum,
+            is_auto_operation, operation_percent
+            ) VALUES (?, ?, ?, ?, ?, ?)""",
+            (
+                message.from_user.id,
+                "False",
+                0,
+                0,
+                "False",
+                0,
+            ),
+        )
+
         # Сохранение изменений и закрытие
         conn.commit()
 
@@ -90,7 +96,7 @@ async def start_cmd(message: types.Message):
 
             cursor.execute(
                 """
-                    UPDATE users SET stop_flag = ?, tracking_quantity = ?,
+                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?,
                     coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
                     coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
                     coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
@@ -120,6 +126,20 @@ async def start_cmd(message: types.Message):
                     message.from_user.id,
                 ),
             )
+        
+        cursor.execute(
+            """
+            UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?,
+            current_sum = ?, is_auto_operation = ?, operation_percent = ? WHERE Id = ?""",
+            (
+                "False",
+                0,
+                0,
+                "False",
+                0,
+                message.from_user.id,
+            ),
+        )
 
         await message.reply(
             "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания",
@@ -136,6 +156,10 @@ async def my_callback_foo(query: CallbackQuery):
     await query.message.answer(
         text="Для начала отслеживания введи команду '/adding_crypto'"
     )
+
+
+class Form_start_tracking(StatesGroup):
+    waiting_for_message_start_tracking = State()
 
 
 @user_private_router.message(Command("adding_crypto"))
@@ -234,9 +258,11 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
 
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT tracking_quantity FROM users")
+    cursor.execute("SELECT tracking_quantity FROM users_tracking")
     items = cursor.fetchall()
-    cursor.execute("SELECT stop_flag FROM users WHERE Id = ?", (message.from_user.id,))
+    cursor.execute(
+        "SELECT stop_flag FROM users_tracking WHERE Id = ?", (message.from_user.id,)
+    )
     user_stop_flag = cursor.fetchone()[0]
     conn.close()
 
@@ -251,7 +277,7 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
                 conn = sqlite3.connect("Data_base.db")
                 cursor = conn.cursor()
                 cursor.execute(
-                    "SELECT * FROM users WHERE Id = ?", (message.from_user.id,)
+                    "SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,)
                 )
                 item = cursor.fetchone()
 
@@ -269,7 +295,7 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
                 if item[8] == "False" and limit and "3_4;" not in item_1:
                     cursor.execute(
                         """
-                        UPDATE users SET tracking_quantity = ?,coin1_first = ?,
+                        UPDATE users_tracking SET tracking_quantity = ?,coin1_first = ?,
                         coin2_first = ?, short_window_first = ?, long_window_first = ?,
                         interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
                         (
@@ -287,7 +313,7 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
                 elif item[14] == "False" and limit and "9_10;" not in item_1:
                     cursor.execute(
                         """
-                        UPDATE users SET tracking_quantity = ?, coin1_second = ?,
+                        UPDATE users_tracking SET tracking_quantity = ?, coin1_second = ?,
                         coin2_second = ?, short_window_second = ?, long_window_second = ?,
                         interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
                         (
@@ -305,7 +331,7 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
                 elif item[20] == "False" and limit and "15_16;" not in item_1:
                     cursor.execute(
                         """
-                        UPDATE users SET tracking_quantity = ?, coin1_third = ?,
+                        UPDATE users_tracking SET tracking_quantity = ?, coin1_third = ?,
                         coin2_third = ?, short_window_third = ?, long_window_third = ?,
                         interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
                         (
@@ -346,7 +372,7 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
 async def profile(message: types.Message):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
+    cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,))
     item = cursor.fetchone()
     message_text = (
         "Профиль:\n\nКриптовалют отслеживается:\n" + str(item[2]) + " из 3.\n\n"
@@ -453,6 +479,10 @@ async def get_total_trading_volume(message: types.Message):
     )
 
 
+class Form_crypto_cap(StatesGroup):
+    waiting_for_message_crypto_cap = State()
+
+
 @user_private_router.message(Command("get_crypto_capitalization"))
 async def get_crypto_capitalization(message: types.Message, state: FSMContext):
     await state.set_state(Form_crypto_cap.waiting_for_message_crypto_cap)
@@ -474,6 +504,10 @@ async def process_message_crypto_cap(message: types.Message, state: FSMContext):
         await message.answer("Введена некорректная криптовалюта")
 
     await state.clear()
+
+
+class Form_crypto_price(StatesGroup):
+    waiting_for_message_crypto_price = State()
 
 
 @user_private_router.message(Command("get_crypto_price"))
@@ -511,7 +545,7 @@ async def about(message: types.Message):
 async def stop(message: types.Message):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE Id = ?", (message.from_user.id,))
+    cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,))
     item = cursor.fetchone()
 
     if item[2] != 0:
@@ -536,7 +570,9 @@ async def on_delete_callback(callback_query: CallbackQuery):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE Id = ?", (callback_query.from_user.id,))
+    cursor.execute(
+        "SELECT * FROM users_tracking WHERE Id = ?", (callback_query.from_user.id,)
+    )
     item = cursor.fetchone()
     if item[1]:
         curr_stop_flag = item[1]
@@ -555,7 +591,7 @@ async def on_delete_callback(callback_query: CallbackQuery):
 
             cursor.execute(
                 """
-                    UPDATE users SET stop_flag = ?, tracking_quantity = ?,
+                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?,
                     coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
                     coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
                     coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
@@ -592,7 +628,7 @@ async def on_delete_callback(callback_query: CallbackQuery):
         elif callback_query.data == "delete_first":
             cursor.execute(
                 """
-                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?,
+                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?, coin1_first = ?,
                     coin2_first = ?, short_window_first = ?, long_window_first = ?,
                     interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
                 (
@@ -614,7 +650,7 @@ async def on_delete_callback(callback_query: CallbackQuery):
         elif callback_query.data == "delete_second":
             cursor.execute(
                 """
-                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_second = ?,
+                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?, coin1_second = ?,
                     coin2_second = ?, short_window_second = ?, long_window_second = ?,
                     interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
                 (
@@ -636,7 +672,7 @@ async def on_delete_callback(callback_query: CallbackQuery):
         else:
             cursor.execute(
                 """
-                    UPDATE users SET stop_flag = ?, tracking_quantity = ?, coin1_third = ?,
+                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?, coin1_third = ?,
                     coin2_third = ?, short_window_third = ?, long_window_third = ?,
                     interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
                 (
@@ -659,6 +695,144 @@ async def on_delete_callback(callback_query: CallbackQuery):
     conn.close()
 
 
+class Form_create_demo_account(StatesGroup):
+    waiting_for_message_create_demo_account = State()
+    waiting_for_message_set_operation_percent = State()
+
+
 @user_private_router.message(Command("demo_account"))
-async def demo_account(message: types.Message):
-    await message.answer("В этой команде будет реализован\nдемо-счёт")
+async def demo_account(message: types.Message, state: FSMContext):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    conn.close()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "False":
+        await state.set_state(
+            Form_create_demo_account.waiting_for_message_create_demo_account
+        )
+        await message.answer(
+            "Введите сумму в $ для создания демо-счёта\nВвод в формате целого числа!"
+        )
+
+    else:
+        await message.answer("У вас уже создан демо-счёт!")
+
+
+@user_private_router.message(
+    Form_create_demo_account.waiting_for_message_create_demo_account
+)
+async def process_message_create_demo_account(
+    message: types.Message, state: FSMContext
+):
+    try:
+        start_sum = int(message.text)
+        sucsess = True
+    except:
+        await message.answer(
+            "Ошибка ввода данных!\nсумма должна быть целым числом,\nбез лишних символов"
+        )
+        sucsess = False
+
+    if sucsess:
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+                UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?, current_sum = ?
+                WHERE Id = ?
+                """,
+            (
+                "True",
+                start_sum,
+                start_sum,
+                message.from_user.id,
+            ),
+        )
+
+        conn.commit()
+        conn.close()
+
+        await message.answer(
+            """Демо-счёт успешно создан!
+
+Хотите ли вы, чтобы бот автоматически
+торговал на вашем демо-счёте,
+используя свои сигналы на валюты,
+находящиеся в отслеживании?""",
+            reply_markup=create_is_auto_operation_keyboard(),
+        )
+
+    await state.clear()
+
+
+@user_private_router.callback_query(
+    lambda c: c.data in ["is_auto_operation_True", "is_auto_operation_False"]
+)
+async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
+    if callback_query.data == "is_auto_operation_True":
+        await state.set_state(
+            Form_create_demo_account.waiting_for_message_set_operation_percent
+        )
+        await callback_query.message.answer(
+            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
+        )
+
+    else:
+        await callback_query.message.answer(
+            """Хорошо, но вы можете самостоятельно
+....................
+....................
+...................."""
+        )
+
+
+@user_private_router.message(
+    Form_create_demo_account.waiting_for_message_set_operation_percent
+)
+async def process_message_set_operation_percent(
+    message: types.Message, state: FSMContext
+):
+    try:
+        operation_percent = int(message.text)
+        sucsess = True
+    except:
+        await message.answer(
+            "Ошибка ввода данных!\nпроцент должен быть целым числом,\nбез лишних символов"
+        )
+        sucsess = False
+
+    if sucsess:
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+                UPDATE users_demo_account SET is_auto_operation = ?, operation_percent = ?
+                WHERE Id = ?
+                """,
+            (
+                "True",
+                operation_percent,
+                message.from_user.id,
+            ),
+        )
+
+        conn.commit()
+        conn.close()
+
+        await message.answer(
+            """Процент успешно установлен!
+
+Теперь бот будет автоматически
+торговать на вашем демо-счёте"""
+        )

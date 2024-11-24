@@ -7,7 +7,7 @@ async def on_start_update_data_base():
     cursor = conn.cursor()
     cursor.execute(
         """
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS users_tracking (
                 Id INTEGER PRIMARY KEY,
                 stop_flag TEXT,
                 tracking_quantity INTEGER,
@@ -32,7 +32,25 @@ async def on_start_update_data_base():
     )
 """
     )
-    cursor.execute("SELECT * FROM users")
+
+    conn.commit()
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users_demo_account (
+                Id INTEGER PRIMARY KEY,
+                is_demo_account TEXT,
+                start_sum INTEGER,
+                current_sum INTEGER,
+                is_auto_operation TEXT,
+                operation_percent INTEGER
+    )
+"""
+    )
+
+    conn.commit()
+
+    cursor.execute("SELECT * FROM users_tracking")
     items = cursor.fetchall()
     if items:
         for item in items:
@@ -43,7 +61,7 @@ async def on_start_update_data_base():
             if item[8] == "True" and "3_4;" not in item_1:
                 cursor.execute(
                     """
-                    UPDATE users SET is_tracking_first = ? WHERE Id = ?""",
+                    UPDATE users_tracking SET is_tracking_first = ? WHERE Id = ?""",
                     ("Waiting", item[0]),
                 )
                 conn.commit()
@@ -51,7 +69,7 @@ async def on_start_update_data_base():
             if item[14] == "True" and "9_10;" not in item_1:
                 cursor.execute(
                     """
-                    UPDATE users SET is_tracking_second = ? WHERE Id = ?""",
+                    UPDATE users_tracking SET is_tracking_second = ? WHERE Id = ?""",
                     ("Waiting", item[0]),
                 )
                 conn.commit()
@@ -59,15 +77,15 @@ async def on_start_update_data_base():
             if item[20] == "True" and "15_16;" not in item_1:
                 cursor.execute(
                     """
-                    UPDATE users SET is_tracking_third = ? WHERE Id = ?""",
+                    UPDATE users_tracking SET is_tracking_third = ? WHERE Id = ?""",
                     ("Waiting", item[0]),
                 )
                 conn.commit()
-            
+
             if item[1]:
                 cursor.execute(
                     """
-                    UPDATE users SET stop_flag = ? WHERE Id = ?""",
+                    UPDATE users_tracking SET stop_flag = ? WHERE Id = ?""",
                     (None, item[0]),
                 )
                 conn.commit()

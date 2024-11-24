@@ -8,14 +8,14 @@ def StartTrackingCrypto():
     while True:
         conn = sqlite3.connect("Data_base.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users")
+        cursor.execute("SELECT * FROM users_tracking")
         items = cursor.fetchall()
         if items:
             for item in items:
                 if item[8] == "Waiting":
                     cursor.execute(
                         """
-                        UPDATE users SET is_tracking_first = ? WHERE Id = ?""",
+                        UPDATE users_tracking SET is_tracking_first = ? WHERE Id = ?""",
                         ("True", item[0]),
                     )
                     conn.commit()
@@ -28,7 +28,7 @@ def StartTrackingCrypto():
                 elif item[14] == "Waiting":
                     cursor.execute(
                         """
-                        UPDATE users SET is_tracking_second = ? WHERE Id = ?""",
+                        UPDATE users_tracking SET is_tracking_second = ? WHERE Id = ?""",
                         ("True", item[0]),
                     )
                     conn.commit()
@@ -41,7 +41,7 @@ def StartTrackingCrypto():
                 elif item[20] == "Waiting":
                     cursor.execute(
                         """
-                        UPDATE users SET is_tracking_third = ? WHERE Id = ?""",
+                        UPDATE users_tracking SET is_tracking_third = ? WHERE Id = ?""",
                         ("True", item[0]),
                     )
                     conn.commit()
