@@ -413,7 +413,7 @@ async def profile(message: types.Message):
                 interval_second = dictionary[item[13]]
                 interval_third = dictionary[item[19]]
                 message_text += f"1) {item[9]} в {item[10]},\nпараметр короткой скользящей средней = {item[11]},\nпараметр длинной скользящей средней = {item[12]},\nдлительность свечи = {interval_second};\n\n"
-                message_text += f"2) {item[15]} в {item[16]},\nпараметр короткой скользящей средней = {item[17]},\nпараметр длинной скользящей средней = {item[18]},\nдлительность свечи = {item[19]};\n\n"
+                message_text += f"2) {item[15]} в {item[16]},\nпараметр короткой скользящей средней = {item[17]},\nпараметр длинной скользящей средней = {item[18]},\nдлительность свечи = {interval_third};\n\n"
             else:
                 interval_first = dictionary[item[7]]
                 message_text += f"1) {item[3]} в {item[4]},\nпараметр короткой скользящей средней = {item[5]},\nпараметр длинной скользящей средней = {item[6]},\nдлительность свечи = {interval_first};\n\n"
@@ -497,9 +497,14 @@ async def process_message_crypto_cap(message: types.Message, state: FSMContext):
         curr_Crypto = Crypto(message.text)
         curr_name = curr_Crypto.get_crypto_name
         curr_capitalization = curr_Crypto.get_current_crypto_capitalization()[0]
-        await message.answer(
-            f"Рыночная капитализация {curr_name}:\n$ {curr_capitalization}"
-        )
+        if curr_capitalization != "Нет информации":
+            await message.answer(
+                f"Рыночная капитализация {curr_name}:\n$ {curr_capitalization}"
+            )
+        else:
+            await message.answer(
+                f"Нет информации о рыночной капитализации {curr_name}"
+            )
     except:
         await message.answer("Введена некорректная криптовалюта")
 
