@@ -9,6 +9,7 @@ from Keyboards.inline_buttons import (
     create_keyboard,
     create_delete_keyboard,
     create_is_auto_operation_keyboard,
+    create_is_close_demo_account_keyboard,
 )
 from Parsers_aio.Main_info_crypto_parser import General
 from Parsers_aio.Item_info_crypto_parser import Crypto
@@ -81,9 +82,6 @@ async def start_cmd(message: types.Message):
             ),
         )
 
-        # Сохранение изменений и закрытие
-        conn.commit()
-
     else:
         if item[2] != 0:
             index_delete_all = ""
@@ -126,7 +124,7 @@ async def start_cmd(message: types.Message):
                     message.from_user.id,
                 ),
             )
-        
+
         cursor.execute(
             """
             UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?,
@@ -145,8 +143,8 @@ async def start_cmd(message: types.Message):
             "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания",
             reply_markup=create_keyboard(),
         )
-        conn.commit()
 
+    conn.commit()
     conn.close()
 
 
@@ -502,9 +500,7 @@ async def process_message_crypto_cap(message: types.Message, state: FSMContext):
                 f"Рыночная капитализация {curr_name}:\n$ {curr_capitalization}"
             )
         else:
-            await message.answer(
-                f"Нет информации о рыночной капитализации {curr_name}"
-            )
+            await message.answer(f"Нет информации о рыночной капитализации {curr_name}")
     except:
         await message.answer("Введена некорректная криптовалюта")
 
@@ -705,8 +701,8 @@ class Form_create_demo_account(StatesGroup):
     waiting_for_message_set_operation_percent = State()
 
 
-@user_private_router.message(Command("demo_account"))
-async def demo_account(message: types.Message, state: FSMContext):
+@user_private_router.message(Command("open_demo_account"))
+async def open_demo_account(message: types.Message, state: FSMContext):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
     cursor.execute(
@@ -730,6 +726,64 @@ async def demo_account(message: types.Message, state: FSMContext):
 
     else:
         await message.answer("У вас уже создан демо-счёт!")
+
+
+@user_private_router.message(Command("close_demo_account"))
+async def close_demo_account(message: types.Message):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    conn.close()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "True":
+        await message.answer(
+            "Вы уверены, что хотите закрыть демо-счёт?",
+            reply_markup=create_is_close_demo_account_keyboard(),
+        )
+
+    else:
+        await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
+
+
+@user_private_router.callback_query(
+    lambda c: c.data in ["is_close_demo_account_True", "is_close_demo_account_False"]
+)
+async def is_close_demo_account_callback(callback_query: CallbackQuery):
+    if callback_query.data == "is_close_demo_account_True":
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+                UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?,
+                current_sum = ?, is_auto_operation = ?, operation_percent = ?
+                WHERE Id = ?
+                """,
+            (
+                "False",
+                0,
+                0,
+                "False",
+                0,
+                callback_query.from_user.id,
+            ),
+        )
+        conn.commit()
+        conn.close()
+        await callback_query.message.answer(
+            "Демо-счёт успешно закрыт, но вы по-прежнему можете открыть новый"
+        )
+    else:
+        await callback_query.message.answer(
+            "Хорошо, вы по-преженему можете использовать текущий демо-счёт"
+        )
 
 
 @user_private_router.message(

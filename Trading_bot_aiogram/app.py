@@ -7,12 +7,14 @@ from Tracking import StartTrackingCrypto
 from on_start_update_data_base import on_start_update_data_base
 
 
-ALLOWED_UPDATES = ['message, edit_message']
+ALLOWED_UPDATES = ["message, edit_message"]
 
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
-    await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())
+    await bot.set_my_commands(
+        commands=private, scope=types.BotCommandScopeAllPrivateChats()
+    )
     await on_start_update_data_base()
     process = Process(target=StartTrackingCrypto)
     process.start()

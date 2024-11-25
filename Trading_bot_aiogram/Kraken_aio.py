@@ -5,7 +5,9 @@ from Bot import send_message
 
 class MovingAverageCrossover:
 
-    def __init__(self, Id, pair_index, coin1, coin2, short_window, long_window, interval=1):
+    def __init__(
+        self, Id, pair_index, coin1, coin2, short_window, long_window, interval=1
+    ):
         self.coin1 = coin1
         self.coin2 = coin2
         self.pair = coin1.upper() + coin2.upper()
@@ -61,13 +63,22 @@ class MovingAverageCrossover:
             self._Not_Signal()
 
     def _Buy_Signal(self):
-        asyncio.get_event_loop().run_until_complete(send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}"))
+        asyncio.get_event_loop().run_until_complete(
+            send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}")
+        )
 
     def _Sell_Signal(self):
-        asyncio.get_event_loop().run_until_complete(send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}"))
-    
+        asyncio.get_event_loop().run_until_complete(
+            send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}")
+        )
+
     def _Not_Signal(self):
-        asyncio.get_event_loop().run_until_complete(send_message(self.Id, f"Нет сигнала на покупку или\nпродажу {self.coin1} в {self.coin2}"))
+        asyncio.get_event_loop().run_until_complete(
+            send_message(
+                self.Id,
+                f"Нет сигнала на покупку или\nпродажу {self.coin1} в {self.coin2}",
+            )
+        )
 
     def __check_stop_signals(self):
         conn = sqlite3.connect("Data_base.db")
@@ -77,33 +88,30 @@ class MovingAverageCrossover:
 
         if self.pair_index == item[1]:
             cursor.execute(
-                    """
+                """
                         UPDATE users_tracking SET stop_flag = ? WHERE Id = ?""",
-                    (
-                        None,
-                        self.Id,
-                    ),
-                )
+                (
+                    None,
+                    self.Id,
+                ),
+            )
             conn.commit()
             return "break"
-        
+
         elif item[1]:
             if self.pair_index in item[1]:
                 cursor.execute(
-                        """
+                    """
                             UPDATE users_tracking SET stop_flag = ? WHERE Id = ?""",
-                        (
-                            item[1].replace(self.pair_index, ""),
-                            self.Id,
-                        ),
-                    )
+                    (
+                        item[1].replace(self.pair_index, ""),
+                        self.Id,
+                    ),
+                )
                 conn.commit()
                 return "break"
-        
+
         conn.close()
-
-
-
 
     def run(self):
         while True:
@@ -117,5 +125,6 @@ class MovingAverageCrossover:
             else:
                 time.sleep(300)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     MovingAverageCrossover("1270674543", "3_4;", "BTC", "USD", 20, 50, 1).run()

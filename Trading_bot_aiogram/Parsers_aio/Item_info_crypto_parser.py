@@ -88,5 +88,5 @@ class Crypto:
         return current_crypto_capitalization, strftime("%H:%M:%S", localtime())
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print(Crypto("bitcoin").get_current_crypto_capitalization())

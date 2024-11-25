@@ -7,7 +7,13 @@ import sqlite3
 
 conn = sqlite3.connect("Data_base.db")
 cursor = conn.cursor()
-cursor.execute("UPDATE users SET tracking_quantity = ? WHERE Id = ?", (15, 1270674543,))
+cursor.execute(
+    "UPDATE users SET tracking_quantity = ? WHERE Id = ?",
+    (
+        15,
+        1270674543,
+    ),
+)
 conn.commit()
 conn.close()
 

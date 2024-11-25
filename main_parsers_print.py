@@ -7,6 +7,7 @@
 # Импорт необходимых классов парсеров
 from Parsers.Main_info_crypto_parser import General, Additional_CoinGecko_info
 from Parsers.Item_info_crypto_parser import Crypto
+
 # from Signals.Yobit_net.Auto_Yobit_parser import start_tracking_crypto
 # from Signals.Yobit_net.Auto_Yobit_parser import start_tracking_crypto
 from time import sleep
