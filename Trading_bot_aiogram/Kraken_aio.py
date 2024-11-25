@@ -30,8 +30,9 @@ class MovingAverageCrossover:
         else:
             return response["result"][list(response["result"].keys())[0]]
 
-    def __calculate_sma(self, prices, window):
-        return prices.rolling(window=window).mean()
+    def __calculate_ema(self, prices, window):
+        # return prices.rolling(window=window).mean()
+        return prices.ewm(span=window, adjust=False).mean()
 
     def __check_signals(self):
         data = self.__fetch_data()
@@ -42,18 +43,18 @@ class MovingAverageCrossover:
         prices = prices.astype(float)
 
         # Вычисляем скользящие средние
-        short_sma = self.__calculate_sma(prices, self.short_window)
-        long_sma = self.__calculate_sma(prices, self.long_window)
+        short_ema = self.__calculate_ema(prices, self.short_window)
+        long_ema = self.__calculate_ema(prices, self.long_window)
 
         # Проверяем пересечения
         if (
-            short_sma.iloc[-1] > long_sma.iloc[-1]
-            and short_sma.iloc[-2] < long_sma.iloc[-2]
+            short_ema.iloc[-1] > long_ema.iloc[-1]
+            and short_ema.iloc[-2] < long_ema.iloc[-2]
         ):
             self._Buy_Signal()
         elif (
-            short_sma.iloc[-1] < long_sma.iloc[-1]
-            and short_sma.iloc[-2] > long_sma.iloc[-2]
+            short_ema.iloc[-1] < long_ema.iloc[-1]
+            and short_ema.iloc[-2] > long_ema.iloc[-2]
         ):
             self._Sell_Signal()
         else:
@@ -115,3 +116,6 @@ class MovingAverageCrossover:
                 time.sleep(60)
             else:
                 time.sleep(300)
+
+if __name__=="__main__":
+    MovingAverageCrossover("1270674543", "3_4;", "BTC", "USD", 20, 50, 1).run()
