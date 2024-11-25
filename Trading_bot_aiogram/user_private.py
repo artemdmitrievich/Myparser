@@ -149,6 +149,14 @@ async def start_cmd(message: types.Message):
     conn.commit()
     conn.close()
 
+    conn_currency = sqlite3.connect("users_currency_base.db")
+    cursor_currency = conn_currency.cursor()
+    cursor_currency.execute(
+        f"DROP TABLE IF EXISTS {'user' + str(message.from_user.id)}"
+    )
+    conn_currency.commit()
+    conn_currency.close()
+
 
 @user_private_router.callback_query(MyCallback.filter(F.foo == "start_tracking"))
 async def my_callback_foo(query: CallbackQuery):
@@ -890,6 +898,15 @@ async def is_close_demo_account_callback(callback_query: CallbackQuery):
         )
         conn.commit()
         conn.close()
+
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        cursor_currency.execute(
+            f"DROP TABLE IF EXISTS {'user' + str(callback_query.from_user.id)}"
+        )
+        conn_currency.commit()
+        conn_currency.close()
+
         await callback_query.message.answer(
             "Демо-счёт успешно закрыт, но вы по-прежнему можете открыть новый"
         )
@@ -1062,14 +1079,31 @@ async def view_demo_account(message: types.Message):
             (message.from_user.id,),
         )
         demo_account_info = cursor.fetchone()
+        text_message = f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\n"
         if demo_account_info[2] == "True":
-            await message.answer(
-                f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\nАвтоматические операции по вкладу включены\nПроцент для автоматических операций: {demo_account_info[3]}%"
-            )
+            text_message += f"Автоматические операции по вкладу включены\nПроцент для автоматических операций: {demo_account_info[3]}%"
         else:
-            await message.answer(
-                f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\nАвтоматические операции по вкладу отключены"
+            text_message += "Автоматические операции по вкладу отключены"
+        
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        table_name = "user" + str(message.from_user.id)
+        cursor_currency.execute("SELECT name FROM sqlite_master WHERE type='table' AND name = ?", (table_name,))
+        
+        if cursor_currency.fetchone():
+            cursor_currency.execute(
+                f"SELECT * FROM {table_name}"
             )
+            items = cursor_currency.fetchall()
+            conn_currency.commit()
+            conn_currency.close()
+
+            if items:
+                text_message += "\n\nВаши криптовалюты:"
+                for item in items:
+                    text_message += f"\n{item[0]}: {round(float(item[1]), 5)} шт."
+
+        await message.answer(text_message)
 
     else:
         await message.answer("Действие невозможно!\nУ вас нет демо-счёта")

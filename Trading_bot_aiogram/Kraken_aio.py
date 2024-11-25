@@ -18,6 +18,13 @@ class MovingAverageCrossover:
         self.Id = Id
         self.pair_index = pair_index
 
+    def current_coin1_price(self):
+        response = self.api.query_public(
+            "OHLC", {"pair": self.coin1 + "USD", "interval": 1}
+        )
+        data = response["result"][list(response["result"].keys())[0]]
+        return float(data[0][4])
+
     def __ex_coins(self):
         print("Ошибка ввода данных")
 
@@ -60,9 +67,76 @@ class MovingAverageCrossover:
         ):
             self._Sell_Signal()
         else:
-            self._Not_Signal()
+            # self._Not_Signal()
+            self._Buy_Signal()
 
     def _Buy_Signal(self):
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT current_sum, is_auto_operation, operation_percent FROM users_demo_account WHERE Id = ?",
+            (self.Id,),
+        )
+        item = cursor.fetchone()
+
+        if item:
+            operation_amount = item[0] * item[2] // 100
+            if operation_amount >= 1 and item[1] == "True":
+                cursor.execute(
+                    "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
+                    (
+                        item[0] - operation_amount,
+                        self.Id,
+                    ),
+                )
+                conn.commit()
+                conn.close()
+
+                conn_currency = sqlite3.connect("users_currency_base.db")
+                cursor_currency = conn_currency.cursor()
+                cursor_currency.execute(
+                    f"""
+                    CREATE TABLE IF NOT EXISTS {"user" + str(self.Id)} (
+                        currency_name TEXT PRIMARY KEY,
+                        currency_quantity REAL
+                    )
+                """
+                )
+
+                cursor_currency.execute(
+                    f"SELECT currency_quantity FROM {'user' + str(self.Id)} WHERE currency_name = ?",
+                    (self.coin1,),
+                )
+                item_currency = cursor_currency.fetchone()
+                if item_currency:
+                    cursor_currency.execute(
+                        f"""
+                        UPDATE {"user" + str(self.Id)} SET currency_quantity = ?
+                        WHERE currency_name = ?
+                    """,
+                        (
+                            item_currency[0]
+                            + operation_amount / self.current_coin1_price(),
+                            self.coin1,
+                        ),
+                    )
+                else:
+                    cursor_currency.execute(
+                        f"INSERT INTO {'user' + str(self.Id)} ("
+                        f"currency_name,"
+                        f"currency_quantity"
+                        f") VALUES (?, ?)",
+                        (
+                            self.coin1,
+                            operation_amount / self.current_coin1_price(),
+                        ),
+                    )
+
+                conn_currency.commit()
+                conn_currency.close()
+        else:
+            conn.close()
+
         asyncio.get_event_loop().run_until_complete(
             send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}")
         )
@@ -127,4 +201,8 @@ class MovingAverageCrossover:
 
 
 if __name__ == "__main__":
-    MovingAverageCrossover("1270674543", "3_4;", "BTC", "USD", 20, 50, 1).run()
+    print(
+        MovingAverageCrossover(
+            "1270674543", "3_4;", "BTC", "USD", 20, 50, 1
+        ).current_coin1_price()
+    )
