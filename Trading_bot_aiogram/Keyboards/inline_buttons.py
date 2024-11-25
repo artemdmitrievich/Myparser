@@ -65,3 +65,23 @@ def create_is_close_demo_account_keyboard():
     builder.button(text="Нет", callback_data="is_close_demo_account_False")
 
     return builder.as_markup()
+
+
+def create_demo_account_transaction_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Положить", callback_data="add_demo_account")
+
+    builder.button(text="Снять", callback_data="subtract_demo_account")
+
+    return builder.as_markup()
+
+
+def create_update_demo_account_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Изменить", callback_data="is_auto_operation_True")
+
+    builder.button(text="Отключить", callback_data="disable_auto_operation")
+
+    return builder.as_markup()

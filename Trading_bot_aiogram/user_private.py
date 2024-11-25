@@ -10,6 +10,8 @@ from Keyboards.inline_buttons import (
     create_delete_keyboard,
     create_is_auto_operation_keyboard,
     create_is_close_demo_account_keyboard,
+    create_demo_account_transaction_keyboard,
+    create_update_demo_account_keyboard,
 )
 from Parsers_aio.Main_info_crypto_parser import General
 from Parsers_aio.Item_info_crypto_parser import Crypto
@@ -452,7 +454,7 @@ async def about(message: types.Message):
 капитализацию конкретной криптовалюты;
 11. '/get_crypto_price' - Получить текущую среднюю
 стоимость конкретной криптовалюты;
-12. '/demo_account' - Демо счёт для торговли;"""
+12. '/demo_account' - Демо-счёт для торговли;"""
     )
 
 
@@ -728,6 +730,117 @@ async def open_demo_account(message: types.Message, state: FSMContext):
         await message.answer("У вас уже создан демо-счёт!")
 
 
+@user_private_router.message(
+    Form_create_demo_account.waiting_for_message_create_demo_account
+)
+async def process_message_create_demo_account(
+    message: types.Message, state: FSMContext
+):
+    try:
+        start_sum = int(message.text)
+        sucsess = True
+    except:
+        await message.answer(
+            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
+        )
+        sucsess = False
+
+    if sucsess:
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+                UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?, current_sum = ?
+                WHERE Id = ?
+                """,
+            (
+                "True",
+                start_sum,
+                start_sum,
+                message.from_user.id,
+            ),
+        )
+
+        conn.commit()
+        conn.close()
+
+        await message.answer(
+            """Демо-счёт успешно создан!
+
+Хотите ли вы, чтобы бот автоматически
+торговал на вашем демо-счёте,
+используя свои сигналы на валюты,
+находящиеся в отслеживании?""",
+            reply_markup=create_is_auto_operation_keyboard(),
+        )
+
+    await state.clear()
+
+
+@user_private_router.callback_query(
+    lambda c: c.data in ["is_auto_operation_True", "is_auto_operation_False"]
+)
+async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
+    if callback_query.data == "is_auto_operation_True":
+        await state.set_state(
+            Form_create_demo_account.waiting_for_message_set_operation_percent
+        )
+        await callback_query.message.answer(
+            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
+        )
+
+    else:
+        await callback_query.message.answer("Хорошо")
+
+
+@user_private_router.message(
+    Form_create_demo_account.waiting_for_message_set_operation_percent
+)
+async def process_message_set_operation_percent(
+    message: types.Message, state: FSMContext
+):
+    try:
+        operation_percent = int(message.text)
+        sucsess = True
+    except:
+        await message.answer(
+            "Ошибка ввода данных!\nпроцент должен быть целым числом от 1 до 100, без лишних символов"
+        )
+        sucsess = False
+
+    if sucsess and (operation_percent < 1 or operation_percent > 100):
+        await message.answer(
+            "Ошибка ввода данных!\nпроцент должен быть целым числом от 1 до 100, без лишних символов"
+        )
+        sucsess = False
+
+    if sucsess:
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+                UPDATE users_demo_account SET is_auto_operation = ?, operation_percent = ?
+                WHERE Id = ?
+                """,
+            (
+                "True",
+                operation_percent,
+                message.from_user.id,
+            ),
+        )
+
+        conn.commit()
+        conn.close()
+
+        await message.answer(
+            f"Процент успешно установлен!\nТекущий процент: {operation_percent}%"
+        )
+
+    await state.clear()
+
+
 @user_private_router.message(Command("close_demo_account"))
 async def close_demo_account(message: types.Message):
     conn = sqlite3.connect("Data_base.db")
@@ -786,18 +899,68 @@ async def is_close_demo_account_callback(callback_query: CallbackQuery):
         )
 
 
-@user_private_router.message(
-    Form_create_demo_account.waiting_for_message_create_demo_account
+@user_private_router.message(Command("demo_account_transaction"))
+async def demo_account_transaction(message: types.Message):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    conn.close()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "True":
+        await message.answer(
+            "Вы хотите положить деньги на демо-счёт или снять?",
+            reply_markup=create_demo_account_transaction_keyboard(),
+        )
+
+    else:
+        await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
+
+
+class Form_demo_account_transaction(StatesGroup):
+    waiting_for_message_add_demo_account = State()
+    waiting_for_message_subtract_demo_account = State()
+
+
+@user_private_router.callback_query(
+    lambda c: c.data in ["add_demo_account", "subtract_demo_account"]
 )
-async def process_message_create_demo_account(
-    message: types.Message, state: FSMContext
+async def demo_account_transaction_callback(
+    callback_query: CallbackQuery, state: FSMContext
 ):
+    if callback_query.data == "add_demo_account":
+        await state.set_state(
+            Form_demo_account_transaction.waiting_for_message_add_demo_account
+        )
+        await callback_query.message.answer(
+            "Введите сумму, которую хотите добавить на свой демо-счёт.\n\nВ формате целого числа, без лишних символов!"
+        )
+    else:
+        await state.set_state(
+            Form_demo_account_transaction.waiting_for_message_subtract_demo_account
+        )
+        await callback_query.message.answer(
+            "Введите сумму, которую хотите снять со своего демо-счёта.\n\nВ формате целого числа, без лишних символов!"
+        )
+
+
+@user_private_router.message(
+    Form_demo_account_transaction.waiting_for_message_add_demo_account
+)
+async def process_message_add_demo_account(message: types.Message, state: FSMContext):
     try:
-        start_sum = int(message.text)
+        add_sum = int(message.text)
         sucsess = True
     except:
         await message.answer(
-            "Ошибка ввода данных!\nсумма должна быть целым числом,\nбез лишних символов"
+            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
         )
         sucsess = False
 
@@ -806,14 +969,17 @@ async def process_message_create_demo_account(
         cursor = conn.cursor()
 
         cursor.execute(
+            "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+            (message.from_user.id,),
+        )
+        current_sum = cursor.fetchone()[0] + add_sum
+
+        cursor.execute(
             """
-                UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?, current_sum = ?
-                WHERE Id = ?
+                UPDATE users_demo_account SET current_sum = ? WHERE Id = ?
                 """,
             (
-                "True",
-                start_sum,
-                start_sum,
+                current_sum,
                 message.from_user.id,
             ),
         )
@@ -821,52 +987,23 @@ async def process_message_create_demo_account(
         conn.commit()
         conn.close()
 
-        await message.answer(
-            """Демо-счёт успешно создан!
-
-Хотите ли вы, чтобы бот автоматически
-торговал на вашем демо-счёте,
-используя свои сигналы на валюты,
-находящиеся в отслеживании?""",
-            reply_markup=create_is_auto_operation_keyboard(),
-        )
+        await message.answer(f"На ваш демо-счёт успешно добавлено {add_sum}$")
 
     await state.clear()
 
 
-@user_private_router.callback_query(
-    lambda c: c.data in ["is_auto_operation_True", "is_auto_operation_False"]
-)
-async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
-    if callback_query.data == "is_auto_operation_True":
-        await state.set_state(
-            Form_create_demo_account.waiting_for_message_set_operation_percent
-        )
-        await callback_query.message.answer(
-            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
-        )
-
-    else:
-        await callback_query.message.answer(
-            """Хорошо, но вы можете самостоятельно
-....................
-....................
-...................."""
-        )
-
-
 @user_private_router.message(
-    Form_create_demo_account.waiting_for_message_set_operation_percent
+    Form_demo_account_transaction.waiting_for_message_subtract_demo_account
 )
-async def process_message_set_operation_percent(
+async def process_message_subtract_demo_account(
     message: types.Message, state: FSMContext
 ):
     try:
-        operation_percent = int(message.text)
+        subtract_sum = int(message.text)
         sucsess = True
     except:
         await message.answer(
-            "Ошибка ввода данных!\nпроцент должен быть целым числом,\nбез лишних символов"
+            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
         )
         sucsess = False
 
@@ -875,23 +1012,127 @@ async def process_message_set_operation_percent(
         cursor = conn.cursor()
 
         cursor.execute(
-            """
-                UPDATE users_demo_account SET is_auto_operation = ?, operation_percent = ?
-                WHERE Id = ?
-                """,
-            (
-                "True",
-                operation_percent,
-                message.from_user.id,
-            ),
+            "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+            (message.from_user.id,),
         )
+        current_sum_data_base = cursor.fetchone()[0]
+
+        if current_sum_data_base < subtract_sum:
+            await message.answer(
+                f"На вашем демо-счёте недостаточно средств для списания!\nСейчас у вас {current_sum_data_base}$"
+            )
+        else:
+            current_sum = current_sum_data_base - subtract_sum
+            cursor.execute(
+                """
+                    UPDATE users_demo_account SET current_sum = ? WHERE Id = ?
+                    """,
+                (
+                    current_sum,
+                    message.from_user.id,
+                ),
+            )
+
+            await message.answer(f"С вашего демо-счёта успешно списано {subtract_sum}$")
 
         conn.commit()
         conn.close()
 
-        await message.answer(
-            """Процент успешно установлен!
+    await state.clear()
 
-Теперь бот будет автоматически
-торговать на вашем демо-счёте"""
+
+@user_private_router.message(Command("view_demo_account"))
+async def view_demo_account(message: types.Message):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "True":
+        cursor.execute(
+            """SELECT start_sum, current_sum, is_auto_operation,
+            operation_percent FROM users_demo_account WHERE Id = ?""",
+            (message.from_user.id,),
         )
+        demo_account_info = cursor.fetchone()
+        if demo_account_info[2] == "True":
+            await message.answer(
+                f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\nАвтоматические операции по вкладу включены\nПроцент для автоматических операций: {demo_account_info[3]}%"
+            )
+        else:
+            await message.answer(
+                f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\nАвтоматические операции по вкладу отключены"
+            )
+
+    else:
+        await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
+
+    conn.close()
+
+
+@user_private_router.message(Command("update_demo_account"))
+async def update_demo_account(message: types.Message):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "True":
+        cursor.execute(
+            "SELECT is_auto_operation FROM users_demo_account WHERE Id = ?",
+            (message.from_user.id,),
+        )
+
+        if cursor.fetchone()[0] == "True":
+            await message.answer(
+                """Выберите действие для изменения настроек демо-счёта.
+Если вы хотите изменить процент автоматических операций, нажмите 'Изменить';
+если хотите отключить автоматические операции нажмите
+'Отключить'""",
+                reply_markup=create_update_demo_account_keyboard(),
+            )
+        else:
+            await message.answer(
+                "У вас не установлены автоматические операции по демо-счёту, хотите ли вы установить их?",
+                reply_markup=create_is_auto_operation_keyboard(),
+            )
+
+    else:
+        await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
+
+    conn.close()
+
+
+@user_private_router.callback_query(lambda c: c.data == "disable_auto_operation")
+async def demo_account_transaction_callback(callback_query: CallbackQuery):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """UPDATE users_demo_account SET is_auto_operation = ?,
+        operation_percent = ? WHERE Id = ?""",
+        (
+            "False",
+            0,
+            callback_query.from_user.id,
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+    await callback_query.message.answer(
+        "Автоматические операции по демо-счёту успешно отключены!"
+    )
