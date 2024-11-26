@@ -12,6 +12,7 @@ from Keyboards.inline_buttons import (
     create_is_close_demo_account_keyboard,
     create_demo_account_transaction_keyboard,
     create_update_demo_account_keyboard,
+    create_crypto_account_transaction_keyboard
 )
 from Parsers_aio.Main_info_crypto_parser import General
 from Parsers_aio.Item_info_crypto_parser import Crypto
@@ -23,8 +24,6 @@ user_private_router = Router()
 
 @user_private_router.message(CommandStart())
 async def start_cmd(message: types.Message):
-    await on_start_update_data_base()
-
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,))
@@ -86,46 +85,50 @@ async def start_cmd(message: types.Message):
 
     else:
         if item[2] != 0:
-            index_delete_all = ""
+            if item[1]:
+                index_delete_all = item[1]
+            else:
+                index_delete_all = ""
             if item[3]:
                 index_delete_all += "3_4;"
             if item[9]:
                 index_delete_all += "9_10;"
             if item[15]:
                 index_delete_all += "15_16;"
-
-            cursor.execute(
-                """
-                    UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?,
-                    coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
-                    coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
-                    coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
-                    WHERE Id = ?
-                    """,
-                (
-                    index_delete_all,
-                    0,
-                    None,
-                    None,
-                    0,
-                    0,
-                    0,
-                    "False",
-                    None,
-                    None,
-                    0,
-                    0,
-                    0,
-                    "False",
-                    None,
-                    None,
-                    0,
-                    0,
-                    0,
-                    "False",
-                    message.from_user.id,
-                ),
-            )
+            
+            if index_delete_all != "":
+                cursor.execute(
+                    """
+                        UPDATE users_tracking SET stop_flag = ?, tracking_quantity = ?,
+                        coin1_first = ?, coin2_first = ?, short_window_first = ?, long_window_first = ?, interval_first = ?, is_tracking_first = ?,
+                        coin1_second = ?, coin2_second = ?, short_window_second = ?, long_window_second = ?, interval_second = ?, is_tracking_second = ?,
+                        coin1_third = ?, coin2_third = ?, short_window_third = ?, long_window_third = ?, interval_third = ?, is_tracking_third = ?
+                        WHERE Id = ?
+                        """,
+                    (
+                        index_delete_all,
+                        0,
+                        None,
+                        None,
+                        0,
+                        0,
+                        0,
+                        "False",
+                        None,
+                        None,
+                        0,
+                        0,
+                        0,
+                        "False",
+                        None,
+                        None,
+                        0,
+                        0,
+                        0,
+                        "False",
+                        message.from_user.id,
+                    ),
+                )
 
         cursor.execute(
             """
@@ -1054,6 +1057,82 @@ async def process_message_subtract_demo_account(
 
         conn.commit()
         conn.close()
+
+    await state.clear()
+
+
+@user_private_router.message(Command("crypto_account_transaction"))
+async def crypto_account_transaction(message: types.Message):
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT is_demo_account FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    is_demo_account = cursor.fetchone()
+    conn.close()
+    if not is_demo_account:
+        is_demo_account = "False"
+    else:
+        is_demo_account = is_demo_account[0]
+
+    if is_demo_account == "True":
+        await message.answer(
+            "Вы хотите купить валюту или продать?",
+            reply_markup=create_crypto_account_transaction_keyboard()
+        )
+
+    else:
+        await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
+
+
+class Form_crypto_account_transaction(StatesGroup):
+    waiting_for_message_buy_crypto = State()
+    waiting_for_message_sell_crypto = State()
+
+
+@user_private_router.callback_query(
+    lambda c: c.data in ["buy_crypto", "sell_crypto"]
+)
+async def crypto_account_transaction_callback(
+    callback_query: CallbackQuery, state: FSMContext
+):
+    if callback_query.data == "buy_crypto":
+        await state.set_state(Form_crypto_account_transaction.waiting_for_message_buy_crypto)
+        await callback_query.message.answer("Введите криптовалюту и сумму, на которую вы хотите её купить, в качестве разделителя используйте запятую.\nПример: BTC, 40")
+
+    else:
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        table_name = "user" + str(callback_query.from_user.id)
+        cursor_currency.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+            (table_name,),
+        )
+        result = cursor_currency.fetchone()
+        if result:
+            pass
+        else:
+            await callback_query.message.answer("Действие невозможно!\nУ вас нет криптовалют на демо-счёте")
+
+
+@user_private_router.message(
+    Form_crypto_account_transaction.waiting_for_message_buy_crypto
+)
+async def process_message_buy_crypto(
+    message: types.Message, state: FSMContext
+):
+    try:
+        text = message.text.split(",")
+        crypto_name = text[0].strip().upper()
+        buy_sum = int(text[1])
+        success = True
+    except:
+        await message.answer("Неверный формат ввода данных!")
+        success = False
+    
+    if success:
+        pass
 
     await state.clear()
 

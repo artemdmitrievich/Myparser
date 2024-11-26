@@ -77,6 +77,16 @@ def create_demo_account_transaction_keyboard():
     return builder.as_markup()
 
 
+def create_crypto_account_transaction_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Купить", callback_data="buy_crypto")
+
+    builder.button(text="Продать", callback_data="sell_crypto")
+
+    return builder.as_markup()
+
+
 def create_update_demo_account_keyboard():
     builder = InlineKeyboardBuilder()
 

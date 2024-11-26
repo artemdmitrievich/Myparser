@@ -20,6 +20,10 @@ private = [
         description="Добавить операцию по демо-счёту",
     ),
     BotCommand(
+        command="crypto_account_transaction",
+        description="Добавить операцию по крипто-счёту",
+    ),
+    BotCommand(
         command="get_total_capitalization", description="Общая рыночная капитализация"
     ),
     BotCommand(command="get_total_trading_volume", description="Общий объём торгов"),
