@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from headers import Headers
+from Parsers_aio.headers_aio import Headers
 
 
 def coingecko_soup():

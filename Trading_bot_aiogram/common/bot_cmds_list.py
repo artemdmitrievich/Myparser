@@ -1,6 +1,7 @@
 from aiogram.types import BotCommand
 
 
+# Список команд
 private = [
     BotCommand(command="start", description="Запуск | Перезапуск"),
     BotCommand(command="about", description="Информация о боте"),

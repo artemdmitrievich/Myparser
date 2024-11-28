@@ -3,6 +3,7 @@ import pandas as pd
 from Bot import send_message
 
 
+# Класс с инициализацией остлеживания криптовалюты
 class MovingAverageCrossover:
 
     def __init__(
@@ -18,13 +19,18 @@ class MovingAverageCrossover:
         self.Id = Id
         self.pair_index = pair_index
 
+    # Получение текущей стоимости криптовалюты на kraken.com
     def current_coin1_price(self):
-        response = self.api.query_public('Ticker', {'pair': self.coin1 + "USD"})
-        return response['result'][list(response['result'].keys())[0]]["c"][0]
-
+        response = self.api.query_public("Ticker", {"pair": self.coin1 + "USD"})
+        return float(response["result"][list(response["result"].keys())[0]]["c"][0])
+    
     def __ex_coins(self):
         print("Ошибка ввода данных")
+        asyncio.get_event_loop().run_until_complete(
+            send_message(self.Id, f"Произошла ошибка ввода данных '__ex_coins', прошу напишите об этом владельцу бота.")
+        )
 
+    # Получение информации по валютной паре с kraken.com
     def __fetch_data(self):
         response = self.api.query_public(
             "OHLC", {"pair": self.pair, "interval": self.interval}
@@ -36,10 +42,12 @@ class MovingAverageCrossover:
         else:
             return response["result"][list(response["result"].keys())[0]]
 
+    # Вычисление экспоненциалной скользящей средней
     def __calculate_ema(self, prices, window):
         # return prices.rolling(window=window).mean()
         return prices.ewm(span=window, adjust=False).mean()
 
+    # Проверка наличия возможности для покупки или продажи
     def __check_signals(self):
         data = self.__fetch_data()
         if data == "error":
@@ -63,11 +71,12 @@ class MovingAverageCrossover:
             and short_ema.iloc[-2] > long_ema.iloc[-2]
         ):
             self._Sell_Signal()
-        else:
-            self._Not_Signal()
-            # self._Buy_Signal()
-            # self._Sell_Signal()
+        # else:
+        #     self._Not_Signal()
+        #     self._Buy_Signal()
+        #     self._Sell_Signal()
 
+    # Обработчик сигнала на покупку
     def _Buy_Signal(self):
         conn = sqlite3.connect("Data_base.db")
         cursor = conn.cursor()
@@ -80,53 +89,67 @@ class MovingAverageCrossover:
         if item:
             operation_amount = item[0] * item[2] // 100
             if operation_amount >= 1 and item[1] == "True":
-                cursor.execute(
-                    "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
-                    (
-                        item[0] - operation_amount,
-                        self.Id,
-                    ),
-                )
-                conn.commit()
-                conn.close()
-
                 conn_currency = sqlite3.connect("users_currency_base.db")
                 cursor_currency = conn_currency.cursor()
                 cursor_currency.execute(
                     f"""
                     CREATE TABLE IF NOT EXISTS {"user" + str(self.Id)} (
                         currency_name TEXT PRIMARY KEY,
-                        currency_quantity REAL
+                        currency_quantity REAL,
+                        last_signal TEXT
                     )
                 """
                 )
 
                 cursor_currency.execute(
-                    f"SELECT currency_quantity FROM {'user' + str(self.Id)} WHERE currency_name = ?",
+                    f"SELECT currency_quantity, last_signal FROM {'user' + str(self.Id)} WHERE currency_name = ?",
                     (self.coin1,),
                 )
                 item_currency = cursor_currency.fetchone()
                 if item_currency:
-                    cursor_currency.execute(
-                        f"""
-                        UPDATE {"user" + str(self.Id)} SET currency_quantity = ?
-                        WHERE currency_name = ?
-                    """,
+                    if item_currency[1] != "Buy":
+                        cursor.execute(
+                            "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
+                            (
+                                item[0] - operation_amount,
+                                self.Id,
+                            ),
+                        )
+                        conn.commit()
+                        conn.close()
+                        cursor_currency.execute(
+                            f"""
+                            UPDATE {"user" + str(self.Id)} SET currency_quantity = ?,
+                            last_signal = ?
+                            WHERE currency_name = ?
+                        """,
+                            (
+                                item_currency[0]
+                                + operation_amount / self.current_coin1_price(),
+                                "Buy",
+                                self.coin1,
+                            ),
+                        )
+                else:
+                    cursor.execute(
+                        "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
                         (
-                            item_currency[0]
-                            + operation_amount / self.current_coin1_price(),
-                            self.coin1,
+                            item[0] - operation_amount,
+                            self.Id,
                         ),
                     )
-                else:
+                    conn.commit()
+                    conn.close()
                     cursor_currency.execute(
                         f"INSERT INTO {'user' + str(self.Id)} ("
                         f"currency_name,"
-                        f"currency_quantity"
-                        f") VALUES (?, ?)",
+                        f"currency_quantity,"
+                        f"last_signal"
+                        f") VALUES (?, ?, ?)",
                         (
                             self.coin1,
                             operation_amount / self.current_coin1_price(),
+                            "Buy",
                         ),
                     )
 
@@ -135,10 +158,12 @@ class MovingAverageCrossover:
         else:
             conn.close()
 
+        # Отправка сообщения с сигналом ботом
         asyncio.get_event_loop().run_until_complete(
             send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}")
         )
 
+    # Обработчик сигнала на продажу
     def _Sell_Signal(self):
         conn_currency = sqlite3.connect("users_currency_base.db")
         cursor_currency = conn_currency.cursor()
@@ -150,39 +175,44 @@ class MovingAverageCrossover:
         result = cursor_currency.fetchone()
         if result:
             cursor_currency.execute(
-                f"SELECT currency_quantity FROM {table_name} WHERE currency_name = ?",
+                f"SELECT currency_quantity, last_signal FROM {table_name} WHERE currency_name = ?",
                 (self.coin1,),
             )
             currency = cursor_currency.fetchone()
             if currency:
-                currency_quantity = currency[0]
-                cursor_currency.execute(
-                    f"DELETE FROM {table_name} WHERE currency_name = ?", (self.coin1,)
-                )
-                conn_currency.commit()
-                conn_currency.close()
+                if currency[1] != "Sell":
+                    currency_quantity = currency[0]
+                    cursor_currency.execute(
+                        f"DELETE FROM {table_name} WHERE currency_name = ?",
+                        (self.coin1,),
+                    )
+                    conn_currency.commit()
 
-                conn = sqlite3.connect("Data_base.db")
-                cursor = conn.cursor()
-                cursor.execute(
-                    "SELECT current_sum FROM users_demo_account WHERE Id = ?",
-                    (self.Id,),
-                )
-                current_sum = cursor.fetchone()[0]
-                cursor.execute(
-                    f"UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
-                    (
-                        current_sum + int(self.current_coin1_price() * currency_quantity),
-                        self.Id,
-                    ),
-                )
-                conn.commit()
-                conn.close()
-
+                    conn = sqlite3.connect("Data_base.db")
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+                        (self.Id,),
+                    )
+                    current_sum = cursor.fetchone()[0]
+                    cursor.execute(
+                        f"UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
+                        (
+                            current_sum
+                            + int(self.current_coin1_price() * currency_quantity),
+                            self.Id,
+                        ),
+                    )
+                    conn.commit()
+                    conn.close()
+        conn_currency.close()
+        
+        # Отправка сообщения с сигналом ботом
         asyncio.get_event_loop().run_until_complete(
             send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}")
         )
 
+    # Обработчик отсутствия сигнала (Не нужен в итоговой версии)
     def _Not_Signal(self):
         asyncio.get_event_loop().run_until_complete(
             send_message(
@@ -191,6 +221,7 @@ class MovingAverageCrossover:
             )
         )
 
+    # Проверка наличия сигнала
     def __check_stop_signals(self):
         conn = sqlite3.connect("Data_base.db")
         cursor = conn.cursor()
@@ -224,13 +255,21 @@ class MovingAverageCrossover:
 
         conn.close()
 
+    # Запуск отслеживания
     def run(self):
         while True:
+            # Проверка на наличие стоп сигнала
             if self.__check_stop_signals() == "break":
                 return
+            
+            # Проверка сигнала на покупку или продажу
             curr_check = self.__check_signals()
+
+            # Проверка на наличие ошибки
             if curr_check == "error":
                 return
+            
+            # Пауза
             if self.interval >= 1 and self.interval <= 60:
                 time.sleep(60)
             else:
@@ -240,6 +279,6 @@ class MovingAverageCrossover:
 if __name__ == "__main__":
     print(
         MovingAverageCrossover(
-            "1270674543", "3_4;", "BCH", "USD", 20, 50, 1
+            "1270674543", "3_4;", "BTC", "USD", 20, 50, 1
         ).current_coin1_price()
     )

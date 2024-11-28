@@ -1,11 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-from time import time, sleep
+from time import sleep
 
 # from transliterate import translit  # Функция для создания транслита строки
-from translit import translit
+from Parsers_aio.translit_aio import translit
 from langdetect import detect  # Функция для определения языка строки
-from headers import Headers
+from Parsers_aio.headers_aio import Headers
 from time import strftime, localtime
 
 

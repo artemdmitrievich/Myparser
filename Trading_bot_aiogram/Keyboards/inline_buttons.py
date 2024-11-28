@@ -7,6 +7,7 @@ class MyCallback(CallbackData, prefix="my"):
     foo: str
 
 
+# Клавиатура для команды "/start"
 def create_keyboard():
     builder = InlineKeyboardBuilder()
     builder.button(
@@ -15,6 +16,7 @@ def create_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для команды "/stop"
 def create_delete_keyboard(Id):
     builder = InlineKeyboardBuilder()
 
@@ -47,6 +49,7 @@ def create_delete_keyboard(Id):
     return builder.as_markup()
 
 
+# Клавиатура для предложения автоматического отслеживания
 def create_is_auto_operation_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -57,6 +60,7 @@ def create_is_auto_operation_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для подтверждения закрытия демо-счёта
 def create_is_close_demo_account_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -67,6 +71,7 @@ def create_is_close_demo_account_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для команды "/create_demo_account_transaction"
 def create_demo_account_transaction_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -77,6 +82,7 @@ def create_demo_account_transaction_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для команды "/create_crypto_account_transaction"
 def create_crypto_account_transaction_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -87,6 +93,7 @@ def create_crypto_account_transaction_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для команды "/create_update_demo_account"
 def create_update_demo_account_keyboard():
     builder = InlineKeyboardBuilder()
 

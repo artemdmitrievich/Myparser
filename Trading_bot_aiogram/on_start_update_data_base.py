@@ -1,10 +1,12 @@
 import sqlite3
 
 
+# Обновление базы данных при запуске бота
 async def on_start_update_data_base():
 
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
+    # Создаём таблицу "users_tracking"
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS users_tracking (
@@ -35,6 +37,7 @@ async def on_start_update_data_base():
 
     conn.commit()
 
+    # Создаём таблицу "users_demo_account"
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS users_demo_account (
@@ -50,6 +53,7 @@ async def on_start_update_data_base():
 
     conn.commit()
 
+    # Убираем стоп сигналы и ставим, отслеживаемые валюты, в очередь ("Waiting")
     cursor.execute("SELECT * FROM users_tracking")
     items = cursor.fetchall()
     if items:

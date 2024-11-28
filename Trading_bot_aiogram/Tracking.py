@@ -4,6 +4,7 @@ from time import sleep
 from Kraken_aio import MovingAverageCrossover
 
 
+# Запуск отвлеживания валют, находящихся в очереди ("Waiting")
 def StartTrackingCrypto():
     while True:
         conn = sqlite3.connect("Data_base.db")

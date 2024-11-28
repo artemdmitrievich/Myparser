@@ -1,5 +1,5 @@
 from time import strftime, localtime
-from Soup_main_CoinGecko_aio import coingecko_soup
+from Parsers_aio.Soup_main_CoinGecko_aio import coingecko_soup
 
 
 # Класс с общей информацией по криптовалюте
