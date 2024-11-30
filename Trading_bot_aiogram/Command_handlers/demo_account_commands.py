@@ -11,6 +11,7 @@ from Keyboards.inline_buttons import (
     create_update_demo_account_keyboard,
     create_crypto_account_transaction_keyboard,
 )
+from Bot import bot
 
 
 demo_account_commands_router = Router()
@@ -100,6 +101,8 @@ async def process_message_create_demo_account(
     lambda c: c.data in ["is_auto_operation_True", "is_auto_operation_False"]
 )
 async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
+    await bot.answer_callback_query(callback_query.id)
+
     if callback_query.data == "is_auto_operation_True":
         await state.set_state(
             Form_create_demo_account.waiting_for_message_set_operation_percent
@@ -188,6 +191,8 @@ async def close_demo_account(message: types.Message):
     lambda c: c.data in ["is_close_demo_account_True", "is_close_demo_account_False"]
 )
 async def is_close_demo_account_callback(callback_query: CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+
     if callback_query.data == "is_close_demo_account_True":
         conn = sqlite3.connect("Data_base.db")
         cursor = conn.cursor()
@@ -324,6 +329,8 @@ async def update_demo_account(message: types.Message):
     lambda c: c.data == "disable_auto_operation"
 )
 async def demo_account_transaction_callback(callback_query: CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
     cursor.execute(
@@ -379,6 +386,8 @@ class Form_demo_account_transaction(StatesGroup):
 async def demo_account_transaction_callback(
     callback_query: CallbackQuery, state: FSMContext
 ):
+    await bot.answer_callback_query(callback_query.id)
+
     if callback_query.data == "add_demo_account":
         await state.set_state(
             Form_demo_account_transaction.waiting_for_message_add_demo_account
@@ -521,6 +530,8 @@ class Form_crypto_account_transaction(StatesGroup):
 async def crypto_account_transaction_callback(
     callback_query: CallbackQuery, state: FSMContext
 ):
+    await bot.answer_callback_query(callback_query.id)
+    
     if callback_query.data == "buy_crypto":
         await state.set_state(
             Form_crypto_account_transaction.waiting_for_message_buy_crypto

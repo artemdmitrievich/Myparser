@@ -1,9 +1,13 @@
 import sqlite3
-from aiogram import Router, types
+from aiogram import Router, types, F
 from aiogram.filters import CommandStart, Command
+from aiogram.types.callback_query import CallbackQuery
 from Keyboards.inline_buttons import (
-    create_keyboard,
+    create_start_keyboard,
+    create_restart_keyboard,
+    MyCallback,
 )
+from Bot import bot
 
 
 # Создание роутера
@@ -22,7 +26,7 @@ async def start_cmd(message: types.Message):
     if not item:
         await message.reply(
             f"Привет, {message.from_user.first_name}, я твой виртуальный крипто помощник.",
-            reply_markup=create_keyboard(),
+            reply_markup=create_start_keyboard(),
         )
         cursor.execute(
             """
@@ -74,8 +78,48 @@ async def start_cmd(message: types.Message):
         )
         conn.commit()
 
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        cursor_currency.execute(
+            f"DROP TABLE IF EXISTS {'user' + str(message.from_user.id)}"
+        )
+        conn_currency.commit()
+        conn_currency.close()
+
     # Если пользователя нет в базе данных
     else:
+        await message.answer(
+            f"{message.from_user.first_name}, вы уверены, что хотите перезапустить бота? После перезапуска бот полностью обнулится, будто вы им никогда не пользовались",
+            reply_markup=create_restart_keyboard(),
+        )
+
+    conn.close()
+
+
+@basic_commands_router.callback_query(MyCallback.filter(F.foo == "start_tracking"))
+async def my_callback_foo(query: CallbackQuery):
+    await bot.answer_callback_query(query.id)
+
+    await query.message.answer(
+        text="Для начала отслеживания введи команду '/adding_crypto'"
+    )
+
+
+@basic_commands_router.callback_query(
+    lambda c: c.data in ["restart_True", "restart_False"]
+)
+async def restart_callback(callback_query: CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+
+    if callback_query.data == "restart_True":
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM users_tracking WHERE Id = ?",
+            (callback_query.from_user.id,),
+        )
+        item = cursor.fetchone()
+
         if item[2] != 0:
             if item[1]:
                 index_delete_all = item[1]
@@ -118,7 +162,7 @@ async def start_cmd(message: types.Message):
                         0,
                         0,
                         "False",
-                        message.from_user.id,
+                        callback_query.from_user.id,
                     ),
                 )
                 conn.commit()
@@ -133,33 +177,34 @@ async def start_cmd(message: types.Message):
                 0,
                 "False",
                 0,
-                message.from_user.id,
+                callback_query.from_user.id,
             ),
         )
 
         conn_currency = sqlite3.connect("users_currency_base.db")
         cursor_currency = conn_currency.cursor()
         cursor_currency.execute(
-            f"DROP TABLE IF EXISTS {'user' + str(message.from_user.id)}"
+            f"DROP TABLE IF EXISTS {'user' + str(callback_query.from_user.id)}"
         )
         conn_currency.commit()
         conn_currency.close()
 
-        await message.reply(
+        await callback_query.message.reply(
             "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания",
-            reply_markup=create_keyboard(),
+            reply_markup=create_start_keyboard(),
         )
         conn.commit()
+        conn.close()
 
-    conn.close()
-
-    conn_currency = sqlite3.connect("users_currency_base.db")
-    cursor_currency = conn_currency.cursor()
-    cursor_currency.execute(
-        f"DROP TABLE IF EXISTS {'user' + str(message.from_user.id)}"
-    )
-    conn_currency.commit()
-    conn_currency.close()
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        cursor_currency.execute(
+            f"DROP TABLE IF EXISTS {'user' + str(callback_query.from_user.id)}"
+        )
+        conn_currency.commit()
+        conn_currency.close()
+    else:
+        await callback_query.message.answer("Хорошо")
 
 
 # Обработчик команды "/about"

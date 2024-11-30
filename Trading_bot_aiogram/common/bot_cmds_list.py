@@ -24,6 +24,7 @@ private = [
         command="crypto_account_transaction",
         description="Добавить операцию по крипто-счёту",
     ),
+    BotCommand(command="get_crypto_volatility", description="Узнать волатильность криптовалюты"),
     BotCommand(
         command="get_total_capitalization", description="Общая рыночная капитализация"
     ),

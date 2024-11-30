@@ -1,26 +1,14 @@
 import sqlite3, krakenex
-from aiogram import F, Router, types
+from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.types.callback_query import CallbackQuery
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
-from Keyboards.inline_buttons import (
-    MyCallback,
-    create_delete_keyboard,
-)
+from Keyboards.inline_buttons import create_delete_keyboard
+from Bot import bot
 
 
 tracking_crypto_commands_router = Router()
-
-
-@tracking_crypto_commands_router.callback_query(
-    MyCallback.filter(F.foo == "start_tracking")
-)
-async def my_callback_foo(query: CallbackQuery):
-
-    await query.message.answer(
-        text="Для начала отслеживания введи команду '/adding_crypto'"
-    )
 
 
 class Form_start_tracking(StatesGroup):
@@ -307,10 +295,6 @@ async def stop(message: types.Message):
     item = cursor.fetchone()
 
     if item[2] != 0:
-        # await message.answer(
-        #     "Чтобы прекратить отслеживание,\nвыберите кнопку:",
-        #     reply_markup=create_delete_keyboard(message.from_user.id),
-        # )
         await message.answer(
             "Выберите криптовалюту, которую вы\nбольше не хотите отслеживать:",
             reply_markup=create_delete_keyboard(message.from_user.id),
@@ -325,6 +309,8 @@ async def stop(message: types.Message):
     lambda c: c.data in ["delete_all", "delete_first", "delete_second", "delete_third"]
 )
 async def on_delete_callback(callback_query: CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
 

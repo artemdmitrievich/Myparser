@@ -8,11 +8,22 @@ class MyCallback(CallbackData, prefix="my"):
 
 
 # Клавиатура для команды "/start"
-def create_keyboard():
+def create_start_keyboard():
     builder = InlineKeyboardBuilder()
     builder.button(
         text="start_tracking", callback_data=MyCallback(foo="start_tracking")
     )
+    return builder.as_markup()
+
+
+# Клавиатура для перезапуска бота
+def create_restart_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Да", callback_data="restart_True")
+
+    builder.button(text="Нет", callback_data="restart_False")
+
     return builder.as_markup()
 
 

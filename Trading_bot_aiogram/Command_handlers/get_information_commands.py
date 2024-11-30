@@ -4,6 +4,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from Parsers_aio.Main_info_crypto_parser_aio import General
 from Parsers_aio.Item_info_crypto_parser_aio import Crypto
+from get_crypto_volatility import calc_volatility_coeff
 
 
 get_info_commands_router = Router()
@@ -92,5 +93,68 @@ async def process_message_crypto_price(message: types.Message, state: FSMContext
         await message.answer(f"Средняя стоимость {curr_name}:\n$ {curr_price}")
     except:
         await message.answer("Введена некорректная криптовалюта")
+
+    await state.clear()
+
+
+# Класс с инициализацией машины состояний после команды "/get_crypto_volatility"
+class Form_crypto_volatility(StatesGroup):
+    waiting_for_message_crypto_volatility = State()
+
+
+# Обработчик команды "/get_crypto_volatility"
+@get_info_commands_router.message(Command("get_crypto_volatility"))
+async def get_crypto_volatility(message: types.Message, state: FSMContext):
+    # Установка состояния ожидания названия криптовалюты для получения её волатильности
+    await state.set_state(Form_crypto_volatility.waiting_for_message_crypto_volatility)
+    await message.answer(
+        "Для получения волатильности криптовалютной пары, введите сокращённые названия валют и срок, за который будет получена информация, (от 1 до 365 дней) через запятую,\nнапример, BTC, eth, 30"
+    )
+
+
+# Обработчик состояния ожидания названия криптовалюты для получения её волатильности
+@get_info_commands_router.message(
+    Form_crypto_volatility.waiting_for_message_crypto_volatility
+)
+async def process_message_crypto_volatility(message: types.Message, state: FSMContext):
+    try:
+        text = message.text.split(",")
+        success = True
+    except:
+        await message.answer("Некорректный формат ввода данных")
+        success = False
+
+    if success:
+        if len(text) != 3:
+            success = False
+            await message.answer("Введены некорректные криптовалюты")
+
+    if success:
+        try:
+            duration = int(text[2].strip())
+        except:
+            success = False
+            await message.answer("Некорректный формат ввода данных")
+
+    if success:
+        if duration < 1 or duration > 365:
+            success = False
+            await message.answer(
+                "Введена некорректная длительность, она должна принимать значения от 1 до 365"
+            )
+
+    if success:
+        coin1 = text[0].strip().upper()
+        coin2 = text[1].strip().upper()
+
+    if success:
+        volatility_coeff = calc_volatility_coeff(coin1, coin2, duration)
+        if volatility_coeff == "error":
+            await message.answer("Введены некорректные криптовалюты")
+        else:
+            volatility_coeff = round(volatility_coeff, 5)
+            await message.answer(
+                f"Коэффициент волатильности {coin1}_{coin2} за последние {duration} дней = {volatility_coeff}\n* Чем больше коэффициент волатильности, тем стабильнее цены криптовалют друг относительно друга"
+            )
 
     await state.clear()
