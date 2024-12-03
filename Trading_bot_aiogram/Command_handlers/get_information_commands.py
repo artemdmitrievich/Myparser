@@ -117,44 +117,38 @@ async def get_crypto_volatility(message: types.Message, state: FSMContext):
     Form_crypto_volatility.waiting_for_message_crypto_volatility
 )
 async def process_message_crypto_volatility(message: types.Message, state: FSMContext):
+    await state.clear()
+
     try:
         text = message.text.split(",")
-        success = True
     except:
-        await message.answer("Некорректный формат ввода данных")
-        success = False
+        await message.answer("Некорректный формат ввода данных!1")
+        return
 
-    if success:
-        if len(text) != 3:
-            success = False
-            await message.answer("Введены некорректные криптовалюты")
+    if len(text) != 3:
+        await message.answer("Некорректный формат ввода данных!2")
+        return
 
-    if success:
-        try:
-            duration = int(text[2].strip())
-        except:
-            success = False
-            await message.answer("Некорректный формат ввода данных")
+    try:
+        duration = int(text[2].strip())
+    except:
+        await message.answer("Некорректный формат ввода данных!3")
+        return
 
-    if success:
-        if duration < 1 or duration > 365:
-            success = False
-            await message.answer(
-                "Введена некорректная длительность, она должна принимать значения от 1 до 365"
-            )
+    if duration < 1 or duration > 365:
+        await message.answer(
+            "Введена некорректная длительность, она должна принимать значения от 1 до 365"
+        )
+        return
 
-    if success:
-        coin1 = text[0].strip().upper()
-        coin2 = text[1].strip().upper()
+    coin1 = text[0].strip().upper()
+    coin2 = text[1].strip().upper()
+    volatility_coeff = calc_volatility_coeff(coin1, coin2, duration)
 
-    if success:
-        volatility_coeff = calc_volatility_coeff(coin1, coin2, duration)
-        if volatility_coeff == "error":
-            await message.answer("Введены некорректные криптовалюты")
-        else:
-            volatility_coeff = round(volatility_coeff, 5)
-            await message.answer(
-                f"Коэффициент волатильности {coin1}_{coin2} за последние {duration} дней = {volatility_coeff}\n* Чем больше коэффициент волатильности, тем стабильнее цены криптовалют друг относительно друга"
-            )
-
-    await state.clear()
+    if volatility_coeff == "error":
+        await message.answer("Введены некорректные криптовалюты")
+    else:
+        volatility_coeff = round(volatility_coeff, 5)
+        await message.answer(
+            f"Коэффициент волатильности {coin1}_{coin2} за последние {duration} дней = {volatility_coeff}\n* Чем больше коэффициент волатильности, тем стабильнее цены криптовалют друг относительно друга"
+        )

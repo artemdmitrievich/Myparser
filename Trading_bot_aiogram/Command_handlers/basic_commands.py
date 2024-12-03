@@ -7,7 +7,7 @@ from Keyboards.inline_buttons import (
     create_restart_keyboard,
     MyCallback,
 )
-from Bot import bot
+from Bot import bot, send_message
 
 
 # Создание роутера
@@ -22,12 +22,47 @@ async def start_cmd(message: types.Message):
     cursor.execute("SELECT * FROM users_tracking WHERE Id = ?", (message.from_user.id,))
     item = cursor.fetchone()
 
-    # Если пользователь есть в базе данных
+    # Если пользователя нет в базе данных
     if not item:
         await message.reply(
             f"Привет, {message.from_user.first_name}, я твой виртуальный крипто помощник.",
             reply_markup=create_start_keyboard(),
         )
+
+        if message.from_user.is_bot == True:
+            is_bot = "True"
+        else:
+            is_bot = "False"
+
+        if not message.from_user.is_premium:
+            is_premium = "False"
+
+        username = message.from_user.username
+        
+        if not username:
+            url = None
+        else:
+            url = "t.me/" + username
+
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO users_main_info (
+            Id, username, first_name, last_name, is_bot,
+            is_premium, language_code, url
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (
+                message.from_user.id,
+                username,
+                message.from_user.first_name,
+                message.from_user.last_name,
+                is_bot,
+                is_premium,
+                message.from_user.language_code,
+                url
+            ),
+        )
+        conn.commit()
+
         cursor.execute(
             """
             INSERT OR IGNORE INTO users_tracking (
@@ -86,7 +121,34 @@ async def start_cmd(message: types.Message):
         conn_currency.commit()
         conn_currency.close()
 
-    # Если пользователя нет в базе данных
+        if not username:
+            username = "Нет"
+        if is_bot == "True":
+            is_bot = "Да"
+        else:
+            is_bot = "Нет"
+        if is_premium == "True":
+            is_premium = "Да"
+        else:
+            is_premium = "Нет"
+        if not url:
+            url = "Нет"
+
+        # Отправить мне сообщение, о регистрации нового пользователя
+        await send_message(
+            1270674543,
+            f"Новый пользователь!\n"
+            f"Id: {message.from_user.id}\n"
+            f"Имя пользователя: {username}\n"
+            f"Имя: {message.from_user.first_name}\n"
+            f"Фамилия: {message.from_user.last_name}\n"
+            f"Это бот: {is_bot}\n"
+            f"Есть премиум: {is_premium}\n"
+            f"Язык интерфейса: {message.from_user.language_code}\n"
+            f"URL: {url}",
+        )
+
+    # Если пользователь есть в базе данных
     else:
         await message.answer(
             f"{message.from_user.first_name}, вы уверены, что хотите перезапустить бота? После перезапуска бот полностью обнулится, будто вы им никогда не пользовались",

@@ -16,9 +16,12 @@ def calc_volatility_coeff(coin1, coin2, duration):
     else:
         interval = 1440
 
-    response = krakenex.API().query_public(
-        "OHLC", {"pair": f"{coin1.upper()}{coin2.upper()}", "interval": interval}
-    )
+    try:
+        response = krakenex.API().query_public(
+            "OHLC", {"pair": f"{coin1.upper()}{coin2.upper()}", "interval": interval}
+        )
+    except:
+        return "error"
 
     if response["error"]:
         return "error"

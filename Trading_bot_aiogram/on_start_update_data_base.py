@@ -53,6 +53,24 @@ async def on_start_update_data_base():
 
     conn.commit()
 
+    # Создаём таблицу "users_main_info"
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users_main_info (
+                Id INTEGER PRIMARY KEY,
+                username TEXT,
+                first_name TEXT,
+                last_name TEXT,
+                is_bot TEXT,
+                is_premium TEXT,
+                language_code TEXT,
+                url TEXT
+    )
+"""
+    )
+
+    conn.commit()
+
     # Убираем стоп сигналы и ставим, отслеживаемые валюты, в очередь ("Waiting")
     cursor.execute("SELECT * FROM users_tracking")
     items = cursor.fetchall()

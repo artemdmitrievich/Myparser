@@ -55,46 +55,44 @@ async def open_demo_account(message: types.Message, state: FSMContext):
 async def process_message_create_demo_account(
     message: types.Message, state: FSMContext
 ):
+    await state.clear()
+
     try:
         start_sum = int(message.text)
-        sucsess = True
     except:
         await message.answer(
             "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
         )
-        sucsess = False
+        return
 
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
 
-        cursor.execute(
-            """
-                UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?, current_sum = ?
-                WHERE Id = ?
-                """,
-            (
-                "True",
-                start_sum,
-                start_sum,
-                message.from_user.id,
-            ),
-        )
+    cursor.execute(
+        """
+            UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?, current_sum = ?
+            WHERE Id = ?
+            """,
+        (
+            "True",
+            start_sum,
+            start_sum,
+            message.from_user.id,
+        ),
+    )
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
 
-        await message.answer(
-            """Демо-счёт успешно создан!
+    await message.answer(
+        """Демо-счёт успешно создан!
 
 Хотите ли вы, чтобы бот автоматически
 торговал на вашем демо-счёте,
 используя свои сигналы на валюты,
 находящиеся в отслеживании?""",
-            reply_markup=create_is_auto_operation_keyboard(),
-        )
-
-    await state.clear()
+        reply_markup=create_is_auto_operation_keyboard(),
+    )
 
 
 @demo_account_commands_router.callback_query(
@@ -121,45 +119,43 @@ async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMCo
 async def process_message_set_operation_percent(
     message: types.Message, state: FSMContext
 ):
+    await state.clear()
+
     try:
         operation_percent = int(message.text)
-        sucsess = True
     except:
         await message.answer(
             "Ошибка ввода данных!\nпроцент должен быть целым числом от 1 до 100, без лишних символов"
         )
-        sucsess = False
+        return
 
-    if sucsess and (operation_percent < 1 or operation_percent > 100):
+    if operation_percent < 1 or operation_percent > 100:
         await message.answer(
             "Ошибка ввода данных!\nпроцент должен быть целым числом от 1 до 100, без лишних символов"
         )
-        sucsess = False
+        return
 
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
 
-        cursor.execute(
-            """
-                UPDATE users_demo_account SET is_auto_operation = ?, operation_percent = ?
-                WHERE Id = ?
-                """,
-            (
-                "True",
-                operation_percent,
-                message.from_user.id,
-            ),
-        )
+    cursor.execute(
+        """
+            UPDATE users_demo_account SET is_auto_operation = ?, operation_percent = ?
+            WHERE Id = ?
+            """,
+        (
+            "True",
+            operation_percent,
+            message.from_user.id,
+        ),
+    )
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
 
-        await message.answer(
-            f"Процент успешно установлен!\nТекущий процент: {operation_percent}%"
-        )
-
-    await state.clear()
+    await message.answer(
+        f"Процент успешно установлен!\nТекущий процент: {operation_percent}%"
+    )
 
 
 @demo_account_commands_router.message(Command("close_demo_account"))
@@ -408,25 +404,72 @@ async def demo_account_transaction_callback(
     Form_demo_account_transaction.waiting_for_message_add_demo_account
 )
 async def process_message_add_demo_account(message: types.Message, state: FSMContext):
+    await state.clear()
+
     try:
         add_sum = int(message.text)
-        sucsess = True
     except:
         await message.answer(
             "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
         )
-        sucsess = False
+        return
 
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
 
-        cursor.execute(
-            "SELECT current_sum FROM users_demo_account WHERE Id = ?",
-            (message.from_user.id,),
+    cursor.execute(
+        "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    current_sum = cursor.fetchone()[0] + add_sum
+
+    cursor.execute(
+        """
+            UPDATE users_demo_account SET current_sum = ? WHERE Id = ?
+            """,
+        (
+            current_sum,
+            message.from_user.id,
+        ),
+    )
+
+    conn.commit()
+    conn.close()
+
+    await message.answer(f"На ваш демо-счёт успешно добавлено {add_sum}$")
+
+
+@demo_account_commands_router.message(
+    Form_demo_account_transaction.waiting_for_message_subtract_demo_account
+)
+async def process_message_subtract_demo_account(
+    message: types.Message, state: FSMContext
+):
+    await state.clear()
+
+    try:
+        subtract_sum = int(message.text)
+    except:
+        await message.answer(
+            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
         )
-        current_sum = cursor.fetchone()[0] + add_sum
+        return
 
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    current_sum_data_base = cursor.fetchone()[0]
+
+    if current_sum_data_base < subtract_sum:
+        await message.answer(
+            f"На вашем демо-счёте недостаточно средств для списания!\nСейчас у вас {current_sum_data_base}$"
+        )
+    else:
+        current_sum = current_sum_data_base - subtract_sum
         cursor.execute(
             """
                 UPDATE users_demo_account SET current_sum = ? WHERE Id = ?
@@ -437,61 +480,10 @@ async def process_message_add_demo_account(message: types.Message, state: FSMCon
             ),
         )
 
-        conn.commit()
-        conn.close()
+        await message.answer(f"С вашего демо-счёта успешно списано {subtract_sum}$")
 
-        await message.answer(f"На ваш демо-счёт успешно добавлено {add_sum}$")
-
-    await state.clear()
-
-
-@demo_account_commands_router.message(
-    Form_demo_account_transaction.waiting_for_message_subtract_demo_account
-)
-async def process_message_subtract_demo_account(
-    message: types.Message, state: FSMContext
-):
-    try:
-        subtract_sum = int(message.text)
-        sucsess = True
-    except:
-        await message.answer(
-            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
-        )
-        sucsess = False
-
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
-
-        cursor.execute(
-            "SELECT current_sum FROM users_demo_account WHERE Id = ?",
-            (message.from_user.id,),
-        )
-        current_sum_data_base = cursor.fetchone()[0]
-
-        if current_sum_data_base < subtract_sum:
-            await message.answer(
-                f"На вашем демо-счёте недостаточно средств для списания!\nСейчас у вас {current_sum_data_base}$"
-            )
-        else:
-            current_sum = current_sum_data_base - subtract_sum
-            cursor.execute(
-                """
-                    UPDATE users_demo_account SET current_sum = ? WHERE Id = ?
-                    """,
-                (
-                    current_sum,
-                    message.from_user.id,
-                ),
-            )
-
-            await message.answer(f"С вашего демо-счёта успешно списано {subtract_sum}$")
-
-        conn.commit()
-        conn.close()
-
-    await state.clear()
+    conn.commit()
+    conn.close()
 
 
 @demo_account_commands_router.message(Command("crypto_account_transaction"))
@@ -531,7 +523,7 @@ async def crypto_account_transaction_callback(
     callback_query: CallbackQuery, state: FSMContext
 ):
     await bot.answer_callback_query(callback_query.id)
-    
+
     if callback_query.data == "buy_crypto":
         await state.set_state(
             Form_crypto_account_transaction.waiting_for_message_buy_crypto
@@ -566,124 +558,121 @@ async def crypto_account_transaction_callback(
     Form_crypto_account_transaction.waiting_for_message_buy_crypto
 )
 async def process_message_buy_crypto(message: types.Message, state: FSMContext):
+    await state.clear()
+
     try:
         text = message.text.split(",")
         crypto_name = text[0].strip().upper()
         buy_sum = int(text[1])
-        sucsess = True
     except:
         await message.answer("Неверный формат ввода данных!")
-        sucsess = False
+        return
 
-    if sucsess:
-        try:
-            coin1 = crypto_name
-            coin2 = "USD"
-            interval = 1
-            if krakenex.API().query_public(
-                "OHLC", {"pair": f"{coin1}{coin2}", "interval": interval}
-            )["error"]:
-                await message.answer("Введено некорректное значение валюты!")
-                sucsess = False
-        except:
+    try:
+        coin1 = crypto_name
+        coin2 = "USD"
+        interval = 1
+        if krakenex.API().query_public(
+            "OHLC", {"pair": f"{coin1}{coin2}", "interval": interval}
+        )["error"]:
             await message.answer("Введено некорректное значение валюты!")
-            sucsess = False
+            return
+    except:
+        await message.answer("Введено некорректное значение валюты!")
+        return
 
-    if sucsess:
-        conn = sqlite3.connect("Data_base.db")
-        cursor = conn.cursor()
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    current_sum = cursor.fetchone()[0]
+
+    if buy_sum <= current_sum:
         cursor.execute(
-            "SELECT current_sum FROM users_demo_account WHERE Id = ?",
-            (message.from_user.id,),
+            "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
+            (
+                current_sum - buy_sum,
+                message.from_user.id,
+            ),
         )
-        current_sum = cursor.fetchone()[0]
-        if buy_sum <= current_sum:
-            cursor.execute(
-                "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
-                (
-                    current_sum - buy_sum,
-                    message.from_user.id,
-                ),
-            )
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
-            conn_currency = sqlite3.connect("users_currency_base.db")
-            cursor_currency = conn_currency.cursor()
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        cursor_currency.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS {"user" + str(message.from_user.id)} (
+                currency_name TEXT PRIMARY KEY,
+                currency_quantity REAL,
+                last_signal TEXT
+            )
+        """
+        )
+
+        response = krakenex.API().query_public("Ticker", {"pair": crypto_name + "USD"})
+        current_crypto_price = float(
+            response["result"][list(response["result"].keys())[0]]["c"][0]
+        )
+
+        cursor_currency.execute(
+            f"SELECT currency_quantity, last_signal FROM {'user' + str(message.from_user.id)} WHERE currency_name = ?",
+            (crypto_name,),
+        )
+        item_currency = cursor_currency.fetchone()
+        if item_currency:
             cursor_currency.execute(
                 f"""
-                CREATE TABLE IF NOT EXISTS {"user" + str(message.from_user.id)} (
-                    currency_name TEXT PRIMARY KEY,
-                    currency_quantity REAL,
-                    last_signal TEXT
-                )
-            """
+                UPDATE {"user" + str(message.from_user.id)} SET currency_quantity = ?
+                WHERE currency_name = ?
+            """,
+                (
+                    item_currency[0] + buy_sum / current_crypto_price,
+                    crypto_name,
+                ),
             )
-
-            response = krakenex.API().query_public(
-                "Ticker", {"pair": crypto_name + "USD"}
-            )
-            current_crypto_price = float(
-                response["result"][list(response["result"].keys())[0]]["c"][0]
-            )
-
-            cursor_currency.execute(
-                f"SELECT currency_quantity, last_signal FROM {'user' + str(message.from_user.id)} WHERE currency_name = ?",
-                (crypto_name,),
-            )
-            item_currency = cursor_currency.fetchone()
-            if item_currency:
-                cursor_currency.execute(
-                    f"""
-                    UPDATE {"user" + str(message.from_user.id)} SET currency_quantity = ?
-                    WHERE currency_name = ?
-                """,
-                    (
-                        item_currency[0] + buy_sum / current_crypto_price,
-                        crypto_name,
-                    ),
-                )
-            else:
-                cursor_currency.execute(
-                    f"INSERT INTO {'user' + str(message.from_user.id)} ("
-                    f"currency_name,"
-                    f"currency_quantity,"
-                    f"last_signal"
-                    f") VALUES (?, ?, ?)",
-                    (
-                        crypto_name,
-                        buy_sum / current_crypto_price,
-                        None,
-                    ),
-                )
-
-            conn_currency.commit()
-            conn_currency.close()
-
-            await message.answer(
-                f"Вы успешно купили {math.floor(buy_sum / current_crypto_price * 100000) / 100000} {crypto_name} на сумму {buy_sum}$ на своём демо-счёте!"
-            )
-
         else:
-            await message.answer(
-                f"На вашем демо-счёте недостаточно средств для списания!\nСейчас у вас {current_sum}$"
+            cursor_currency.execute(
+                f"INSERT INTO {'user' + str(message.from_user.id)} ("
+                f"currency_name,"
+                f"currency_quantity,"
+                f"last_signal"
+                f") VALUES (?, ?, ?)",
+                (
+                    crypto_name,
+                    buy_sum / current_crypto_price,
+                    None,
+                ),
             )
 
-    await state.clear()
+        conn_currency.commit()
+        conn_currency.close()
+
+        await message.answer(
+            f"Вы успешно купили {math.floor(buy_sum / current_crypto_price * 100000) / 100000} {crypto_name} на сумму {buy_sum}$ на своём демо-счёте!"
+        )
+
+    else:
+        await message.answer(
+            f"На вашем демо-счёте недостаточно средств для списания!\nСейчас у вас {current_sum}$"
+        )
 
 
 @demo_account_commands_router.message(
     Form_crypto_account_transaction.waiting_for_message_sell_crypto
 )
 async def process_message_sell_crypto(message: types.Message, state: FSMContext):
+    await state.clear()
+
     try:
         text = message.text.split(",")
         crypto_name = text[0].strip().upper()
         sell_amount = float(text[1])
-        sucsess = True
     except:
         await message.answer("Неверный формат ввода данных!")
-        sucsess = False
+        return
 
     conn_currency = sqlite3.connect("users_currency_base.db")
     cursor_currency = conn_currency.cursor()
@@ -755,5 +744,3 @@ async def process_message_sell_crypto(message: types.Message, state: FSMContext)
             )
     else:
         await message.answer(f"У вас на демо-счёте нет {crypto_name}")
-
-    await state.clear()

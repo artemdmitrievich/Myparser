@@ -11,7 +11,7 @@ class MyCallback(CallbackData, prefix="my"):
 def create_start_keyboard():
     builder = InlineKeyboardBuilder()
     builder.button(
-        text="start_tracking", callback_data=MyCallback(foo="start_tracking")
+        text="Начать отслеживание", callback_data=MyCallback(foo="start_tracking")
     )
     return builder.as_markup()
 

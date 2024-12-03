@@ -34,82 +34,80 @@ async def adding_crypto(message: types.Message, state: FSMContext):
     Form_start_tracking.waiting_for_message_start_tracking
 )
 async def process_message_start_tracking(message: types.Message, state: FSMContext):
+    await state.clear()
+
     # Пробуем разбиваем текст на список
     try:
         text = str(message.text).split(",")
-        sucsess = True
     except:
         await message.answer("Неверный формат ввода данных!")
-        sucsess = False
+        return
 
     # Проверяем его длину
-    if sucsess and len(text) != 5:
+    if len(text) != 5:
         await message.answer("Неверный формат ввода данных!")
-        sucsess = False
+        return
 
     # Проверяем значение интервала
-    if sucsess:
-        interval = text[4].replace(" ", "")
-        if interval in ["1m", "5m", "15m", "30m", "1h", "1d", "1w"]:
-            dictionary = {
-                "1m": 1,
-                "5m": 5,
-                "15m": 15,
-                "30m": 30,
-                "1h": 60,
-                "1d": 1440,
-                "1w": 10080,
-            }
-            interval = dictionary[interval]
-        else:
-            sucsess = False
-            await message.answer(
-                "Некорректно указана длительность свечи,\nдоступные варианты свечей:\n'1m', '5m', '15m', '30m', '1h', '1d', '1w'"
-            )
+    interval = text[4].replace(" ", "")
+    if interval in ["1m", "5m", "15m", "30m", "1h", "1d", "1w"]:
+        dictionary = {
+            "1m": 1,
+            "5m": 5,
+            "15m": 15,
+            "30m": 30,
+            "1h": 60,
+            "1d": 1440,
+            "1w": 10080,
+        }
+        interval = dictionary[interval]
+    else:
+        await message.answer(
+            "Некорректно указана длительность свечи,\nдоступные варианты свечей:\n'1m', '5m', '15m', '30m', '1h', '1d', '1w'"
+        )
+        return
 
     # Проверяем значения криптовалют
-    if sucsess:
-        try:
-            coin1 = text[0].strip().upper()
-            coin2 = text[1].strip().upper()
-            if krakenex.API().query_public(
-                "OHLC", {"pair": f"{coin1}{coin2}", "interval": interval}
-            )["error"]:
-                await message.answer("Введены некорректные значения валют!")
-                sucsess = False
-        except:
+    try:
+        coin1 = text[0].strip().upper()
+        coin2 = text[1].strip().upper()
+        if krakenex.API().query_public(
+            "OHLC", {"pair": f"{coin1}{coin2}", "interval": interval}
+        )["error"]:
             await message.answer("Введены некорректные значения валют!")
-            sucsess = False
+            return
+    except:
+        await message.answer("Введены некорректные значения валют!")
+        return
 
     # Проверяем значение скользящих средних
-    if sucsess:
-        try:
-            short_window = int(text[2].strip())
-            long_window = int(text[3].strip())
-            if not (
-                short_window < long_window
-                and 2 <= short_window <= 100
-                and 15 <= long_window <= 200
-            ):
-                await message.answer(
-                    """Скользящие средние должны принимать
+    try:
+        short_window = int(text[2].strip())
+        long_window = int(text[3].strip())
+        if not (
+            short_window < long_window
+            and 2 <= short_window <= 100
+            and 15 <= long_window <= 200
+        ):
+            await message.answer(
+                """Скользящие средние должны принимать
 целочисленные значения, короткая
 средняя от 2 до 100, длинная от 15
 до 200, при этом значение длинной
 должно быть больше, чем значение
 короткой"""
-                )
-                sucsess = False
-        except:
-            await message.answer(
-                """Скользящие средние должны принимать
+            )
+            return
+    except:
+        await message.answer(
+            """Скользящие средние должны принимать
 целочисленные значения, короткая
 средняя от 5 до 100, длинная от 50
 до 200, при этом значение длинной
 должно быть больше, чем значение
 короткой"""
-            )
-            sucsess = False
+        )
+        return
 
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
@@ -133,97 +131,94 @@ async def process_message_start_tracking(message: types.Message, state: FSMConte
 
     quantity_employed_slots = item[1] + user_stop_flag.count(";")
 
-    if sucsess:
-        if item[1] < 3:
-            if sum_items < 15:
-                if quantity_employed_slots < 3:
-                    conn = sqlite3.connect("Data_base.db")
-                    cursor = conn.cursor()
-                    cursor.execute(
-                        "SELECT * FROM users_tracking WHERE Id = ?",
-                        (message.from_user.id,),
-                    )
-                    item = cursor.fetchone()
+    if item[1] < 3:
+        if sum_items < 15:
+            if quantity_employed_slots < 3:
+                conn = sqlite3.connect("Data_base.db")
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM users_tracking WHERE Id = ?",
+                    (message.from_user.id,),
+                )
+                item = cursor.fetchone()
 
-                    tracking_quantity = item[2] + 1
+                tracking_quantity = item[2] + 1
 
-                    if item[1]:
-                        item_1 = item[1]
-                    else:
-                        item_1 = ""
-
-                    if item[8] == "False" and "3_4;" not in item_1:
-                        cursor.execute(
-                            """
-                            UPDATE users_tracking SET tracking_quantity = ?,coin1_first = ?,
-                            coin2_first = ?, short_window_first = ?, long_window_first = ?,
-                            interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
-                            (
-                                tracking_quantity,
-                                coin1,
-                                coin2,
-                                short_window,
-                                long_window,
-                                interval,
-                                "Waiting",
-                                message.from_user.id,
-                            ),
-                        )
-
-                    elif item[14] == "False" and "9_10;" not in item_1:
-                        cursor.execute(
-                            """
-                            UPDATE users_tracking SET tracking_quantity = ?, coin1_second = ?,
-                            coin2_second = ?, short_window_second = ?, long_window_second = ?,
-                            interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
-                            (
-                                tracking_quantity,
-                                coin1,
-                                coin2,
-                                short_window,
-                                long_window,
-                                interval,
-                                "Waiting",
-                                message.from_user.id,
-                            ),
-                        )
-
-                    elif item[20] == "False" and "15_16;" not in item_1:
-                        cursor.execute(
-                            """
-                            UPDATE users_tracking SET tracking_quantity = ?, coin1_third = ?,
-                            coin2_third = ?, short_window_third = ?, long_window_third = ?,
-                            interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
-                            (
-                                tracking_quantity,
-                                coin1,
-                                coin2,
-                                short_window,
-                                long_window,
-                                interval,
-                                "Waiting",
-                                message.from_user.id,
-                            ),
-                        )
-
-                    conn.commit()
-                    conn.close()
-
-                    await message.answer(
-                        f"Криптовалютная пара {coin1} в {coin2}\nуспешно добавлена в отслеживание!"
-                    )
+                if item[1]:
+                    item_1 = item[1]
                 else:
-                    await message.answer(
-                        "Извините, нет свободных слотов на отслеживание криптовалюты!\nПовторите попытку через 1 и через 5 минут."
+                    item_1 = ""
+
+                if item[8] == "False" and "3_4;" not in item_1:
+                    cursor.execute(
+                        """
+                        UPDATE users_tracking SET tracking_quantity = ?,coin1_first = ?,
+                        coin2_first = ?, short_window_first = ?, long_window_first = ?,
+                        interval_first = ?, is_tracking_first = ? WHERE Id = ?""",
+                        (
+                            tracking_quantity,
+                            coin1,
+                            coin2,
+                            short_window,
+                            long_window,
+                            interval,
+                            "Waiting",
+                            message.from_user.id,
+                        ),
                     )
+
+                elif item[14] == "False" and "9_10;" not in item_1:
+                    cursor.execute(
+                        """
+                        UPDATE users_tracking SET tracking_quantity = ?, coin1_second = ?,
+                        coin2_second = ?, short_window_second = ?, long_window_second = ?,
+                        interval_second = ?, is_tracking_second = ? WHERE Id = ?""",
+                        (
+                            tracking_quantity,
+                            coin1,
+                            coin2,
+                            short_window,
+                            long_window,
+                            interval,
+                            "Waiting",
+                            message.from_user.id,
+                        ),
+                    )
+
+                elif item[20] == "False" and "15_16;" not in item_1:
+                    cursor.execute(
+                        """
+                        UPDATE users_tracking SET tracking_quantity = ?, coin1_third = ?,
+                        coin2_third = ?, short_window_third = ?, long_window_third = ?,
+                        interval_third = ?, is_tracking_third = ? WHERE Id = ?""",
+                        (
+                            tracking_quantity,
+                            coin1,
+                            coin2,
+                            short_window,
+                            long_window,
+                            interval,
+                            "Waiting",
+                            message.from_user.id,
+                        ),
+                    )
+
+                conn.commit()
+                conn.close()
+
+                await message.answer(
+                    f"Криптовалютная пара {coin1} в {coin2}\nуспешно добавлена в отслеживание!"
+                )
             else:
                 await message.answer(
-                    "Нет свободных мест на отслеживание,\nлимит на всех пользователей: 15\nповторите попытку позже"
+                    "Извините, нет свободных слотов на отслеживание криптовалюты!\nПовторите попытку через 1 и через 5 минут."
                 )
         else:
-            await message.answer("Слишком много криптовалют\nбыло добавлено\nлимит: 3")
-
-    await state.clear()
+            await message.answer(
+                "Нет свободных мест на отслеживание,\nлимит на всех пользователей: 15\nповторите попытку позже"
+            )
+    else:
+        await message.answer("Слишком много криптовалют\nбыло добавлено\nлимит: 3")
 
 
 @tracking_crypto_commands_router.message(Command("profile"))
