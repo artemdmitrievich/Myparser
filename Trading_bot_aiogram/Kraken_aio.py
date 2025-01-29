@@ -7,7 +7,14 @@ from Bot import send_message
 class MovingAverageCrossover:
 
     def __init__(
-        self, Id, pair_index, coin1, coin2, short_window, long_window, interval=1
+        self,
+        Id=0,
+        pair_index="3_4;",
+        coin1="BTC",
+        coin2="USD",
+        short_window=20,
+        long_window=50,
+        interval=1,
     ):
         self.coin1 = coin1
         self.coin2 = coin2
@@ -23,11 +30,14 @@ class MovingAverageCrossover:
     def current_coin1_price(self):
         response = self.api.query_public("Ticker", {"pair": self.coin1 + "USD"})
         return float(response["result"][list(response["result"].keys())[0]]["c"][0])
-    
+
     def __ex_coins(self):
         print("Ошибка ввода данных")
         asyncio.get_event_loop().run_until_complete(
-            send_message(self.Id, f"Произошла ошибка ввода данных '__ex_coins', прошу напишите об этом владельцу бота.")
+            send_message(
+                self.Id,
+                f"Произошла ошибка ввода данных '__ex_coins', прошу напишите об этом владельцу бота.",
+            )
         )
 
     # Получение информации по валютной паре с kraken.com
@@ -66,12 +76,15 @@ class MovingAverageCrossover:
             and short_ema.iloc[-2] < long_ema.iloc[-2]
         ):
             self._Buy_Signal()
+            # self._Sell_Signal()
         elif (
             short_ema.iloc[-1] < long_ema.iloc[-1]
             and short_ema.iloc[-2] > long_ema.iloc[-2]
         ):
             self._Sell_Signal()
-        # else:
+            # self._Buy_Signal()
+
+        # elif self.Id == 1270674543:
         #     self._Not_Signal()
         #     self._Buy_Signal()
         #     self._Sell_Signal()
@@ -199,14 +212,14 @@ class MovingAverageCrossover:
                         f"UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
                         (
                             current_sum
-                            + int(self.current_coin1_price() * currency_quantity),
+                            + float(self.current_coin1_price() * currency_quantity),
                             self.Id,
                         ),
                     )
                     conn.commit()
                     conn.close()
         conn_currency.close()
-        
+
         # Отправка сообщения с сигналом ботом
         asyncio.get_event_loop().run_until_complete(
             send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}")
@@ -261,14 +274,14 @@ class MovingAverageCrossover:
             # Проверка на наличие стоп сигнала
             if self.__check_stop_signals() == "break":
                 return
-            
+
             # Проверка сигнала на покупку или продажу
             curr_check = self.__check_signals()
 
             # Проверка на наличие ошибки
             if curr_check == "error":
                 return
-            
+
             # Пауза
             if self.interval >= 1 and self.interval <= 60:
                 time.sleep(60)

@@ -1,4 +1,5 @@
 import sqlite3, krakenex, math
+from time import sleep
 from aiogram import types, Router
 from aiogram.filters import Command
 from aiogram.types.callback_query import CallbackQuery
@@ -10,8 +11,11 @@ from Keyboards.inline_buttons import (
     create_demo_account_transaction_keyboard,
     create_update_demo_account_keyboard,
     create_crypto_account_transaction_keyboard,
+    create_is_auto_operation_for_update_keyboard,
 )
-from Bot import bot
+from Bot import bot, delete_message_after_delay
+from Kraken_aio import MovingAverageCrossover
+from asyncio import create_task
 
 
 demo_account_commands_router = Router()
@@ -42,7 +46,7 @@ async def open_demo_account(message: types.Message, state: FSMContext):
             Form_create_demo_account.waiting_for_message_create_demo_account
         )
         await message.answer(
-            "Введите сумму в $ для создания демо-счёта\nВвод в формате целого числа!"
+            "Введите сумму в $ для создания демо-счёта\nВвод в формате числа!"
         )
 
     else:
@@ -57,11 +61,23 @@ async def process_message_create_demo_account(
 ):
     await state.clear()
 
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
+
     try:
-        start_sum = int(message.text)
+        start_sum = float(message.text)
     except:
         await message.answer(
             "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
+        )
+        return
+
+    if start_sum < 1 or start_sum > 99999999999999:
+        await message.answer(
+            "Ошибка ввода данных!\nCумма не должна превышать 99999999999999$ или быть меньше 1$"
         )
         return
 
@@ -84,14 +100,21 @@ async def process_message_create_demo_account(
     conn.commit()
     conn.close()
 
-    await message.answer(
-        """Демо-счёт успешно создан!
-
+    await message.answer("Демо-счёт успешно создан!")
+    confirmation_message = await message.answer(
+        """
 Хотите ли вы, чтобы бот автоматически
 торговал на вашем демо-счёте,
 используя свои сигналы на валюты,
 находящиеся в отслеживании?""",
         reply_markup=create_is_auto_operation_keyboard(),
+    )
+
+    create_task(
+        delete_message_after_delay(
+            chat_id=confirmation_message.chat.id,
+            message_id=confirmation_message.message_id,
+        )
     )
 
 
@@ -101,16 +124,22 @@ async def process_message_create_demo_account(
 async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
     await bot.answer_callback_query(callback_query.id)
 
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+    )
+
     if callback_query.data == "is_auto_operation_True":
         await state.set_state(
             Form_create_demo_account.waiting_for_message_set_operation_percent
         )
         await callback_query.message.answer(
-            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
+            "Для подключения автоматических\nопераций по демо-счёту,\nвведите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
         )
-
     else:
-        await callback_query.message.answer("Хорошо")
+        await callback_query.message.answer(
+            "Вы отказались подключать автоматические операции по демо-счёту"
+        )
 
 
 @demo_account_commands_router.message(
@@ -120,6 +149,12 @@ async def process_message_set_operation_percent(
     message: types.Message, state: FSMContext
 ):
     await state.clear()
+
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
 
     try:
         operation_percent = int(message.text)
@@ -248,7 +283,7 @@ async def view_demo_account(message: types.Message):
             (message.from_user.id,),
         )
         demo_account_info = cursor.fetchone()
-        text_message = f"Ваш демо-счёт:\n\nСумма открытия: {demo_account_info[0]}$\nТекущая сумма: {demo_account_info[1]}$\n"
+        text_message = f"Ваш демо-счёт:\n\nСумма открытия: {round(demo_account_info[0], 5)}$\nТекущая сумма: {round(demo_account_info[1], 5)}$\n"
         if demo_account_info[2] == "True":
             text_message += f"Автоматические операции на демо-счёту включены\nПроцент для автоматических операций: {demo_account_info[3]}%"
         else:
@@ -269,9 +304,19 @@ async def view_demo_account(message: types.Message):
             conn_currency.close()
 
             if items:
+                waiting_message = await message.answer("Запрос обрабатывается...")
                 text_message += "\n\nВаши криптовалюты:"
+                summ_crypto = 0
                 for item in items:
+                    summ_crypto += (
+                        MovingAverageCrossover(coin1=item[0]).current_coin1_price()
+                        * item[1]
+                    )
                     text_message += f"\n{item[0]}: {math.floor(float(item[1]) * 100000) / 100000} шт."
+                    sleep(0.1)
+                text_message += f"\n\nВ общей сложности у вас на демо-счёте криптовалют на сумму {round(summ_crypto, 5)}$"
+                text_message += f"\nВсего на демо-счёте с учётом криптовалют у вас находится {round(demo_account_info[1] + summ_crypto, 5)}$"
+                await waiting_message.delete()
 
         await message.answer(text_message)
 
@@ -302,7 +347,7 @@ async def update_demo_account(message: types.Message):
         )
 
         if cursor.fetchone()[0] == "True":
-            await message.answer(
+            confirmation_message = await message.answer(
                 """Выберите действие для изменения настроек демо-счёта.
 Если вы хотите изменить процент автоматических операций, нажмите 'Изменить';
 если хотите отключить автоматические операции нажмите
@@ -310,10 +355,18 @@ async def update_demo_account(message: types.Message):
                 reply_markup=create_update_demo_account_keyboard(),
             )
         else:
-            await message.answer(
+            confirmation_message = await message.answer(
                 "У вас не установлены автоматические операции по демо-счёту, хотите ли вы установить их?",
-                reply_markup=create_is_auto_operation_keyboard(),
+                reply_markup=create_is_auto_operation_for_update_keyboard(),
             )
+
+        create_task(
+            delete_message_after_delay(
+                chat_id=confirmation_message.chat.id,
+                message_id=confirmation_message.message_id,
+                message_to_reply=message,
+            )
+        )
 
     else:
         await message.answer("Действие невозможно!\nУ вас нет демо-счёта")
@@ -322,28 +375,69 @@ async def update_demo_account(message: types.Message):
 
 
 @demo_account_commands_router.callback_query(
-    lambda c: c.data == "disable_auto_operation"
+    lambda c: c.data in ["disable_auto_operation", "is_auto_operation_True_for_update"]
 )
-async def demo_account_transaction_callback(callback_query: CallbackQuery):
+async def demo_account_transaction_callback(
+    callback_query: CallbackQuery, state: FSMContext
+):
     await bot.answer_callback_query(callback_query.id)
 
-    conn = sqlite3.connect("Data_base.db")
-    cursor = conn.cursor()
-    cursor.execute(
-        """UPDATE users_demo_account SET is_auto_operation = ?,
-        operation_percent = ? WHERE Id = ?""",
-        (
-            "False",
-            0,
-            callback_query.from_user.id,
-        ),
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
     )
-    conn.commit()
-    conn.close()
 
-    await callback_query.message.answer(
-        "Автоматические операции по демо-счёту успешно отключены!"
+    if callback_query.data == "disable_auto_operation":
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            """UPDATE users_demo_account SET is_auto_operation = ?,
+            operation_percent = ? WHERE Id = ?""",
+            (
+                "False",
+                0,
+                callback_query.from_user.id,
+            ),
+        )
+        conn.commit()
+        conn.close()
+
+        await callback_query.message.answer(
+            "Автоматические операции по демо-счёту успешно отключены!"
+        )
+    else:
+        await state.set_state(
+            Form_create_demo_account.waiting_for_message_set_operation_percent
+        )
+        await callback_query.message.answer(
+            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
+        )
+
+
+@demo_account_commands_router.callback_query(
+    lambda c: c.data
+    in ["is_auto_operation_True_for_update", "is_auto_operation_False_for_update"]
+)
+async def is_auto_operation_callback(callback_query: CallbackQuery, state: FSMContext):
+    await bot.answer_callback_query(callback_query.id)
+
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
     )
+
+    if callback_query.data == "is_auto_operation_True_for_update":
+        await state.set_state(
+            Form_create_demo_account.waiting_for_message_set_operation_percent
+        )
+        await callback_query.message.answer(
+            "Введите процент от общей суммы,\nна который будет покупаться\nкриптовалюта, при сигналах\nна покупку"
+        )
+
+    else:
+        await callback_query.message.answer(
+            "Вы отказались подключать автоматические операции по демо-счёту"
+        )
 
 
 @demo_account_commands_router.message(Command("demo_account_transaction"))
@@ -389,14 +483,14 @@ async def demo_account_transaction_callback(
             Form_demo_account_transaction.waiting_for_message_add_demo_account
         )
         await callback_query.message.answer(
-            "Введите сумму, которую хотите добавить на свой демо-счёт.\n\nВ формате целого числа, без лишних символов!"
+            "Введите сумму, которую хотите добавить на свой демо-счёт.\n\nВ формате числа, без лишних символов!"
         )
     else:
         await state.set_state(
             Form_demo_account_transaction.waiting_for_message_subtract_demo_account
         )
         await callback_query.message.answer(
-            "Введите сумму, которую хотите снять со своего демо-счёта.\n\nВ формате целого числа, без лишних символов!"
+            "Введите сумму, которую хотите снять со своего демо-счёта.\n\nВ формате числа, без лишних символов!"
         )
 
 
@@ -406,11 +500,23 @@ async def demo_account_transaction_callback(
 async def process_message_add_demo_account(message: types.Message, state: FSMContext):
     await state.clear()
 
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
+
     try:
-        add_sum = int(message.text)
+        add_sum = float(message.text)
     except:
         await message.answer(
-            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
+            "Ошибка ввода данных!\nCумма должна быть числом,\nбез лишних символов"
+        )
+        return
+
+    if add_sum < 1 or add_sum > 99999999999999:
+        await message.answer(
+            "Ошибка ввода данных!\nCумма не должна превышать 99999999999999$ или быть меньше 1$"
         )
         return
 
@@ -447,11 +553,17 @@ async def process_message_subtract_demo_account(
 ):
     await state.clear()
 
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
+
     try:
-        subtract_sum = int(message.text)
+        subtract_sum = float(message.text)
     except:
         await message.answer(
-            "Ошибка ввода данных!\nCумма должна быть целым числом,\nбез лишних символов"
+            "Ошибка ввода данных!\nCумма должна быть числом,\nбез лишних символов"
         )
         return
 
@@ -560,10 +672,16 @@ async def crypto_account_transaction_callback(
 async def process_message_buy_crypto(message: types.Message, state: FSMContext):
     await state.clear()
 
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
+
     try:
         text = message.text.split(",")
         crypto_name = text[0].strip().upper()
-        buy_sum = int(text[1])
+        buy_sum = float(text[1])
     except:
         await message.answer("Неверный формат ввода данных!")
         return
@@ -651,7 +769,7 @@ async def process_message_buy_crypto(message: types.Message, state: FSMContext):
         conn_currency.close()
 
         await message.answer(
-            f"Вы успешно купили {math.floor(buy_sum / current_crypto_price * 100000) / 100000} {crypto_name} на сумму {buy_sum}$ на своём демо-счёте!"
+            f"Вы успешно купили {math.floor(buy_sum / current_crypto_price * 100000) / 100000} {crypto_name} на сумму {round(buy_sum, 5)}$ на своём демо-счёте!"
         )
 
     else:
@@ -665,6 +783,12 @@ async def process_message_buy_crypto(message: types.Message, state: FSMContext):
 )
 async def process_message_sell_crypto(message: types.Message, state: FSMContext):
     await state.clear()
+
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
 
     try:
         text = message.text.split(",")
@@ -722,7 +846,7 @@ async def process_message_sell_crypto(message: types.Message, state: FSMContext)
             cursor.execute(
                 "UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
                 (
-                    current_sum + int(sell_amount * current_crypto_price),
+                    current_sum + float(sell_amount * current_crypto_price),
                     message.from_user.id,
                 ),
             )
@@ -731,11 +855,11 @@ async def process_message_sell_crypto(message: types.Message, state: FSMContext)
 
             if is_all:
                 await message.answer(
-                    f"Вы успешно продали все {crypto_name} со своего демо-счёта на сумму {int(sell_amount * current_crypto_price)}$"
+                    f"Вы успешно продали все {crypto_name} со своего демо-счёта на сумму {round(float(sell_amount * current_crypto_price), 5)}$"
                 )
             else:
                 await message.answer(
-                    f"Вы успешно продали {sell_amount} {crypto_name} со своего демо-счёта на сумму {int(sell_amount * current_crypto_price)}$"
+                    f"Вы успешно продали {sell_amount} {crypto_name} со своего демо-счёта на сумму {round(float(sell_amount * current_crypto_price), 5)}$"
                 )
 
         else:

@@ -8,15 +8,19 @@ import sqlite3
 conn = sqlite3.connect("Data_base.db")
 cursor = conn.cursor()
 
-cursor.execute(
-    f"DELETE FROM users_demo_account WHERE Id = ?",
-    (537334374,),
-)
+# cursor.execute(
+#     f"DROP TABLE IF EXISTS users_demo_account"
+# )
 
-cursor.execute(
-    f"DELETE FROM users_tracking WHERE Id = ?",
-    (537334374,),
-)
+# cursor.execute(
+#     f"DELETE FROM users_demo_account WHERE Id = ?",
+#     (537334374,),
+# )
+
+# cursor.execute(
+#     f"DELETE FROM users_tracking WHERE Id = ?",
+#     (537334374,),
+# )
 
 # cursor.execute(
 #     f"DELETE FROM users_main_info WHERE Id = ?",
@@ -29,19 +33,17 @@ cursor.execute(
 
 # cursor.execute(
 #     """
-#     INSERT OR IGNORE INTO users_main_info (
-#     Id, username, first_name, last_name, is_bot,
-#     is_premium, language_code, url
-#     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+#     INSERT OR IGNORE INTO users_demo_account (
+#     Id, is_demo_account, start_sum, current_sum,
+#     is_auto_operation, operation_percent
+#     ) VALUES (?, ?, ?, ?, ?, ?)""",
 #     (
-#         2100911465,
-#         "egorandr112",
-#         "Egor_Andrianow",
-#         None,
+#         5510002999,
 #         "False",
+#         0,
+#         0,
 #         "False",
-#         "ru",
-#         "tg://user?id=2100911465",
+#         0,
 
 #     ),
 # )

@@ -36,6 +36,12 @@ async def adding_crypto(message: types.Message, state: FSMContext):
 async def process_message_start_tracking(message: types.Message, state: FSMContext):
     await state.clear()
 
+    if "/" in message.text:
+        await message.answer(
+            "Ошибка!\nВы ввели команду!\nВведите команду ещё раз или повторите свои последние действия"
+        )
+        return
+
     # Пробуем разбиваем текст на список
     try:
         text = str(message.text).split(",")

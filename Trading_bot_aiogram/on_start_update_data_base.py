@@ -43,8 +43,8 @@ async def on_start_update_data_base():
         CREATE TABLE IF NOT EXISTS users_demo_account (
                 Id INTEGER PRIMARY KEY,
                 is_demo_account TEXT,
-                start_sum INTEGER,
-                current_sum INTEGER,
+                start_sum REAL,
+                current_sum REAL,
                 is_auto_operation TEXT,
                 operation_percent INTEGER
     )

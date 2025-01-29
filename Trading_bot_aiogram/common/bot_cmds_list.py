@@ -24,7 +24,9 @@ private = [
         command="crypto_account_transaction",
         description="Добавить операцию по крипто-счёту",
     ),
-    BotCommand(command="get_crypto_volatility", description="Узнать волатильность криптовалюты"),
+    BotCommand(
+        command="get_crypto_volatility", description="Узнать волатильность криптовалюты"
+    ),
     BotCommand(
         command="get_total_capitalization", description="Общая рыночная капитализация"
     ),
@@ -33,6 +35,7 @@ private = [
         command="get_crypto_capitalization", description="Капит. конкр. криптовалюты"
     ),
     BotCommand(command="get_crypto_price", description="Цена конкр. криптовалюты"),
-    BotCommand(command="command_list", description="Полный список команд с описанием"),
+    BotCommand(command="commands_list", description="Полный список команд с описанием"),
     BotCommand(command="help", description="Техподдержка"),
+    BotCommand(command="admin", description="Список комманд для администраторов"),
 ]

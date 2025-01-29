@@ -108,8 +108,29 @@ def create_crypto_account_transaction_keyboard():
 def create_update_demo_account_keyboard():
     builder = InlineKeyboardBuilder()
 
-    builder.button(text="Изменить", callback_data="is_auto_operation_True")
+    builder.button(text="Изменить", callback_data="is_auto_operation_True_for_update")
 
     builder.button(text="Отключить", callback_data="disable_auto_operation")
+
+    return builder.as_markup()
+
+
+# Клавиатура для команды "/message_from_all_users"
+def create_is_message_from_all_users_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Да", callback_data="is_message_from_all_users_True")
+
+    builder.button(text="Нет", callback_data="is_message_from_all_users_False")
+
+    return builder.as_markup()
+
+
+def create_is_auto_operation_for_update_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Да", callback_data="is_auto_operation_True_for_update")
+
+    builder.button(text="Нет", callback_data="is_auto_operation_False_for_update")
 
     return builder.as_markup()

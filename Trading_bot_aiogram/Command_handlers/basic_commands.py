@@ -7,7 +7,7 @@ from Keyboards.inline_buttons import (
     create_restart_keyboard,
     MyCallback,
 )
-from Bot import bot, send_message
+from Bot import bot, send_message, ADMIN_IDS
 
 
 # Создание роутера
@@ -38,7 +38,7 @@ async def start_cmd(message: types.Message):
             is_premium = "False"
 
         username = message.from_user.username
-        
+
         if not username:
             url = None
         else:
@@ -58,7 +58,7 @@ async def start_cmd(message: types.Message):
                 is_bot,
                 is_premium,
                 message.from_user.language_code,
-                url
+                url,
             ),
         )
         conn.commit()
@@ -121,8 +121,15 @@ async def start_cmd(message: types.Message):
         conn_currency.commit()
         conn_currency.close()
 
+        first_name = message.from_user.first_name
+        last_name = message.from_user.last_name
+
         if not username:
-            username = "Нет"
+            username = "Не указано"
+        if not first_name:
+            first_name = "Не указано"
+        if not last_name:
+            last_name = "Не указана"
         if is_bot == "True":
             is_bot = "Да"
         else:
@@ -140,8 +147,8 @@ async def start_cmd(message: types.Message):
             f"Новый пользователь!\n"
             f"Id: {message.from_user.id}\n"
             f"Имя пользователя: {username}\n"
-            f"Имя: {message.from_user.first_name}\n"
-            f"Фамилия: {message.from_user.last_name}\n"
+            f"Имя: {first_name}\n"
+            f"Фамилия: {last_name}\n"
             f"Это бот: {is_bot}\n"
             f"Есть премиум: {is_premium}\n"
             f"Язык интерфейса: {message.from_user.language_code}\n"
@@ -275,8 +282,8 @@ async def about(message: types.Message):
     await message.answer("Информация о боте:")
 
 
-# Обработчик команды "/command_list"
-@basic_commands_router.message(Command("command_list"))
+# Обработчик команды "/commands_list"
+@basic_commands_router.message(Command("commands_list"))
 async def about(message: types.Message):
     await message.answer(
         """
@@ -309,3 +316,19 @@ async def about(message: types.Message):
         f"Техподдержка:\n\nЕсли при использовании бота возникла\nошибка, пишите в личные сообщения\n[{link_text}]({url})",
         parse_mode="Markdown",
     )
+
+
+@basic_commands_router.message(Command("admin"))
+async def about(message: types.Message):
+    if message.from_user.id in ADMIN_IDS:
+        await message.answer(
+            """
+Список доступных команд:
+
+1. '/get_users_quantity
+2. '/get_users_list'
+3. '/get_user_info'
+4. '/message_from_all_users"""
+        )
+    else:
+        await message.answer("Вы не являетесь администратором!")
