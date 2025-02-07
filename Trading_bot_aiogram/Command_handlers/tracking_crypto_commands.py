@@ -5,7 +5,8 @@ from aiogram.types.callback_query import CallbackQuery
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from Keyboards.inline_buttons import create_delete_keyboard
-from Bot import bot
+from Bot import bot, delete_message_after_delay
+from asyncio import create_task
 
 
 tracking_crypto_commands_router = Router()
@@ -296,10 +297,19 @@ async def stop(message: types.Message):
     item = cursor.fetchone()
 
     if item[2] != 0:
-        await message.answer(
+        confirmation_message = await message.answer(
             "Выберите криптовалюту, которую вы\nбольше не хотите отслеживать:",
             reply_markup=create_delete_keyboard(message.from_user.id),
         )
+
+        create_task(
+            delete_message_after_delay(
+                chat_id=confirmation_message.chat.id,
+                message_id=confirmation_message.message_id,
+                message_to_reply=message,
+            )
+        )
+
     else:
         await message.answer(
             f"{message.from_user.first_name}, у вас не отслеживается ни одной криптовалюты\nдля начала отслеживания,\nиспользуйте команду '/adding_crypto'"
@@ -311,6 +321,11 @@ async def stop(message: types.Message):
 )
 async def on_delete_callback(callback_query: CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
+
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+    )
 
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()

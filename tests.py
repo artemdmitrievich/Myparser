@@ -3,10 +3,10 @@
 # print(Additional_CoinGecko_info().get_popular_crypto())
 # print(Additional_CoinGecko_info().get_greatest_growth_crypto())
 
-import sqlite3
+# import sqlite3
 
-conn = sqlite3.connect("Data_base.db")
-cursor = conn.cursor()
+# conn = sqlite3.connect("Data_base.db")
+# cursor = conn.cursor()
 
 # cursor.execute(
 #     f"DROP TABLE IF EXISTS users_demo_account"
@@ -53,8 +53,8 @@ cursor = conn.cursor()
 #     ("t.me/denis9F", 6236721920,),
 # )
 
-conn.commit()
-conn.close()
+# conn.commit()
+# conn.close()
 
 # conn = sqlite3.connect("Data_base.db")
 # cursor = conn.cursor()
@@ -62,3 +62,11 @@ conn.close()
 # items = cursor.fetchall()
 # conn.close()
 # print(items[0][0])
+
+
+a = []
+for i in range(10):
+    a += [int(input())]
+a = sorted(a)
+a = a[1:9]
+print(sum(a)/len(a))

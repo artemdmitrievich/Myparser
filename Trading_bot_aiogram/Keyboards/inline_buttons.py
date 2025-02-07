@@ -82,7 +82,7 @@ def create_is_close_demo_account_keyboard():
     return builder.as_markup()
 
 
-# Клавиатура для команды "/create_demo_account_transaction"
+# Клавиатура для команды "/demo_account_transaction"
 def create_demo_account_transaction_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -93,7 +93,7 @@ def create_demo_account_transaction_keyboard():
     return builder.as_markup()
 
 
-# Клавиатура для команды "/create_crypto_account_transaction"
+# Клавиатура для команды "/crypto_account_transaction"
 def create_crypto_account_transaction_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -104,7 +104,7 @@ def create_crypto_account_transaction_keyboard():
     return builder.as_markup()
 
 
-# Клавиатура для команды "/create_update_demo_account"
+# Клавиатура для команды "/update_demo_account", если есть демо-счёт
 def create_update_demo_account_keyboard():
     builder = InlineKeyboardBuilder()
 
@@ -126,6 +126,7 @@ def create_is_message_from_all_users_keyboard():
     return builder.as_markup()
 
 
+# Клавиатура для команды "/update_demo_account", если нет демо-счёта
 def create_is_auto_operation_for_update_keyboard():
     builder = InlineKeyboardBuilder()
 

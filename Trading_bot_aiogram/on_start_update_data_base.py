@@ -113,3 +113,41 @@ async def on_start_update_data_base():
                 conn.commit()
 
     conn.close()
+
+    conn_last_signals = sqlite3.connect("users_last_signals_base.db")
+    cursor_last_signals = conn_last_signals.cursor()
+    cursor_last_signals.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    table_names = cursor_last_signals.fetchall()
+    if table_names:
+        for table_name in table_names:
+            cursor_last_signals.execute(
+                f"SELECT currency_name FROM {table_name[0]}"
+            )
+            currency_names = cursor_last_signals.fetchall()
+            if currency_names:
+                for currency_name in currency_names:
+                    cursor_last_signals.execute(
+                        f"UPDATE {table_name[0]} SET last_signal = ? WHERE currency_name = ?",
+                        (None, currency_name[0],),
+                )
+    conn_last_signals.commit()
+    conn_last_signals.close()
+
+    conn_currency = sqlite3.connect("users_currency_base.db")
+    cursor_currency = conn_currency.cursor()
+    cursor_currency.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    table_names = cursor_currency.fetchall()
+    if table_names:
+        for table_name in table_names:
+            cursor_currency.execute(
+                f"SELECT currency_name FROM {table_name[0]}"
+            )
+            currency_names = cursor_currency.fetchall()
+            if currency_names:
+                for currency_name in currency_names:
+                    cursor_currency.execute(
+                        f"UPDATE {table_name[0]} SET last_signal = ? WHERE currency_name = ?",
+                        (None, currency_name[0],),
+                )
+    conn_currency.commit()
+    conn_currency.close()

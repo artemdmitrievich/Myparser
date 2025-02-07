@@ -7,7 +7,8 @@ from Keyboards.inline_buttons import (
     create_restart_keyboard,
     MyCallback,
 )
-from Bot import bot, send_message, ADMIN_IDS
+from Bot import bot, send_message, ADMIN_IDS, delete_message_after_delay
+from asyncio import create_task
 
 
 # Создание роутера
@@ -157,9 +158,17 @@ async def start_cmd(message: types.Message):
 
     # Если пользователь есть в базе данных
     else:
-        await message.answer(
+        confirmation_message = await message.answer(
             f"{message.from_user.first_name}, вы уверены, что хотите перезапустить бота? После перезапуска бот полностью обнулится, будто вы им никогда не пользовались",
             reply_markup=create_restart_keyboard(),
+        )
+
+        create_task(
+            delete_message_after_delay(
+                chat_id=confirmation_message.chat.id,
+                message_id=confirmation_message.message_id,
+                message_to_reply=message,
+            )
         )
 
     conn.close()
@@ -179,6 +188,11 @@ async def my_callback_foo(query: CallbackQuery):
 )
 async def restart_callback(callback_query: CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
+
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+    )
 
     if callback_query.data == "restart_True":
         conn = sqlite3.connect("Data_base.db")
@@ -258,7 +272,7 @@ async def restart_callback(callback_query: CallbackQuery):
         conn_currency.commit()
         conn_currency.close()
 
-        await callback_query.message.reply(
+        await callback_query.message.answer(
             "Перезапуск прошёл успешно!\nВсе криптовалюты удалены из отслеживания",
             reply_markup=create_start_keyboard(),
         )
@@ -273,7 +287,7 @@ async def restart_callback(callback_query: CallbackQuery):
         conn_currency.commit()
         conn_currency.close()
     else:
-        await callback_query.message.answer("Хорошо")
+        await callback_query.message.answer("Вы отказались перезапускать бота")
 
 
 # Обработчик команды "/about"

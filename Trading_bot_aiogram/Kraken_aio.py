@@ -171,10 +171,63 @@ class MovingAverageCrossover:
         else:
             conn.close()
 
-        # Отправка сообщения с сигналом ботом
-        asyncio.get_event_loop().run_until_complete(
-            send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}")
+        conn_last_signals = sqlite3.connect("users_last_signals_base.db")
+        cursor_last_signals = conn_last_signals.cursor()
+        cursor_last_signals.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS {"user" + str(self.Id)} (
+                currency_name TEXT PRIMARY KEY,
+                last_signal TEXT
+            )
+        """
         )
+
+        cursor_last_signals.execute(
+            f"SELECT last_signal FROM {'user' + str(self.Id)} WHERE currency_name = ?",
+            (self.coin1,),
+        )
+
+        item_last_signal = cursor_last_signals.fetchone()
+
+        if item_last_signal:
+            if item_last_signal[0] != "Buy":
+                # Отправка сообщения с сигналом ботом
+                asyncio.get_event_loop().run_until_complete(
+                    send_message(
+                        self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}"
+                    )
+                )
+
+                cursor_last_signals.execute(
+                    f"""
+                    UPDATE {"user" + str(self.Id)} SET
+                    last_signal = ?
+                    WHERE currency_name = ?
+                """,
+                    (
+                        "Buy",
+                        self.coin1,
+                    ),
+                )
+        else:
+            # Отправка сообщения с сигналом ботом
+            asyncio.get_event_loop().run_until_complete(
+                send_message(self.Id, f"Сигнал на покупку {self.coin1} в {self.coin2}")
+            )
+
+            cursor_last_signals.execute(
+                f"INSERT INTO {'user' + str(self.Id)} ("
+                f"currency_name,"
+                f"last_signal"
+                f") VALUES (?, ?)",
+                (
+                    self.coin1,
+                    "Buy",
+                ),
+            )
+
+        conn_last_signals.commit()
+        conn_last_signals.close()
 
     # Обработчик сигнала на продажу
     def _Sell_Signal(self):
@@ -220,10 +273,63 @@ class MovingAverageCrossover:
                     conn.close()
         conn_currency.close()
 
-        # Отправка сообщения с сигналом ботом
-        asyncio.get_event_loop().run_until_complete(
-            send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}")
+        conn_last_signals = sqlite3.connect("users_last_signals_base.db")
+        cursor_last_signals = conn_last_signals.cursor()
+        cursor_last_signals.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS {"user" + str(self.Id)} (
+                currency_name TEXT PRIMARY KEY,
+                last_signal TEXT
+            )
+        """
         )
+
+        cursor_last_signals.execute(
+            f"SELECT last_signal FROM {'user' + str(self.Id)} WHERE currency_name = ?",
+            (self.coin1,),
+        )
+
+        item_last_signal = cursor_last_signals.fetchone()
+
+        if item_last_signal:
+            if item_last_signal[0] != "Sell":
+                # Отправка сообщения с сигналом ботом
+                asyncio.get_event_loop().run_until_complete(
+                    send_message(
+                        self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}"
+                    )
+                )
+
+                cursor_last_signals.execute(
+                    f"""
+                    UPDATE {"user" + str(self.Id)} SET
+                    last_signal = ?
+                    WHERE currency_name = ?
+                """,
+                    (
+                        "Sell",
+                        self.coin1,
+                    ),
+                )
+        else:
+            # Отправка сообщения с сигналом ботом
+            asyncio.get_event_loop().run_until_complete(
+                send_message(self.Id, f"Сигнал на продажу {self.coin1} в {self.coin2}")
+            )
+
+            cursor_last_signals.execute(
+                f"INSERT INTO {'user' + str(self.Id)} ("
+                f"currency_name,"
+                f"last_signal"
+                f") VALUES (?, ?)",
+                (
+                    self.coin1,
+                    "Sell",
+                ),
+            )
+
+        conn_last_signals.commit()
+        conn_last_signals.close()
 
     # Обработчик отсутствия сигнала (Не нужен в итоговой версии)
     def _Not_Signal(self):
