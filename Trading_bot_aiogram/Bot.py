@@ -1,5 +1,5 @@
 import os
-from dotenv import find_dotenv, load_dotenv
+# from dotenv import find_dotenv, load_dotenv
 from aiogram import Bot
 from asyncio import sleep
 
@@ -7,8 +7,9 @@ from asyncio import sleep
 ADMIN_IDS = [1270674543]
 
 
-load_dotenv(find_dotenv())
-bot = Bot(token=os.getenv("TOKEN"))
+# load_dotenv(find_dotenv())
+# bot = Bot(token=os.getenv("TOKEN"))
+bot = Bot(token="6911246589:AAGK60pmHFMCVpTK18nOt-YLU_9Z8C-EAvE")
 
 
 async def send_message(Id, message_text):

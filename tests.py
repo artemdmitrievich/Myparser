@@ -63,10 +63,13 @@
 # conn.close()
 # print(items[0][0])
 
-
-a = []
-for i in range(10):
-    a += [int(input())]
-a = sorted(a)
-a = a[1:9]
-print(sum(a)/len(a))
+stroka = input("Введите строку")
+new = ""
+for i in stroka:
+    if i == "0":
+        new += "1"
+    elif i == "1":
+        new += "0"
+    else:
+        new += i
+print(new)
