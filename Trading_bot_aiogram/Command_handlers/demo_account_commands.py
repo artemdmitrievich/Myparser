@@ -12,6 +12,8 @@ from Keyboards.inline_buttons import (
     create_update_demo_account_keyboard,
     create_crypto_account_transaction_keyboard,
     create_is_auto_operation_for_update_keyboard,
+    create_is_stop_loss_keyboard,
+    create_is_take_profit_keyboard
 )
 from Bot import bot, delete_message_after_delay
 from Kraken_aio import MovingAverageCrossover
@@ -185,6 +187,12 @@ async def process_message_set_operation_percent(
         ),
     )
 
+    cursor.execute(
+        "SELECT stop_loss_percent, take_profit_percent FROM users_demo_account WHERE Id = ?",
+        (message.from_user.id,),
+    )
+    items = cursor.fetchone()
+
     conn.commit()
     conn.close()
 
@@ -192,6 +200,209 @@ async def process_message_set_operation_percent(
         f"Процент успешно установлен!\nТекущий процент: {operation_percent}%"
     )
 
+    if not items[0]:
+        confirmation_message = await message.answer(
+            "Хотите ли вы установить стоп-лоссы (в процентах)?",
+            reply_markup=create_is_stop_loss_keyboard(),
+        )
+
+        await delete_message_after_delay(
+            chat_id=confirmation_message.chat.id,
+            message_id=confirmation_message.message_id,
+            message_to_reply=message
+        )
+    elif not items[1]:
+        confirmation_message = await message.answer(
+            "Хотите ли вы установить тейк-профиты (в процентах)?",
+            reply_markup=create_is_take_profit_keyboard()
+        )
+
+        await delete_message_after_delay(
+            chat_id=confirmation_message.chat.id,
+            message_id=confirmation_message.message_id,
+            message_to_reply=message
+        )
+
+
+class Form_is_stop_loss(StatesGroup):
+    waiting_for_message_stop_loss_percent = State()
+
+
+@demo_account_commands_router.callback_query(
+        lambda c: c.data in ["is_stop_loss_True", "is_stop_loss_False"]
+)
+async def is_stop_loss_callback(callback_query: CallbackQuery, state: FSMContext):
+    await bot.answer_callback_query(callback_query.id)
+
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+    )
+    
+    if callback_query.data == "is_stop_loss_True":
+        await state.set_state(
+            Form_is_stop_loss.waiting_for_message_stop_loss_percent
+        )
+
+        await callback_query.message.answer(
+            "Введите процент для стоп-лоссов, в формате целого числа"
+        )
+    else:
+        await callback_query.message.answer(
+            "Вы отказались устанавливать стоп-лоссы"
+        )
+
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT take_profit_percent FROM users_demo_account WHERE Id = ?",
+            (callback_query.message.from_user.id,),
+        )
+        take_profit = cursor.fetchone()
+        conn.close()
+
+        if not take_profit:
+            confirmation_message = await callback_query.message.answer(
+                "Хотите ли вы установить тейк-профиты (в процентах)?",
+                reply_markup=create_is_take_profit_keyboard()
+            )
+
+            await delete_message_after_delay(
+                chat_id=confirmation_message.chat.id,
+                message_id=confirmation_message.message_id,
+                message_to_reply=callback_query.message
+            )
+        else:
+            if not take_profit[0]:
+                confirmation_message = await callback_query.message.answer(
+                "Хотите ли вы установить тейк-профиты (в процентах)?",
+                reply_markup=create_is_take_profit_keyboard()
+            )
+
+            await delete_message_after_delay(
+                chat_id=confirmation_message.chat.id,
+                message_id=confirmation_message.message_id,
+                message_to_reply=callback_query.message
+            )
+        
+
+@demo_account_commands_router.message(
+    Form_is_stop_loss.waiting_for_message_stop_loss_percent
+)
+async def process_message_is_stop_loss(message: types.Message, state: FSMContext):
+    await state.clear()
+
+    try:
+        stop_loss_percent = int(message.text.strip())
+    except:
+        await message.answer(
+            "Ошибка ввода данных, процент должен быть целым положительным числом!"
+        )
+        return
+    if stop_loss_percent <= 0:
+        await message.answer(
+            "Ошибка, процент должен быть положительным!"
+        )
+        return
+    
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+            UPDATE users_demo_account SET stop_loss_percent = ?
+            WHERE Id = ?
+            """,
+        (
+            stop_loss_percent,
+            message.from_user.id,
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+    await message.answer(
+        f"Успешно установлен стоп-лосс на {stop_loss_percent}%"
+    )
+
+    confirmation_message = await message.answer(
+        "Хотите ли вы установить тейк-профиты (в процентах)?",
+        reply_markup=create_is_take_profit_keyboard()
+    )
+
+    await delete_message_after_delay(
+        chat_id=confirmation_message.chat.id,
+        message_id=confirmation_message.message_id,
+        message_to_reply=message
+    )
+
+
+class Form_is_take_profit(StatesGroup):
+    waiting_for_message_take_profit_percent = State()
+
+
+@demo_account_commands_router.callback_query(
+        lambda c: c.data in ["is_take_profit_True", "is_take_profit_False"]
+)
+async def is_take_profit_callback(callback_query: CallbackQuery, state: FSMContext):
+    await bot.answer_callback_query(callback_query.id)
+
+    await bot.delete_message(
+        chat_id=callback_query.message.chat.id,
+        message_id=callback_query.message.message_id,
+    )
+
+    if callback_query.data == "is_take_profit_True":
+        await state.set_state(
+            Form_is_take_profit.waiting_for_message_take_profit_percent
+        )
+
+        await callback_query.message.answer(
+            "Введите процент для тейк-профитов, в формате целого числа"
+        )
+    else:
+        await callback_query.message.answer(
+            "Вы отказались устанавливать тейк-профиты"
+        )
+
+
+@demo_account_commands_router.message(
+    Form_is_take_profit.waiting_for_message_take_profit_percent
+)
+async def process_message_is_take_profit(message: types.Message, state: FSMContext):
+    await state.clear()
+
+    try:
+        take_profit_percent = int(message.text.strip())
+    except:
+        await message.answer(
+            "Ошибка ввода данных, процент должен быть целым положительным числом!"
+        )
+        return
+    if take_profit_percent <= 0:
+        await message.answer(
+            "Ошибка, процент должен быть положительным!"
+        )
+        return
+    
+    conn = sqlite3.connect("Data_base.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+            UPDATE users_demo_account SET take_profit_percent = ?
+            WHERE Id = ?
+            """,
+        (
+            take_profit_percent,
+            message.from_user.id,
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+    await message.answer(
+        f"Успешно установлен тейк-профит на {take_profit_percent}%"
+    )
+    
 
 @demo_account_commands_router.message(Command("close_demo_account"))
 async def close_demo_account(message: types.Message):
@@ -243,7 +454,8 @@ async def is_close_demo_account_callback(callback_query: CallbackQuery):
         cursor.execute(
             """
                 UPDATE users_demo_account SET is_demo_account = ?, start_sum = ?,
-                current_sum = ?, is_auto_operation = ?, operation_percent = ?
+                current_sum = ?, is_auto_operation = ?, operation_percent = ?,
+                stop_loss_percent = ?, take_profit_percent = ?
                 WHERE Id = ?
                 """,
             (
@@ -252,6 +464,8 @@ async def is_close_demo_account_callback(callback_query: CallbackQuery):
                 0,
                 "False",
                 0,
+                None,
+                None,
                 callback_query.from_user.id,
             ),
         )

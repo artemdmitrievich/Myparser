@@ -35,8 +35,9 @@
 #     """
 #     INSERT OR IGNORE INTO users_demo_account (
 #     Id, is_demo_account, start_sum, current_sum,
-#     is_auto_operation, operation_percent
-#     ) VALUES (?, ?, ?, ?, ?, ?)""",
+#     is_auto_operation, operation_percent,
+#     stop_loss_percent, take_profit_percent
+#     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
 #     (
 #         5510002999,
 #         "False",
@@ -44,6 +45,28 @@
 #         0,
 #         "False",
 #         0,
+#         None,
+#         None
+
+#     ),
+# )
+
+# cursor.execute(
+#     """
+#     INSERT OR IGNORE INTO users_demo_account (
+#     Id, is_demo_account, start_sum, current_sum,
+#     is_auto_operation, operation_percent,
+#     stop_loss_percent, take_profit_percent
+#     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+#     (
+#         1270674543,
+#         "False",
+#         0,
+#         0,
+#         "False",
+#         0,
+#         None,
+#         None
 
 #     ),
 # )
@@ -63,13 +86,18 @@
 # conn.close()
 # print(items[0][0])
 
-stroka = input("Введите строку")
-new = ""
-for i in stroka:
-    if i == "0":
-        new += "1"
-    elif i == "1":
-        new += "0"
-    else:
-        new += i
-print(new)
+# stroka = input("Введите строку")
+# new = ""
+# for i in stroka:
+#     if i == "0":
+#         new += "1"
+#     elif i == "1":
+#         new += "0"
+#     else:
+#         new += i
+# print(new)
+
+# import krakenex
+# response = krakenex.API().query_public("Ticker", {"pair": "XRP" + "USD"})
+
+# print(float(response["result"][list(response["result"].keys())[0]]["c"][0]))

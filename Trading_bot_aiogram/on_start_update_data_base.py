@@ -46,7 +46,9 @@ async def on_start_update_data_base():
                 start_sum REAL,
                 current_sum REAL,
                 is_auto_operation TEXT,
-                operation_percent INTEGER
+                operation_percent INTEGER,
+                stop_loss_percent INTEGER,
+                take_profit_percent INTEGER
     )
 """
     )

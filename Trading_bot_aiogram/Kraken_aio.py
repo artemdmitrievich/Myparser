@@ -109,7 +109,8 @@ class MovingAverageCrossover:
                     CREATE TABLE IF NOT EXISTS {"user" + str(self.Id)} (
                         currency_name TEXT PRIMARY KEY,
                         currency_quantity REAL,
-                        last_signal TEXT
+                        last_signal TEXT,
+                        initial_cost REAL
                     )
                 """
                 )
@@ -157,12 +158,14 @@ class MovingAverageCrossover:
                         f"INSERT INTO {'user' + str(self.Id)} ("
                         f"currency_name,"
                         f"currency_quantity,"
-                        f"last_signal"
-                        f") VALUES (?, ?, ?)",
+                        f"last_signal,"
+                        f"initial_cost"
+                        f") VALUES (?, ?, ?, ?)",
                         (
                             self.coin1,
                             operation_amount / self.current_coin1_price(),
                             "Buy",
+                            self.current_coin1_price()
                         ),
                     )
 

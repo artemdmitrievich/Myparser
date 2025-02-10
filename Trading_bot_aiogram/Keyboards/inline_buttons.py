@@ -135,3 +135,25 @@ def create_is_auto_operation_for_update_keyboard():
     builder.button(text="Нет", callback_data="is_auto_operation_False_for_update")
 
     return builder.as_markup()
+
+
+# Клавиатура для запроса стоп-лоссов
+def create_is_stop_loss_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Да", callback_data="is_stop_loss_True")
+
+    builder.button(text="Нет", callback_data="is_stop_loss_False")
+
+    return builder.as_markup()
+
+
+# Клавиатура для запроса тейк-профитов
+def create_is_take_profit_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Да", callback_data="is_take_profit_True")
+
+    builder.button(text="Нет", callback_data="is_take_profit_False")
+
+    return builder.as_markup()

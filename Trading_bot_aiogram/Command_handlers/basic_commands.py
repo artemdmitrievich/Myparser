@@ -102,8 +102,9 @@ async def start_cmd(message: types.Message):
             """
             INSERT OR IGNORE INTO users_demo_account (
             Id, is_demo_account, start_sum, current_sum,
-            is_auto_operation, operation_percent
-            ) VALUES (?, ?, ?, ?, ?, ?)""",
+            is_auto_operation, operation_percent,
+            stop_loss_percent, take_profit_percent
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 message.from_user.id,
                 "False",
@@ -111,6 +112,8 @@ async def start_cmd(message: types.Message):
                 0,
                 "False",
                 0,
+                None,
+                None
             ),
         )
         conn.commit()
