@@ -25,6 +25,14 @@ private = [
         description="Добавить операцию по крипто-счёту",
     ),
     BotCommand(
+        command="stop_loss",
+        description="Установить или изменить стоп-лосс",
+    ),
+    BotCommand(
+        command="take_profit",
+        description="Установить или изменить тейк-профит",
+    ),
+    BotCommand(
         command="get_crypto_volatility", description="Узнать волатильность криптовалюты"
     ),
     BotCommand(

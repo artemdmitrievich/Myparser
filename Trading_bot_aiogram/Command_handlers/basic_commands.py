@@ -17,7 +17,24 @@ basic_commands_router = Router()
 
 # Обработчик команды "/start"
 # @basic_commands_router.message(CommandStart())
-@basic_commands_router.message(Command(commands=["start", "старт", "restart", "начало", "перезапуск", "начать", "Start", "Старт", "Restart", "Начало", "Перезапуск", "Начать"]))
+@basic_commands_router.message(
+    Command(
+        commands=[
+            "start",
+            "старт",
+            "restart",
+            "начало",
+            "перезапуск",
+            "начать",
+            "Start",
+            "Старт",
+            "Restart",
+            "Начало",
+            "Перезапуск",
+            "Начать",
+        ]
+    )
+)
 async def start_cmd(message: types.Message):
     conn = sqlite3.connect("Data_base.db")
     cursor = conn.cursor()
@@ -105,16 +122,7 @@ async def start_cmd(message: types.Message):
             is_auto_operation, operation_percent,
             stop_loss_percent, take_profit_percent
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-            (
-                message.from_user.id,
-                "False",
-                0,
-                0,
-                "False",
-                0,
-                None,
-                None
-            ),
+            (message.from_user.id, "False", 0, 0, "False", 0, None, None),
         )
         conn.commit()
 

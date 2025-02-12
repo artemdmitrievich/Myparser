@@ -36,7 +36,7 @@ class MovingAverageCrossover:
         asyncio.get_event_loop().run_until_complete(
             send_message(
                 self.Id,
-                f"Произошла ошибка ввода данных '__ex_coins', прошу напишите об этом владельцу бота.",
+                f"Произошла ошибка ввода данных '__ex_coins', прошу напишите об этом создателю бота.",
             )
         )
 
@@ -59,6 +59,39 @@ class MovingAverageCrossover:
 
     # Проверка наличия возможности для покупки или продажи
     def __check_signals(self):
+        conn = sqlite3.connect("Data_base.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            f"""SELECT stop_loss_percent, take_profit_percent
+            FROM users_demo_account WHERE Id = ?""",
+            (self.Id,),
+        )
+        items = cursor.fetchone()
+        if items:
+            conn_currency = sqlite3.connect("users_currency_base.db")
+            cursor_currency = conn_currency.cursor()
+            try:
+                cursor_currency.execute(
+                    f"""SELECT initial_cost FROM user{self.Id}
+                    WHERE currency_name = ?""",
+                    (self.coin1,),
+                )
+                initial_cost = float(cursor_currency.fetchone()[0])
+
+                if items[0]:
+                    if self.current_coin1_price() <= (initial_cost * (1 - items[0] / 100)):
+                        self._Stop_loss_or_Take_profit(action="Stop_loss")
+                        return
+                elif items[1]:
+                    if self.current_coin1_price() >= (initial_cost * (1 + items[1] / 100)):
+                        self._Stop_loss_or_Take_profit(action="Take_profit")
+                        return
+            except:
+                pass
+            
+            conn_currency.close()
+            
+        conn.close()
         data = self.__fetch_data()
         if data == "error":
             return "error"
@@ -88,6 +121,57 @@ class MovingAverageCrossover:
         #     self._Not_Signal()
         #     self._Buy_Signal()
         #     self._Sell_Signal()
+
+    def _Stop_loss_or_Take_profit(self, action):
+        conn_currency = sqlite3.connect("users_currency_base.db")
+        cursor_currency = conn_currency.cursor()
+        table_name = "user" + str(self.Id)
+        cursor_currency.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+            (table_name,),
+        )
+        result = cursor_currency.fetchone()
+        if result:
+            cursor_currency.execute(
+                f"SELECT currency_quantity FROM {table_name} WHERE currency_name = ?",
+                (self.coin1,),
+            )
+            currency_quantity = cursor_currency.fetchone()[0]
+            currency_sum = float(self.current_coin1_price() * currency_quantity)
+            cursor_currency.execute(
+                f"DELETE FROM {table_name} WHERE currency_name = ?",
+                (self.coin1,),
+            )
+            conn_currency.commit()
+            conn_currency.close()
+
+            conn = sqlite3.connect("Data_base.db")
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT current_sum FROM users_demo_account WHERE Id = ?",
+                (self.Id,),
+            )
+            current_sum = cursor.fetchone()[0]
+            cursor.execute(
+                f"UPDATE users_demo_account SET current_sum = ? WHERE Id = ?",
+                (
+                    current_sum + currency_sum,
+                    self.Id,
+                ),
+            )
+            conn.commit()
+            conn.close()
+
+            if action == "Stop_loss":
+                stop_loss_or_take_profit = "стоп-лосс"
+            else:
+                stop_loss_or_take_profit = "тейк-профит"
+            asyncio.get_event_loop().run_until_complete(
+                send_message(
+                    self.Id,
+                    f"Сработал {stop_loss_or_take_profit}, было продано {round(currency_quantity, 5)} {self.coin1} на сумму {round(currency_sum, 5)}$",
+                )
+            )
 
     # Обработчик сигнала на покупку
     def _Buy_Signal(self):
@@ -165,7 +249,7 @@ class MovingAverageCrossover:
                             self.coin1,
                             operation_amount / self.current_coin1_price(),
                             "Buy",
-                            self.current_coin1_price()
+                            self.current_coin1_price(),
                         ),
                     )
 

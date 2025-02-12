@@ -39,15 +39,36 @@
 #     stop_loss_percent, take_profit_percent
 #     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
 #     (
-#         5510002999,
-#         "False",
-#         0,
-#         0,
-#         "False",
-#         0,
+#         6236721920,
+#         "True",
+#         100000,
+#         79749.9806037034,
+#         "True",
+#         20,
 #         None,
 #         None
 
+#     ),
+# )
+
+# cursor.execute(
+#     """UPDATE users_demo_account SET start_sum = ?, current_sum = ?,
+#     operation_percent = ? WHERE Id = ?
+#     """,
+#     (
+#         999,
+#         1911,
+#         10,
+#         2100911465,
+#     ),
+# )
+
+# cursor.execute(
+#     """UPDATE users_demo_account SET is_demo_account = ? WHERE Id = ?
+#     """,
+#     (
+#         "True",
+#         764913946,
 #     ),
 # )
 

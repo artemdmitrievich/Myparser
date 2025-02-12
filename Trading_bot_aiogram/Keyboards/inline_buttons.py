@@ -157,3 +157,25 @@ def create_is_take_profit_keyboard():
     builder.button(text="Нет", callback_data="is_take_profit_False")
 
     return builder.as_markup()
+
+
+# Клавиатура для команды "/stop_loss", если установлены стоп-лоссы
+def create_stop_loss_command_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Изменить", callback_data="stop_loss_True_for_update")
+
+    builder.button(text="Отключить", callback_data="disable_stop_loss")
+
+    return builder.as_markup()
+
+
+# Клавиатура для команды "/take_profit", если установлены тейк-профиты
+def create_take_profit_command_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Изменить", callback_data="take_profit_True_for_update")
+
+    builder.button(text="Отключить", callback_data="disable_take_profit")
+
+    return builder.as_markup()
